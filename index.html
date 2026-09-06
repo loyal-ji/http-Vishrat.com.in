@@ -2310,6 +2310,127 @@ async function(){
 };
 
 </script>
+/* =========================================================
+   LOYAL LOGIN + MENU ACCESS CONTROL
+   ========================================================= */
 
+(function(){
+
+  const LOYAL_EMAIL = "kgsias01@gmail.com";
+
+  function updateLoyalMenu(user){
+
+    const loyalStatus =
+      document.getElementById("loyalStatus");
+
+    const paidLabels =
+      document.querySelectorAll(".paid");
+
+    const logoutMenu =
+      document.getElementById("logoutMenu");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const isLoyal =
+      !!user &&
+      String(user.email || "")
+        .trim()
+        .toLowerCase() === LOYAL_EMAIL;
+
+    /* FREE FOR LOYAL labels */
+    paidLabels.forEach(function(el){
+      el.style.display = isLoyal
+        ? "inline"
+        : "none";
+    });
+
+    /* LOYAL status */
+    if(loyalStatus){
+      loyalStatus.style.display = isLoyal
+        ? "block"
+        : "none";
+    }
+
+    /* Logout */
+    if(logoutMenu){
+      logoutMenu.style.display = user
+        ? "block"
+        : "none";
+    }
+
+    /* Login button */
+    if(loginButton){
+      loginButton.innerText = user
+        ? (isLoyal
+            ? "👑 LOYAL Logged In"
+            : "✅ Logged In")
+        : "🔐 Login";
+    }
+  }
+
+
+  /* Firebase login state */
+  if(typeof onAuthStateChanged === "function"){
+
+    onAuthStateChanged(auth, function(user){
+
+      console.log(
+        "AUTH STATE:",
+        user ? user.email : "NOT LOGGED IN"
+      );
+
+      updateLoyalMenu(user);
+
+    });
+
+  }
+
+
+  /* ---------------------------------------------------------
+     MENU COURSE LINKS
+     Login required before opening
+     --------------------------------------------------------- */
+
+  document.addEventListener("click", function(e){
+
+    const link =
+      e.target.closest(
+        '.side-menu a[href="NCERT%20Geography/index.html"],' +
+        '.side-menu a[href="History/index.html"]'
+      );
+
+    if(!link){
+      return;
+    }
+
+    const user =
+      window.getCurrentFirebaseUser
+        ? window.getCurrentFirebaseUser()
+        : auth.currentUser;
+
+    /* Not logged in */
+    if(!user){
+
+      e.preventDefault();
+
+      alert(
+        "🔐 Pehle Login karo.\n\n" +
+        "Login ke baad hi course open hoga."
+      );
+
+      return;
+    }
+
+    /* Logged in */
+    console.log(
+      "MENU ACCESS:",
+      user.email
+    );
+
+  });
+
+})();
+</script>
 </body>
 </html>
