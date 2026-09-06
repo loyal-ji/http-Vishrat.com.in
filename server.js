@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 
 const ALLOWED_ORIGINS = new Set([
   "https://kgsias01-source.github.io",
+  "https://http-vishrat-com-in-1.onrender.com",
   "https://http-vishrat.com.in"
 ]);
 
