@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOYAL Video Manager</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#050816;color:#fff;font-family:Arial,sans-serif}
+.wrap{max-width:900px;margin:auto;padding:22px}
+.box{background:#0b1230;border:1px solid #26345f;border-radius:20px;padding:22px;margin:15px 0}
+h1,h2{color:#00eaff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input,select,button{width:100%;padding:13px;border-radius:11px;border:1px solid #334577;background:#101936;color:#fff;font-size:15px}
+button{border:0;background:linear-gradient(90deg,#00bcd4,#7c4dff);font-weight:bold;cursor:pointer}
+button.danger{background:#d32f2f}
+label{display:block;color:#aeb9d8;margin:10px 0 6px}
+.muted{color:#9da9c9}
+.progress{height:10px;background:#182342;border-radius:10px;overflow:hidden}
+.bar{height:100%;width:0;background:#00eaff}
+a{color:#00eaff}
+@media(max-width:650px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ADMIN LOGIN -->
+<div id="login" class="wrap" style="max-width:520px">
+  <div class="box">
+    <h1>🔐 LOYAL Admin Login</h1>
+
+    <label>Email</label>
+    <input id="email" type="email" placeholder="Admin email" autocomplete="username">
+
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+
+    <br><br>
+    <button id="loginBtn">Login</button>
+    <p id="loginStatus" class="muted"></p>
+  </div>
+</div>
+
+<!-- VIDEO MANAGER -->
+<div id="manager" class="wrap" style="display:none">
+  <h1>👑 LOYAL Video Manager</h1>
+  <p class="muted">
+    Video upload karo → Subject + Batch choose karo → website par automatic show hoga.
+  </p>
+
+  <div class="box">
+    <h2>1. Subject / Batch</h2>
+    <div class="grid">
+
+      <div>
+        <label>Subject</label>
+        <select id="subject"></select>
+        <input id="newSubject" placeholder="New subject (optional)">
+        <button id="addSubjectBtn">+ Add Subject</button>
+      </div>
+
+      <div>
+        <label>Batch</label>
+        <select id="batch"></select>
+        <input id="newBatch" placeholder="New batch (optional)">
+        <button id="addBatchBtn">+ Add Batch</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>2. Lecture Details</h2>
+
+    <label>Lecture title</label>
+    <input id="title" placeholder="जैसे Lecture 01 - भारत का भौतिक भूगोल">
+
+    <label>Video file (MP4 recommended)</label>
+    <input id="video" type="file" accept="video/mp4,video/webm,video/*">
+
+    <label>Thumbnail (optional)</label>
+    <input id="thumb" type="file" accept="image/*">
+
+    <br><br>
+    <button id="uploadBtn">🚀 Upload Video</button>
+
+    <br><br>
+    <div class="progress">
+      <div class="bar" id="bar"></div>
+    </div>
+
+    <p id="status" class="muted"></p>
+  </div>
+
+  <div class="box">
+    <h2>3. Website</h2>
+    <p class="muted">Student catalog:</p>
+    <a href="catalog.html">Open LOYAL Video Catalog →</a>
+    <br><br>
+    <button id="logoutBtn" class="danger">Logout</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+/* ==============================
+   YOUR FIREBASE WEB CONFIG
+   ============================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
+  authDomain: "vishrat-36bc6.firebaseapp.com",
+  projectId: "vishrat-36bc6",
+  storageBucket: "vishrat-36bc6.firebasestorage.app",
+  messagingSenderId: "713177652515",
+  appId: "1:713177652515:web:9a6c545278563e77640096",
+  measurementId: "G-LN2N5Z0BBF"
+};
+
+/* IMPORTANT:
+   Firebase Authentication me jis email ko admin banana hai,
+   wahi email yahan exact likhna hai.
+*/
+const ADMIN_EMAIL = "kgsias01@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
+
+const $ = (id) => document.getElementById(id);
+
+let subjects = [];
+let batches = [];
+
+async function load() {
+  try {
+    subjects = [];
+    batches = [];
+
+    const ss = await getDocs(
+      query(collection(db, "subjects"), orderBy("name"))
+    );
+    ss.forEach(d => subjects.push({ id: d.id, ...d.data() }));
+
+    const bs = await getDocs(
+      query(collection(db, "batches"), orderBy("name"))
+    );
+    bs.forEach(d => batches.push({ id: d.id, ...d.data() }));
+
+    $("subject").innerHTML = subjects.length
+      ? subjects.map(x => `<option value="${x.id}">${escapeHtml(x.name)}</option>`).join("")
+      : `<option value="">No subject yet</option>`;
+
+    $("batch").innerHTML = batches.length
+      ? batches.map(x => `<option value="${x.id}">${escapeHtml(x.name)}</option>`).join("")
+      : `<option value="">No batch yet</option>`;
+
+  } catch (e) {
+    $("status").textContent = "❌ Data load error: " + e.message;
+  }
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+$("addSubjectBtn").addEventListener("click", async () => {
+  const n = $("newSubject").value.trim();
+  if (!n) return alert("Subject name likho");
+
+  try {
+    await addDoc(collection(db, "subjects"), {
+      name: n,
+      createdAt: Date.now()
+    });
+    $("newSubject").value = "";
+    await load();
+    $("status").textContent = "✅ Subject added.";
+  } catch (e) {
+    $("status").textContent = "❌ " + e.message;
+  }
+});
+
+$("addBatchBtn").addEventListener("click", async () => {
+  const n = $("newBatch").value.trim();
+  if (!n) return alert("Batch name likho");
+
+  try {
+    await addDoc(collection(db, "batches"), {
+      name: n,
+      createdAt: Date.now()
+    });
+    $("newBatch").value = "";
+    await load();
+    $("status").textContent = "✅ Batch added.";
+  } catch (e) {
+    $("status").textContent = "❌ " + e.message;
+  }
+});
+
+$("uploadBtn").addEventListener("click", async () => {
+  const file = $("video").files[0];
+  const s = $("subject").value;
+  const b = $("batch").value;
+  const t = $("title").value.trim();
+
+  if (!file || !s || !b || !t) {
+    return alert("Subject, Batch, title aur video select karo");
+  }
+
+  if (file.size > 2 * 1024 * 1024 * 1024) {
+    return alert("2 GB se badi file ke liye resumable/server upload use karo.");
+  }
+
+  try {
+    $("status").textContent = "Uploading...";
+    $("bar").style.width = "0%";
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = `videos/${s}/${b}/${Date.now()}_${safeName}`;
+
+    const task = uploadBytesResumable(ref(storage, path), file);
+
+    task.on(
+      "state_changed",
+      snap => {
+        const percent =
+          (snap.bytesTransferred / snap.totalBytes) * 100;
+        $("bar").style.width = percent.toFixed(1) + "%";
+        $("status").textContent =
+          `Uploading... ${percent.toFixed(1)}%`;
+      },
+      err => {
+        $("status").textContent = "❌ " + err.message;
+      },
+      async () => {
+        const url = await getDownloadURL(task.snapshot.ref);
+
+        let thumbUrl = "";
+
+        if ($("thumb").files[0]) {
+          const tf = $("thumb").files[0];
+          const thumbTask = uploadBytesResumable(
+            ref(storage, `thumbs/${s}/${b}/${Date.now()}_${tf.name}`),
+            tf
+          );
+
+          await new Promise((resolve, reject) => {
+            thumbTask.on(
+              "state_changed",
+              () => {},
+              reject,
+              async () => {
+                thumbUrl = await getDownloadURL(
+                  thumbTask.snapshot.ref
+                );
+                resolve();
+              }
+            );
+          });
+        }
+
+        await addDoc(collection(db, "videos"), {
+          title: t,
+          subjectId: s,
+          batchId: b,
+          videoUrl: url,
+          thumbnailUrl: thumbUrl,
+          fileName: file.name,
+          size: file.size,
+          createdAt: Date.now()
+        });
+
+        $("status").textContent =
+          "✅ Upload complete — website par automatic aa gaya.";
+
+        $("video").value = "";
+        $("thumb").value = "";
+        $("title").value = "";
+        $("bar").style.width = "0%";
+      }
+    );
+  } catch (e) {
+    $("status").textContent = "❌ " + e.message;
+  }
+});
+
+$("loginBtn").addEventListener("click", async () => {
+  try {
+    $("loginStatus").textContent = "Logging in...";
+
+    const userEmail = $("email").value.trim();
+
+    await signInWithEmailAndPassword(
+      auth,
+      userEmail,
+      $("password").value
+    );
+
+  } catch (e) {
+    $("loginStatus").textContent = "❌ Login failed";
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+});
+
+onAuthStateChanged(auth, async (user) => {
+  if (user && user.email === ADMIN_EMAIL) {
+    $("login").style.display = "none";
+    $("manager").style.display = "block";
+    await load();
+  } else if (user) {
+    await signOut(auth);
+    $("loginStatus").textContent =
+      "❌ This account is not the admin account.";
+  } else {
+    $("login").style.display = "block";
+    $("manager").style.display = "none";
+  }
+});
+</script>
+
+</body>
+</html>
