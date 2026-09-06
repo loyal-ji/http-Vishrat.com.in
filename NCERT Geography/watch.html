@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NCERT Geography Lectures - Vishrat</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+header{
+  background:#062451;
+  color:white;
+  text-align:center;
+  padding:22px 12px;
+}
+
+header h1{
+  margin:0 0 6px;
+}
+
+.container{
+  max-width:800px;
+  margin:auto;
+  padding:18px;
+}
+
+.video-box{
+  background:#000;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 4px 15px #0003;
+}
+
+.video-box iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  display:block;
+}
+
+.title{
+  background:white;
+  margin-top:15px;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 3px 12px #0002;
+}
+
+select{
+  width:100%;
+  padding:13px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+.nav{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+button{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:8px;
+  background:#0866ff;
+  color:white;
+  font-size:15px;
+}
+
+button:disabled{
+  background:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📚 NCERT Geography</h1>
+  <p>Vishrat Learning</p>
+</header>
+
+<div class="container">
+
+  <div class="video-box">
+    <iframe
+      id="videoPlayer"
+      src="https://www.youtube.com/embed/Ww8CFGeHaqE?rel=0&playsinline=1"
+      title="NCERT Geography Lecture"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="title">
+
+    <h2 id="lectureTitle">📚 Lecture 01</h2>
+
+    <select id="lectureSelect"></select>
+
+    <div class="nav">
+      <button id="prevBtn">⬅️ Previous</button>
+      <button id="nextBtn">Next ➡️</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const lectures = [
+
+"Ww8CFGeHaqE",
+"GKQw8vFCM7w",
+"VRKvJYlQN-0",
+"T7JrQ9vv-DY",
+"UcMjneaHW1c",
+"7Zl1NblayGs",
+"nh3XRbRqR3s",
+"B2Q1Jq9z92E",
+"Oh4I0MVd3Dw",
+"0McN2_j-JhM",
+"-dR1FIpwMKs",
+"5Ia3VE0FkRk",
+"MX4UL4uMufE",
+"XKfnS4JzAos",
+"5N38LYPdQSU",
+"iGkhh83QYhc",
+"ZmEIo3V1Z1Q",
+
+"ngkRIbsYDWk",
+"45NpzO4YetE",
+"L4Otmv5bv8I",
+"jjwfe375ykE"
+
+];
+
+const select = document.getElementById("lectureSelect");
+
+lectures.forEach((id,index)=>{
+
+  const option = document.createElement("option");
+
+  option.value = id;
+
+  option.textContent =
+    "Lecture " + String(index + 1).padStart(2,"0");
+
+  select.appendChild(option);
+
+});
+
+let current = 0;
+
+const player =
+  document.getElementById("videoPlayer");
+
+const title =
+  document.getElementById("lectureTitle");
+
+const prev =
+  document.getElementById("prevBtn");
+
+const next =
+  document.getElementById("nextBtn");
+
+
+function loadLecture(index){
+
+  current = index;
+
+  player.src =
+    "https://www.youtube.com/embed/" +
+    lectures[index] +
+    "?rel=0&playsinline=1";
+
+  title.textContent =
+    "📚 Lecture " +
+    String(index + 1).padStart(2,"0");
+
+  select.selectedIndex = index;
+
+  prev.disabled = index === 0;
+
+  next.disabled =
+    index === lectures.length - 1;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+select.onchange = function(){
+
+  loadLecture(select.selectedIndex);
+
+};
+
+
+prev.onclick = function(){
+
+  if(current > 0){
+    loadLecture(current - 1);
+  }
+
+};
+
+
+next.onclick = function(){
+
+  if(current < lectures.length - 1){
+    loadLecture(current + 1);
+  }
+
+};
+
+
+const params =
+  new URLSearchParams(location.search);
+
+const number =
+  parseInt(params.get("lecture"),10);
+
+if(
+  Number.isInteger(number) &&
+  number >= 1 &&
+  number <= lectures.length
+){
+
+  loadLecture(number - 1);
+
+}else{
+
+  loadLecture(0);
+
+}
+
+</script>
+
+</body>
+</html>
