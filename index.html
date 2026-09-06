@@ -7,6 +7,376 @@
 <title>Vishrat - Online Learning</title>
 
 <style>
+/* =================================
+   ✨ STYLISH LOYAL ABOUT SECTION ✨
+================================= */
+
+.stylish-about{
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+    padding:35px 22px;
+    border:1px solid #00eaff;
+    border-radius:22px;
+    background:
+        radial-gradient(
+            circle at top,
+            #172c65,
+            #080d22 65%
+        );
+    box-shadow:
+        0 0 25px rgba(0,234,255,.18),
+        inset 0 0 30px rgba(124,77,255,.08);
+}
+
+/* ✦ LOYAL + SHINING STARS */
+
+.sparkle-title{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:18px;
+    font-size:30px;
+    font-weight:bold;
+    color:#00eaff;
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 18px #00eaff;
+}
+
+.star{
+    display:inline-block;
+    color:#fff;
+    font-size:25px;
+    animation:starShine 1s infinite alternate;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 12px #00eaff,
+        0 0 25px #7c4dff;
+}
+
+@keyframes starShine{
+    0%{
+        transform:scale(.75) rotate(0deg);
+        opacity:.45;
+    }
+
+    100%{
+        transform:scale(1.35) rotate(180deg);
+        opacity:1;
+    }
+}
+
+/* =================================
+   👑 PROFILE IMAGE GLOW
+================================= */
+
+.profile-glow{
+    display:inline-block;
+    position:relative;
+    margin:5px 0 10px;
+}
+
+.profile-glow img{
+    width:135px;
+    height:135px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #00eaff;
+
+    box-shadow:
+        0 0 12px #00eaff,
+        0 0 30px #7c4dff;
+
+    animation:profileGlow 2s infinite alternate;
+}
+
+@keyframes profileGlow{
+    0%{
+        box-shadow:
+            0 0 10px #00eaff,
+            0 0 20px #7c4dff;
+    }
+
+    100%{
+        box-shadow:
+            0 0 25px #00eaff,
+            0 0 55px #7c4dff;
+    }
+}
+
+/* =================================
+   ✨ VISHrat NAME
+================================= */
+
+.name-title{
+    margin-top:15px;
+    font-size:32px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00eaff,
+            #7c4dff,
+            #ff4ecd,
+            #00ffb3
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    animation:nameGlow 2s infinite alternate;
+}
+
+@keyframes nameGlow{
+    0%{
+        filter:drop-shadow(0 0 3px #00eaff);
+    }
+
+    100%{
+        filter:drop-shadow(0 0 15px #7c4dff);
+    }
+}
+
+.tagline{
+    color:#b9c3df;
+    font-size:16px;
+    margin:8px 0 25px;
+}
+
+/* =================================
+   🎂 BIRTHDAY + 🎓 QUALIFICATION
+================================= */
+
+.info-box{
+    max-width:650px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(230px,1fr)
+        );
+
+    gap:15px;
+}
+
+.info-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    text-align:left;
+
+    padding:17px;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #101936,
+            #0b1028
+        );
+
+    border:1px solid #334577;
+
+    transition:.3s;
+}
+
+.info-item:hover{
+    transform:
+        translateY(-5px);
+
+    border-color:#00eaff;
+
+    box-shadow:
+        0 0 18px
+        rgba(0,234,255,.25);
+}
+
+.info-icon{
+    font-size:30px;
+}
+
+.info-item small{
+    display:block;
+    color:#8996ba;
+    margin-bottom:5px;
+    font-size:12px;
+}
+
+.info-item strong{
+    display:block;
+    color:white;
+    font-size:16px;
+}
+
+/* =================================
+   ⚡ MY SKILLS
+================================= */
+
+.skill-heading{
+    margin:30px 0 16px;
+
+    color:#00eaff;
+
+    font-size:22px;
+
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 18px #00eaff;
+}
+
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+}
+
+.skill{
+    display:inline-block;
+
+    padding:10px 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111c40,
+            #15102f
+        );
+
+    border:1px solid #334577;
+
+    border-radius:25px;
+
+    color:#e9efff;
+
+    font-size:14px;
+    font-weight:bold;
+
+    transition:.3s;
+
+    box-shadow:
+        0 0 5px
+        rgba(124,77,255,.12);
+}
+
+.skill:hover{
+    transform:
+        translateY(-5px)
+        scale(1.04);
+
+    border-color:#00eaff;
+
+    box-shadow:
+        0 0 18px
+        rgba(0,234,255,.3);
+}
+
+/* =================================
+   🔐 HACKING COURSE BADGE
+================================= */
+
+.course-badge{
+    max-width:650px;
+
+    margin:30px auto 5px;
+
+    padding:18px;
+
+    border-radius:17px;
+
+    border:1px solid #ffcc00;
+
+    background:
+        linear-gradient(
+            135deg,
+            #241d05,
+            #15102a
+        );
+
+    color:#ffd000;
+
+    font-size:16px;
+    font-weight:bold;
+
+    box-shadow:
+        0 0 20px
+        rgba(255,204,0,.15);
+
+    animation:badgeGlow 2s infinite alternate;
+}
+
+.course-badge span{
+    display:inline-block;
+    margin-top:6px;
+
+    color:#9da9c9;
+
+    font-size:12px;
+    font-weight:normal;
+}
+
+@keyframes badgeGlow{
+    0%{
+        box-shadow:
+            0 0 8px
+            rgba(255,204,0,.1);
+    }
+
+    100%{
+        box-shadow:
+            0 0 22px
+            rgba(255,204,0,.28);
+    }
+}
+
+/* =================================
+   📱 MOBILE
+================================= */
+
+@media(max-width:600px){
+
+    .stylish-about{
+        padding:28px 15px;
+    }
+
+    .sparkle-title{
+        font-size:25px;
+        gap:10px;
+    }
+
+    .star{
+        font-size:21px;
+    }
+
+    .profile-glow img{
+        width:120px;
+        height:120px;
+    }
+
+    .name-title{
+        font-size:28px;
+    }
+
+    .info-box{
+        grid-template-columns:1fr;
+    }
+
+    .skill{
+        font-size:13px;
+        padding:9px 12px;
+    }
+
+    .course-badge{
+        font-size:14px;
+    }
+}
 *{
     margin:0;
     padding:0;
@@ -1279,37 +1649,69 @@ onkeyup="searchCourse()">
 </section>
 
 <!-- ABOUT -->
-
 <section class="container">
 
-<div class="about" id="about">
+<div class="about stylish-about" id="about">
 
-<h2>👨‍💻 About Vishrat</h2>
+    <div class="sparkle-title">
+        <span class="star">✦</span>
+        <span>👑 LOYAL</span>
+        <span class="star">✦</span>
+    </div>
 
-<img src="loyal.png" alt="LOYAL">
+    <div class="profile-glow">
+        <img src="loyal.png" alt="LOYAL">
+    </div>
 
-<h2>👑 LOYAL</h2>
+    <h2 class="name-title">
+        ✨ Vishrat ✨
+    </h2>
 
-<p>
-Vishrat — Learn • Practice • Grow 🚀
-</p>
+    <p class="tagline">
+        Learn • Practice • Grow 🚀
+    </p>
 
-<p>
-📚 सभी batches login के बाद FREE हैं।
-</p>
+    <div class="info-box">
 
-<div class="skills">
+        <div class="info-item">
+            <span class="info-icon">🎂</span>
+            <div>
+                <small>Birthday</small>
+                <strong>8 February</strong>
+            </div>
+        </div>
 
-<span class="skill">UPSC</span>
-<span class="skill">SSC</span>
-<span class="skill">Railway</span>
-<span class="skill">Banking</span>
-<span class="skill">Defence</span>
-<span class="skill">Programming</span>
-<span class="skill">NCERT</span>
-<span class="skill">Current Affairs</span>
+        <div class="info-item">
+            <span class="info-icon">🎓</span>
+            <div>
+                <small>Qualification</small>
+                <strong>Bachelor of Commerce</strong>
+            </div>
+        </div>
 
-</div>
+    </div>
+
+    <h3 class="skill-heading">
+        ⚡ MY SKILLS ⚡
+    </h3>
+
+    <div class="skills">
+
+        <span class="skill">🐍 Python</span>
+        <span class="skill">☕ Java</span>
+        <span class="skill">🌐 HTML</span>
+        <span class="skill">⚡ C++</span>
+        <span class="skill">💻 Web Development</span>
+        <span class="skill">🔐 Cyber Security</span>
+        <span class="skill">🛡️ Ethical Hacking</span>
+
+    </div>
+
+    <div class="course-badge">
+        🔥 HACKING & CYBER SECURITY COURSE
+        <br>
+        <span>Ethical & Educational Learning</span>
+    </div>
 
 </div>
 
