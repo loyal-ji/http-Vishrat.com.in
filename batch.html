@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOYAL — Batch</title>
+<style>
+body{margin:0;background:#050816;color:#fff;font-family:Arial,sans-serif}
+header{padding:16px;background:#08102a;border-bottom:1px solid #26345f;display:flex;justify-content:space-between}
+.wrap{max-width:1000px;margin:auto;padding:30px 16px}
+.hero{background:linear-gradient(145deg,#101936,#080d20);border:1px solid #26345f;border-radius:22px;padding:28px}
+h1{color:#00eaff}.muted{color:#9da9c9}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:20px}
+.card{background:#0b1230;border:1px solid #26345f;border-radius:16px;padding:20px}
+.btn{padding:11px 14px;border-radius:10px;border:1px solid #00eaff;background:#101936;color:#fff;font-weight:bold}
+</style>
+</head>
+<body>
+<header><b style="color:#00eaff">👑 LOYAL LEARNING</b><button class="btn" onclick="location.href='batches.html'">← All Batches</button></header>
+<main class="wrap">
+<section class="hero">
+<div style="font-size:40px">🎓</div>
+<h1 id="title">Batch</h1>
+<p class="muted">✅ Login verified • 🔓 Free access enabled</p>
+<p class="muted">यह LOYAL batch dashboard है. यहाँ आगे Lectures, Notes, Tests और PDFs जोड़ सकते हो.</p>
+</section>
+<div class="grid">
+<div class="card"><h2>🎥 Lectures</h2><p class="muted">इस batch के video lectures यहाँ connect होंगे.</p></div>
+<div class="card"><h2>📚 Notes</h2><p class="muted">PDF / study material यहाँ जोड़ा जा सकता है.</p></div>
+<div class="card"><h2>📝 Tests</h2><p class="muted">Practice tests और quizzes यहाँ रहेंगे.</p></div>
+<div class="card"><h2>📢 Updates</h2><p class="muted">Batch announcements यहाँ दिखेंगे.</p></div>
+</div>
+</main>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+import{getAuth,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+const app=initializeApp({apiKey:'AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0',authDomain:'vishrat-36bc6.firebaseapp.com',projectId:'vishrat-36bc6',storageBucket:'vishrat-36bc6.firebasestorage.app',messagingSenderId:'713177652515',appId:'1:713177652515:web:9a6c545278563e77640096',measurementId:'G-LN2N5Z0BBF'});
+const auth=getAuth(app);
+const params=new URLSearchParams(location.search);
+const batch=params.get('batch')||'LOYAL Batch';
+document.getElementById('title').innerText=batch;
+onAuthStateChanged(auth,user=>{if(!user){location.href='batches.html'}})
+</script>
+</body>
+</html>
