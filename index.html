@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Vishrat - Online Learning</title>
-    <meta name="google-site-verification" content="sKoXGmBZCar36Svo3Ul7Oyo8XSNKoEnrWOgZ1Yi-xGw" />
-<meta name="description" content="Vishrat - Online Learning">
-<meta name="keywords" content="Vishrat, Vishrat Online Learning">
-<meta name="author" content="Vishrat">
+
 <style>
 *{
     margin:0;
@@ -565,56 +562,56 @@ class="loyal-menu">
 🏠 Home
 </a>
 
-<a href="#" onclick="openLockedCourse('ncert-geography','NCERT%20Geography/index.html');return false;">
-🔒 🌎 NCERT Geography
-<span class="paid">FREE FOR LOYAL</span>
+<a href="NCERT%20Geography/index.html">
+🌎 NCERT Geography
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
-<a href="#" onclick="openLockedCourse('indian-history','History/index.html');return false;">
-🔒 🏛️ Indian History
-<span class="paid">FREE FOR LOYAL</span>
+<a href="History/index.html">
+🏛️ Indian History
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('indian-polity');return false;">
 ⚖️ Indian Polity
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('indian-economy');return false;">
 💰 Indian Economy
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('python');return false;">
 🐍 Python Programming
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('java');return false;">
 ☕ Java Programming
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('web-development');return false;">
 🌐 Web Development
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('android-development');return false;">
 📱 Android Development
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#"
 onclick="openBatch('full-programming');return false;">
 💻 Full Programming
-<span class="paid">FREE FOR LOYAL</span>
+<span class="paid">FREE AFTER LOGIN</span>
 </a>
 
 <a href="#about">
@@ -657,425 +654,691 @@ onkeyup="searchCourse()">
 
 
 <!-- COURSES -->
+<section class="container" id="batches">
+  <h2 class="section-title">🔥 ALL BATCHES</h2>
+  <p style="text-align:center;color:#9da9c9;margin-top:-10px;">
+    🔓 Login के बाद सभी batches FREE हैं
+  </p>
+  <div class="courses" id="courseList">
 
-<div class="container">
-
-<h2 class="section-title">
-🔥 Premium Batches
-</h2>
-
-<div
-class="courses"
-id="courseList">
-
-
-<!-- GEOGRAPHY -->
-
-<div
-class="card course"
-data-batch="ncert-geography">
-
-<div class="icon">🌎</div>
-
-<h3>
-NCERT Geography
-</h3>
-
-<p>
-NCERT Geography का complete lecture batch.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹49
+<div class="card course" data-batch="upsc-cse">
+  <div class="icon">🏛️</div>
+  <h3>UPSC Civil Services</h3>
+  <p>UPSC Foundation & GS preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('upsc-cse',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('ncert-geography','NCERT%20Geography/index.html',this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="ncert-geography">
+  <div class="icon">📚</div>
+  <h3>NCERT Geography</h3>
+  <p>NCERT Geography complete lecture batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('ncert-geography','NCERT%20Geography/index.html',this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- HISTORY -->
-
-<div
-class="card course"
-data-batch="indian-history">
-
-<div class="icon">🏛️</div>
-
-<h3>
-Indian History
-</h3>
-
-<p>
-Indian History का complete preparation batch.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹49
+<div class="card course" data-batch="indian-history">
+  <div class="icon">🏛️</div>
+  <h3>Indian History</h3>
+  <p>Indian History complete preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('indian-history','History/index.html',this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('indian-history','History/index.html',this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="indian-polity">
+  <div class="icon">⚖️</div>
+  <h3>Indian Polity</h3>
+  <p>Indian Polity complete preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('indian-polity',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- POLITY -->
-
-<div
-class="card course"
-data-batch="indian-polity">
-
-<div class="icon">⚖️</div>
-
-<h3>
-Indian Polity
-</h3>
-
-<p>
-Indian Polity complete premium batch.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹49
+<div class="card course" data-batch="indian-economy">
+  <div class="icon">💰</div>
+  <h3>Indian Economy</h3>
+  <p>Indian Economy complete preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('indian-economy',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('indian-polity',null,this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="world-map">
+  <div class="icon">🗺️</div>
+  <h3>World Map</h3>
+  <p>World Map learning batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('world-map',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- ECONOMY -->
-
-<div
-class="card course"
-data-batch="indian-economy">
-
-<div class="icon">💰</div>
-
-<h3>
-Indian Economy
-</h3>
-
-<p>
-Indian Economy complete premium batch.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹49
+<div class="card course" data-batch="indian-map">
+  <div class="icon">🇮🇳</div>
+  <h3>Indian Map</h3>
+  <p>Indian Map learning batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('indian-map',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('indian-economy',null,this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="biology">
+  <div class="icon">🧬</div>
+  <h3>Biology</h3>
+  <p>Biology foundation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('biology',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- PYTHON -->
-
-<div
-class="card course"
-data-batch="python">
-
-<div class="icon">🐍</div>
-
-<h3>
-Python Programming
-</h3>
-
-<p>
-Python programming from beginner to advanced.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹399
+<div class="card course" data-batch="ssc-foundation">
+  <div class="icon">📝</div>
+  <h3>SSC Foundation</h3>
+  <p>SSC complete foundation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('ssc-foundation',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('python',null,this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="railway">
+  <div class="icon">🚆</div>
+  <h3>Railway</h3>
+  <p>Railway exam preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('railway',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- JAVA -->
-
-<div
-class="card course"
-data-batch="java">
-
-<div class="icon">☕</div>
-
-<h3>
-Java Programming
-</h3>
-
-<p>
-Java programming complete premium course.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹499
+<div class="card course" data-batch="banking">
+  <div class="icon">🏦</div>
+  <h3>Banking</h3>
+  <p>Banking exam preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('banking',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('java',null,this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="teaching">
+  <div class="icon">🎓</div>
+  <h3>Teaching</h3>
+  <p>Teaching exams preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('teaching',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- WEB -->
-
-<div
-class="card course"
-data-batch="web-development">
-
-<div class="icon">🌐</div>
-
-<h3>
-Web Development
-</h3>
-
-<p>
-HTML, CSS, JavaScript और Web Development.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹399
+<div class="card course" data-batch="nda">
+  <div class="icon">🛡️</div>
+  <h3>NDA</h3>
+  <p>NDA preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('nda',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('web-development',null,this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="cds">
+  <div class="icon">🎖️</div>
+  <h3>CDS</h3>
+  <p>CDS preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('cds',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- ANDROID -->
-
-<div
-class="card course"
-data-batch="android-development">
-
-<div class="icon">📱</div>
-
-<h3>
-Android Development
-</h3>
-
-<p>
-Android app development complete batch.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹499
+<div class="card course" data-batch="capf">
+  <div class="icon">🪖</div>
+  <h3>CAPF</h3>
+  <p>CAPF preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('capf',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('android-development',null,this)">
-🔐 Unlock Batch
-</button>
-
+<div class="card course" data-batch="afcat">
+  <div class="icon">✈️</div>
+  <h3>AFCAT</h3>
+  <p>AFCAT preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('afcat',null,this)">🔓 Open Free Batch</button>
 </div>
 
-
-<!-- FULL PROGRAMMING -->
-
-<div
-class="card course"
-data-batch="full-programming">
-
-<div class="icon">💻</div>
-
-<h3>
-Full Programming
-</h3>
-
-<p>
-Programming का complete premium package.
-</p>
-
-<span class="lock">
-🔒 LOCKED • PAID
-</span>
-
-<div class="price">
-₹599
+<div class="card course" data-batch="police">
+  <div class="icon">👮</div>
+  <h3>Police</h3>
+  <p>Police exams preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('police',null,this)">🔓 Open Free Batch</button>
 </div>
 
-<button
-class="unlock"
-onclick="openBatch('full-programming',null,this)">
-🔐 Unlock Batch
-</button>
+<div class="card course" data-batch="up-police">
+  <div class="icon">🚔</div>
+  <h3>UP Police</h3>
+  <p>UP Police preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('up-police',null,this)">🔓 Open Free Batch</button>
+</div>
 
+<div class="card course" data-batch="bihar-police">
+  <div class="icon">🚨</div>
+  <h3>Bihar Police</h3>
+  <p>Bihar Police preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('bihar-police',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="bihar-daroga">
+  <div class="icon">⚔️</div>
+  <h3>Bihar Daroga</h3>
+  <p>Bihar Daroga preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('bihar-daroga',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="bpsc-foundation">
+  <div class="icon">🏛️</div>
+  <h3>BPSC Foundation</h3>
+  <p>BPSC foundation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('bpsc-foundation',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="uppsc">
+  <div class="icon">🏛️</div>
+  <h3>UPPSC</h3>
+  <p>UPPSC preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('uppsc',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="mppsc">
+  <div class="icon">🏛️</div>
+  <h3>MPPSC</h3>
+  <p>MPPSC preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('mppsc',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="rpsc">
+  <div class="icon">🏛️</div>
+  <h3>RPSC</h3>
+  <p>RPSC preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('rpsc',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="mpesb-group-2">
+  <div class="icon">🏛️</div>
+  <h3>MPESB Group 2</h3>
+  <p>MPESB Group 2 preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('mpesb-group-2',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="clat">
+  <div class="icon">👨‍⚖️</div>
+  <h3>CLAT</h3>
+  <p>CLAT preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('clat',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="neet">
+  <div class="icon">🩺</div>
+  <h3>NEET</h3>
+  <p>NEET preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('neet',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="jee">
+  <div class="icon">🧪</div>
+  <h3>JEE</h3>
+  <p>JEE preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('jee',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="cuet">
+  <div class="icon">🎯</div>
+  <h3>CUET</h3>
+  <p>CUET preparation batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('cuet',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="python">
+  <div class="icon">🐍</div>
+  <h3>Python Programming</h3>
+  <p>Python beginner to advanced</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('python',null,this)">🔓 Open Free Batch</button>
+</div>
+
+<div class="card course" data-batch="java">
+  <div class="icon">☕</div>
+  <h3>Java Programming</h3>
+  <p>Java complete programming course</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock" onclick="openBatch('java',null,this)">🔓 Open Free Batch</button>
+    </div>
+    <div class="card course" data-batch="web-development">
+  <div class="icon">🌐</div>
+  <h3>Web Development</h3>
+  <p>HTML, CSS, JavaScript & Web Development</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('web-development',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="android-development">
+  <div class="icon">📱</div>
+  <h3>Android Development</h3>
+  <p>Android App Development complete course</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('android-development',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="full-programming">
+  <div class="icon">💻</div>
+  <h3>Full Programming</h3>
+  <p>Complete Programming Package</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('full-programming',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="sql-database">
+  <div class="icon">🗄️</div>
+  <h3>SQL & Database</h3>
+  <p>SQL and Database Fundamentals</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('sql-database',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="git-github">
+  <div class="icon">🐙</div>
+  <h3>Git & GitHub</h3>
+  <p>Git and GitHub Practical Learning</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('git-github',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="ai-ml">
+  <div class="icon">🤖</div>
+  <h3>AI & Machine Learning</h3>
+  <p>AI and Machine Learning Foundation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('ai-ml',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="data-analysis">
+  <div class="icon">📊</div>
+  <h3>Data Analysis</h3>
+  <p>Data Analysis Fundamentals</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('data-analysis',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="reasoning">
+  <div class="icon">🧠</div>
+  <h3>Reasoning</h3>
+  <p>Competitive Reasoning Practice</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('reasoning',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="quant">
+  <div class="icon">🔢</div>
+  <h3>Quantitative Aptitude</h3>
+  <p>Competitive Maths Practice</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('quant',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="english">
+  <div class="icon">🗣️</div>
+  <h3>English</h3>
+  <p>Competitive English Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('english',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="general-studies">
+  <div class="icon">🌐</div>
+  <h3>General Studies</h3>
+  <p>General Studies Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('general-studies',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="current-affairs">
+  <div class="icon">📰</div>
+  <h3>Current Affairs</h3>
+  <p>Daily & Monthly Current Affairs</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('current-affairs',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="test-series">
+  <div class="icon">📝</div>
+  <h3>Test Series</h3>
+  <p>Practice Tests & Quizzes</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('test-series',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="study-material">
+  <div class="icon">📖</div>
+  <h3>Study Material</h3>
+  <p>Notes & Study Resources</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('study-material',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="foundation">
+  <div class="icon">🎓</div>
+  <h3>Foundation Batch</h3>
+  <p>General Foundation Course</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('foundation',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="ugc-net">
+  <div class="icon">🏫</div>
+  <h3>UGC NET</h3>
+  <p>UGC NET Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('ugc-net',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="tgt-pgt">
+  <div class="icon">🧑‍🏫</div>
+  <h3>TGT / PGT</h3>
+  <p>TGT & PGT Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('tgt-pgt',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="agniveer">
+  <div class="icon">🪖</div>
+  <h3>Agniveer</h3>
+  <p>Agniveer Preparation Batch</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('agniveer',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="delhi-police">
+  <div class="icon">🚔</div>
+  <h3>Delhi Police</h3>
+  <p>Delhi Police Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('delhi-police',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="up-si">
+  <div class="icon">👮</div>
+  <h3>UP SI</h3>
+  <p>UP SI Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('up-si',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="bihar-si">
+  <div class="icon">👮</div>
+  <h3>Bihar SI</h3>
+  <p>Bihar SI Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('bihar-si',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="rrb-po-clerk">
+  <div class="icon">🚉</div>
+  <h3>RRB PO / Clerk</h3>
+  <p>RRB Banking Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('rrb-po-clerk',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="ssc-gd">
+  <div class="icon">📋</div>
+  <h3>SSC GD</h3>
+  <p>SSC GD Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('ssc-gd',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="ssc-cgl">
+  <div class="icon">📋</div>
+  <h3>SSC CGL</h3>
+  <p>SSC CGL Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('ssc-cgl',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="ssc-chsl">
+  <div class="icon">📋</div>
+  <h3>SSC CHSL</h3>
+  <p>SSC CHSL Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('ssc-chsl',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="ssc-mts">
+  <div class="icon">📋</div>
+  <h3>SSC MTS</h3>
+  <p>SSC MTS Complete Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('ssc-mts',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="rrb-ntpc">
+  <div class="icon">🚂</div>
+  <h3>RRB NTPC</h3>
+  <p>RRB NTPC Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('rrb-ntpc',null,this)">
+    🔓 Open Free Batch
+  </button>
+</div>
+
+<div class="card course" data-batch="rrb-group-d">
+  <div class="icon">🚂</div>
+  <h3>RRB Group D</h3>
+  <p>RRB Group D Preparation</p>
+  <span class="lock">🔐 LOGIN REQUIRED</span>
+  <div class="price">FREE</div>
+  <button class="unlock"
+    onclick="openBatch('rrb-group-d',null,this)">
+    🔓 Open Free Batch
+  </button>
 </div>
 
 </div>
-
+</section>
 
 <!-- ABOUT -->
 
-<section
-class="about"
-id="about">
+<section class="container">
 
-<h2>
-👨‍💻 My Self — LOYAL
-</h2>
+<div class="about" id="about">
 
-<img
-src="loyal.png"
-alt="LOYAL Profile">
+<h2>👨‍💻 About Vishrat</h2>
 
-<h3>
-LOYAL
-</h3>
+<img src="loyal.png" alt="LOYAL">
+
+<h2>👑 LOYAL</h2>
 
 <p>
-Creator • Developer • Learner 🚀
+Vishrat — Learn • Practice • Grow 🚀
 </p>
 
 <p>
-<strong>Name:</strong> LOYAL
-</p>
-
-<p>
-<strong>Age:</strong> 23 Years
-</p>
-
-<p>
-<strong>Birthday:</strong> 8 February 🎂
-</p>
-
-<p>
-<strong>Qualification:</strong> B.Com
+📚 सभी batches login के बाद FREE हैं।
 </p>
 
 <div class="skills">
 
-<span class="skill">Python</span>
-<span class="skill">Java</span>
-<span class="skill">HTML</span>
-<span class="skill">CSS</span>
-<span class="skill">JavaScript</span>
-<span class="skill">SQL</span>
-<span class="skill">Git</span>
-<span class="skill">GitHub</span>
-<span class="skill">Android</span>
-<span class="skill">Web Development</span>
+<span class="skill">UPSC</span>
+<span class="skill">SSC</span>
+<span class="skill">Railway</span>
+<span class="skill">Banking</span>
+<span class="skill">Defence</span>
 <span class="skill">Programming</span>
-<span class="skill">Software Development</span>
+<span class="skill">NCERT</span>
+<span class="skill">Current Affairs</span>
 
 </div>
 
-<p style="margin-top:20px;">
-“Dream big, learn every day and keep moving forward. 🚀”
-</p>
+</div>
 
 </section>
 
-</div>
-
-
 <footer>
 
-<strong>
-Vishrat
-</strong>
-
 <p>
-Made with ❤️ by LOYAL
+© 2026 <strong>Vishrat</strong> — All Rights Reserved
 </p>
 
 <p>
-© 2026 Vishrat • All Rights Reserved
+Learn • Practice • Grow 🚀
 </p>
 
 </footer>
 
-
 <script>
 
-/* =====================================================
-   VISHRAТ BACKEND
-   ===================================================== */
-
-/*
-   ⚠️ सिर्फ इस URL को अपने Render Web Service URL से बदलना है.
-
-   Example:
-   const BACKEND_URL =
-   "https://vishrat-backend-01.onrender.com";
-*/
-
-const BACKEND_URL =
-"https://vishrat-backend-01.onrender.com";
-
-
-/* =====================================================
-   BASIC MENU
-   ===================================================== */
+/* ===============================
+   MENU
+================================ */
 
 function openMenu(){
 
     document
     .getElementById("sideMenu")
-    .classList.add("active");
+    .classList
+    .add("active");
 
 }
 
@@ -1083,224 +1346,68 @@ function closeMenu(){
 
     document
     .getElementById("sideMenu")
-    .classList.remove("active");
+    .classList
+    .remove("active");
 
 }
 
 
-/* =====================================================
-   LOGIN BOX
-   ===================================================== */
-
-function openLogin(){
-
-    document
-    .getElementById("loginBox")
-    .style.display="flex";
-
-    document
-    .getElementById("loginMessage")
-    .innerText="";
-
-}
-
-function closeLogin(){
-
-    document
-    .getElementById("loginBox")
-    .style.display="none";
-
-}
-
-function showEmailLogin(){
-
-    document
-    .getElementById("emailLoginSection")
-    .classList.add("active");
-
-    document
-    .getElementById("phoneLoginSection")
-    .classList.remove("active");
-
-}
-
-function showPhoneLogin(){
-
-    document
-    .getElementById("emailLoginSection")
-    .classList.remove("active");
-
-    document
-    .getElementById("phoneLoginSection")
-    .classList.add("active");
-
-    setTimeout(function(){
-
-        if(window.setupRecaptcha){
-            window.setupRecaptcha();
-        }
-
-    },300);
-
-}
-
-
-/* =====================================================
+/* ===============================
    SEARCH
-   ===================================================== */
+================================ */
 
 function searchCourse(){
 
     const input =
-    document
-    .getElementById("searchInput")
-    .value
-    .toLowerCase()
-    .trim();
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
 
-    const courses =
-    document
-    .querySelectorAll(".course");
+    const cards =
+        document
+        .querySelectorAll(".course");
 
-    courses.forEach(function(card){
+    cards.forEach(function(card){
 
         const text =
-        card.innerText.toLowerCase();
+            card.innerText.toLowerCase();
 
         card.style.display =
-        text.includes(input)
-        ? "block"
-        : "none";
+            text.includes(input)
+            ? ""
+            : "none";
 
     });
 
 }
 
 
-/* =====================================================
-   FIREBASE ACCESS CHECK
-   ===================================================== */
+/* ===============================
+   LOGIN CHECK
+================================ */
 
-async function checkBatchAccess(batch){
+function isUserLoggedIn(){
 
-    try{
-
-        if(!BACKEND_URL ||
-           BACKEND_URL.includes("YOUR-RENDER-URL")){
-
-            throw new Error(
-                "Render backend URL not configured"
-            );
-
-        }
-
-        if(!window.getCurrentFirebaseUser){
-
-            throw new Error(
-                "Firebase not ready"
-            );
-
-        }
-
-        const user =
-        window.getCurrentFirebaseUser();
-
-        if(!user){
-
-            return {
-                allowed:false,
-                reason:"login"
-            };
-
-        }
-
-        const token =
-        await user.getIdToken(true);
-
-        const response =
-        await fetch(
-            BACKEND_URL +
-            "/api/access/" +
-            encodeURIComponent(batch),
-            {
-                method:"GET",
-                headers:{
-                    "Authorization":
-                    "Bearer " + token,
-                    "Accept":
-                    "application/json"
-                },
-                cache:"no-store"
-            }
-        );
-
-        if(response.status === 401){
-
-            return {
-                allowed:false,
-                reason:"login"
-            };
-
-        }
-
-        if(response.status === 403){
-
-            return {
-                allowed:false,
-                reason:"paid"
-            };
-
-        }
-
-        if(!response.ok){
-
-            throw new Error(
-                "Backend error " +
-                response.status
-            );
-
-        }
-
-        const data =
-        await response.json();
-
-        return data;
-
-    }
-    catch(error){
-
-        console.error(
-            "ACCESS CHECK ERROR:",
-            error
-        );
-
-        return {
-            allowed:false,
-            reason:"server"
-        };
-
-    }
+    return !!localStorage.getItem(
+        "vishrat_logged_in"
+    );
 
 }
 
 
-/* =====================================================
+/* ===============================
    OPEN BATCH
-   ===================================================== */
+================================ */
 
-async function openBatch(
+function openBatch(
     batch,
     url=null,
     button=null
 ){
 
-    const user =
-    window.getCurrentFirebaseUser
-    ? window.getCurrentFirebaseUser()
-    : null;
-
-
-    if(!user){
+    if(!isUserLoggedIn()){
 
         openLogin();
 
@@ -1319,843 +1426,44 @@ async function openBatch(
         button.disabled=true;
 
         button.innerText =
-        "⏳ Checking Access...";
+            "⏳ Opening...";
 
     }
 
 
-    const result =
-    await checkBatchAccess(batch);
+    const target =
+        url ||
+        "batch.html?batch=" +
+        encodeURIComponent(batch);
 
 
-    if(button){
-
-        button.disabled=false;
-
-    }
-
-
-    /* FREE / PAID ACCESS */
-
-    if(result.allowed === true){
-
-        if(result.free === true){
-
-            window.isLoyal=true;
-
-        }
-
-
-        if(url){
-
-            window.location.href=url;
-
-            return;
-
-        }
-
-
-        alert(
-            "👑 ACCESS GRANTED\n\n" +
-            "Batch: " +
-            batch +
-            "\n\n" +
-            "✅ Access Active"
-        );
-
-        return;
-
-    }
-
-
-    /* LOGIN REQUIRED */
-
-    if(result.reason === "login"){
-
-        if(button){
-
-            button.innerText =
-            "🔐 Unlock Batch";
-
-        }
-
-        openLogin();
-
-        document
-        .getElementById("loginMessage")
-        .innerText =
-        "🔐 Login required";
-
-        return;
-
-    }
-
-
-    /* PAID / LOCKED */
-
-    if(result.reason === "paid"){
-
-        if(button){
-
-            button.innerText =
-            "🔐 Unlock Batch";
-
-        }
-
-        alert(
-            "🔒 BATCH LOCKED\n\n" +
-            "यह batch अभी आपके account में unlocked नहीं है.\n\n" +
-            "Payment के बाद access मिलेगा."
-        );
-
-        return;
-
-    }
-
-
-    /* SERVER ERROR */
-
-    if(button){
-
-        button.innerText =
-        "🔐 Unlock Batch";
-
-    }
-
-    alert(
-        "⚠️ Server से connection नहीं हो पाया.\n\n" +
-        "थोड़ी देर बाद फिर try करो."
-    );
+    window.location.href =
+        target;
 
 }
 
 
-/* =====================================================
-   OLD SHOW PAYMENT COMPATIBILITY
-   ===================================================== */
+/* ===============================
+   LOGIN POPUP
+================================ */
 
-async function showPayment(
-    batch,
-    price,
-    url=null,
-    button=null
-){
+function openLogin(){
 
-    const map = {
-
-        "NCERT Geography":
-        "ncert-geography",
-
-        "Indian History":
-        "indian-history",
-
-        "Indian Polity":
-        "indian-polity",
-
-        "Indian Economy":
-        "indian-economy",
-
-        "Python Programming":
-        "python",
-
-        "Java Programming":
-        "java",
-
-        "Web Development":
-        "web-development",
-
-        "Android Development":
-        "android-development",
-
-        "Full Programming":
-        "full-programming"
-
-    };
-
-    const slug =
-    map[batch] || batch;
-
-    return openBatch(
-        slug,
-        url,
-        button
-    );
-
-}
-
-
-/* =====================================================
-   BATCH UI
-   ===================================================== */
-
-function updateBatchUI(isLoyal){
-
-    const cards =
     document
-    .querySelectorAll(".course");
-
-
-    cards.forEach(function(card){
-
-        const lock =
-        card.querySelector(".lock");
-
-        const price =
-        card.querySelector(".price");
-
-        const button =
-        card.querySelector(".unlock");
-
-
-        if(isLoyal){
-
-            if(lock){
-
-                lock.innerText =
-                "👑 LOYAL • FREE";
-
-            }
-
-            if(price){
-
-                price.innerText =
-                "FREE";
-
-            }
-
-            if(button){
-
-                button.innerText =
-                "👑 Open Free Batch";
-
-            }
-
-        }
-        else{
-
-            if(lock){
-
-                lock.innerText =
-                "🔒 LOCKED • PAID";
-
-            }
-
-            if(price){
-
-                if(
-                    card.dataset.batch ===
-                    "ncert-geography" ||
-                    card.dataset.batch ===
-                    "indian-history" ||
-                    card.dataset.batch ===
-                    "indian-polity" ||
-                    card.dataset.batch ===
-                    "indian-economy"
-                ){
-
-                    const originalPrices = {
-
-                        "ncert-geography":"₹49",
-                        "indian-history":"₹49",
-                        "indian-polity":"₹49",
-                        "indian-economy":"₹49",
-                        "python":"₹399",
-                        "java":"₹499",
-                        "web-development":"₹399",
-                        "android-development":"₹499",
-                        "full-programming":"₹599"
-
-                    };
-
-                    price.innerText =
-                    originalPrices[
-                        card.dataset.batch
-                    ] || price.innerText;
-
-                }
-
-            }
-
-            if(button){
-
-                button.innerText =
-                "🔐 Unlock Batch";
-
-            }
-
-        }
-
-    });
+    .getElementById("loginBox")
+    .style.display="flex";
 
 }
 
+function closeLogin(){
 
-/* =====================================================
-   LOYAL UI
-   ===================================================== */
-
-function setLoyalUI(isLoyal){
-
-    window.isLoyal =
-    isLoyal === true;
-
-
-    const status =
     document
-    .getElementById("loyalStatus");
-
-    const loginButton =
-    document
-    .getElementById("loginButton");
-
-    if(isLoyal){
-
-        if(status){
-
-            status.style.display =
-            "block";
-
-        }
-
-        if(loginButton){
-
-            loginButton.innerText =
-            "👑 LOYAL";
-
-        }
-
-        updateBatchUI(true);
-
-    }
-    else{
-
-        if(status){
-
-            status.style.display =
-            "none";
-
-        }
-
-        if(loginButton){
-
-            loginButton.innerText =
-            "🔐 Login";
-
-        }
-
-        updateBatchUI(false);
-
-    }
+    .getElementById("loginBox")
+    .style.display="none";
 
 }
-
-
-/* =====================================================
-   LOGOUT UI
-   ===================================================== */
-
-function setLoggedOutUI(){
-
-    const loginButton =
-    document
-    .getElementById("loginButton");
-
-    const logoutMenu =
-    document
-    .getElementById("logoutMenu");
-
-    if(loginButton){
-
-        loginButton.innerText =
-        "🔐 Login";
-
-    }
-
-    if(logoutMenu){
-
-        logoutMenu.style.display =
-        "none";
-
-    }
-
-    setLoyalUI(false);
-
-}
-
-
-/* =====================================================
-   FIREBASE
-   ===================================================== */
-
-</script>
-
-
-<script type="module">
-
-/* =====================================================
-   FIREBASE AUTH — SAFE / ROBUST
-   ===================================================== */
-
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  RecaptchaVerifier,
-  signInWithPhoneNumber
-} from
-  "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
-  authDomain: "vishrat-36bc6.firebaseapp.com",
-  projectId: "vishrat-36bc6",
-  storageBucket: "vishrat-36bc6.firebasestorage.app",
-  messagingSenderId: "713177652515",
-  appId: "1:713177652515:web:9a6c545278563e77640096",
-  measurementId: "G-LN2N5Z0BBF"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-const LOYAL_EMAIL = "kgsias01@gmail.com";
-
-let confirmationResult = null;
-let recaptchaVerifier = null;
-let loginBusy = false;
-let otpBusy = false;
-
-
-/* =====================================================
-   SAFE HELPERS
-   ===================================================== */
-
-function message(text) {
-  const el = document.getElementById("loginMessage");
-  if (el) el.innerText = text || "";
-}
-
-function setButtonBusy(id, busy, busyText, normalText) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.disabled = busy;
-  el.innerText = busy ? busyText : normalText;
-}
-
-function normalizeEmail(value) {
-  return String(value || "").trim().toLowerCase();
-}
-
-function isLoyalUser(user) {
-  return !!user && normalizeEmail(user.email) === LOYAL_EMAIL;
-}
-
-
-/* =====================================================
-   CURRENT USER
-   ===================================================== */
-
-window.getCurrentFirebaseUser = function () {
-  return auth.currentUser;
-};
-
-
-/* =====================================================
-   LOYAL / LOGIN UI
-   NOTE: This is UI only.
-   Real batch authorization is done by Render backend.
-   ===================================================== */
-
-function updateLoyalMenu(user) {
-  const isLoyal = isLoyalUser(user);
-
-  const status = document.getElementById("loyalStatus");
-  const paidLabels = document.querySelectorAll(".paid");
-  const logoutMenu = document.getElementById("logoutMenu");
-  const loginButton = document.getElementById("loginButton");
-
-  paidLabels.forEach(function (el) {
-    el.style.display = isLoyal ? "inline" : "none";
-  });
-
-  if (status) {
-    status.style.display = isLoyal ? "block" : "none";
-  }
-
-  if (logoutMenu) {
-    logoutMenu.style.display = user ? "block" : "none";
-  }
-
-  if (loginButton) {
-    loginButton.innerText = user
-      ? (isLoyal ? "👑 LOYAL Logged In" : "✅ Logged In")
-      : "🔐 Login";
-  }
-
-  setLoyalUI(isLoyal);
-}
-
-
-/* =====================================================
-   CAPTCHA
-   ===================================================== */
-
-window.setupRecaptcha = function () {
-  try {
-    if (recaptchaVerifier) return recaptchaVerifier;
-
-    const container = document.getElementById("recaptcha-container");
-    if (!container) {
-      throw new Error("reCAPTCHA container missing");
-    }
-
-    recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: function () {}
-      }
-    );
-
-    return recaptchaVerifier;
-  } catch (error) {
-    console.error("RECAPTCHA INIT ERROR:", error);
-    recaptchaVerifier = null;
-    throw error;
-  }
-};
-
-function resetRecaptcha() {
-  try {
-    if (recaptchaVerifier) {
-      recaptchaVerifier.clear();
-    }
-  } catch (error) {
-    console.warn("reCAPTCHA clear:", error);
-  }
-
-  recaptchaVerifier = null;
-}
-
-
-/* =====================================================
-   EMAIL LOGIN
-   ===================================================== */
-
-window.loginUser = async function () {
-  if (loginBusy) return;
-
-  const emailEl = document.getElementById("loginEmail");
-  const passwordEl = document.getElementById("loginPassword");
-
-  const email = normalizeEmail(emailEl ? emailEl.value : "");
-  const password = passwordEl ? passwordEl.value : "";
-
-  if (!email || !password) {
-    message("⚠️ Email और Password डालो");
-    return;
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    message("⚠️ सही Email डालो");
-    return;
-  }
-
-  loginBusy = true;
-  setButtonBusy(
-    "loginEmail",
-    false,
-    "",
-    ""
-  );
-
-  const button = document.querySelector(
-    "#emailLoginSection .login-submit"
-  );
-
-  if (button) {
-    button.disabled = true;
-    button.innerText = "⏳ Login हो रहा है...";
-  }
-
-  message("⏳ Login हो रहा है...");
-
-  try {
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      throw new Error("Firebase user unavailable");
-    }
-
-    /* Force-refresh the ID token so Render receives a fresh token. */
-    await user.getIdToken(true);
-
-    updateLoyalMenu(user);
-
-    message(
-      isLoyalUser(user)
-        ? "👑 LOYAL LOGIN सफल — Access verified by server ✅"
-        : "✅ Login सफल हुआ 🎉"
-    );
-
-    setTimeout(function () {
-      closeLogin();
-    }, 700);
-
-  } catch (error) {
-    console.error("EMAIL LOGIN ERROR:", error);
-
-    const code = String(error && error.code || "");
-
-    if (code.includes("invalid-credential")) {
-      message("❌ Email या Password गलत है");
-    } else if (code.includes("user-not-found")) {
-      message("❌ यह Email registered नहीं है");
-    } else if (code.includes("wrong-password")) {
-      message("❌ Password गलत है");
-    } else if (code.includes("too-many-requests")) {
-      message("⏳ बहुत ज्यादा attempts. थोड़ी देर बाद try करो");
-    } else if (code.includes("network-request-failed")) {
-      message("📶 Internet connection check करो");
-    } else {
-      message("❌ Login नहीं हो पाया. फिर से try करो");
-    }
-
-  } finally {
-    loginBusy = false;
-
-    if (button) {
-      button.disabled = false;
-      button.innerText = "📧 Email Login";
-    }
-  }
-};
-
-
-/* =====================================================
-   SEND OTP
-   ===================================================== */
-
-window.sendOTP = async function () {
-  if (otpBusy) return;
-
-  const phoneEl = document.getElementById("phoneNumber");
-  const phone = String(phoneEl ? phoneEl.value : "").trim();
-
-  if (!/^[0-9]{10}$/.test(phone)) {
-    message("⚠️ 10 digit mobile number डालो");
-    return;
-  }
-
-  otpBusy = true;
-
-  const button = document.querySelector(
-    "#phoneLoginSection .otp-btn"
-  );
-
-  if (button) {
-    button.disabled = true;
-    button.innerText = "⏳ OTP भेजा जा रहा है...";
-  }
-
-  message("⏳ OTP भेजा जा रहा है...");
-
-  try {
-    if (!recaptchaVerifier) {
-      window.setupRecaptcha();
-    }
-
-    confirmationResult = await signInWithPhoneNumber(
-      auth,
-      "+91" + phone,
-      recaptchaVerifier
-    );
-
-    const otpEl = document.getElementById("otpCode");
-    const verifyButton =
-      document.getElementById("verifyOtpButton");
-
-    if (otpEl) {
-      otpEl.style.display = "block";
-      otpEl.value = "";
-      otpEl.focus();
-    }
-
-    if (verifyButton) {
-      verifyButton.style.display = "block";
-    }
-
-    message("✅ OTP भेज दिया गया");
-
-  } catch (error) {
-    console.error("OTP SEND ERROR:", error);
-
-    const code = String(error && error.code || "");
-
-    if (code.includes("too-many-requests")) {
-      message("⏳ बहुत ज्यादा attempts. बाद में try करो");
-    } else if (code.includes("invalid-phone-number")) {
-      message("❌ Mobile number गलत है");
-    } else if (code.includes("quota-exceeded")) {
-      message("⚠️ SMS limit/quota पूरी हो गई");
-    } else if (code.includes("captcha")) {
-      message("⚠️ reCAPTCHA फिर से try करो");
-    } else {
-      message("❌ OTP नहीं भेजा गया. Number/reCAPTCHA check करो");
-    }
-
-    confirmationResult = null;
-    resetRecaptcha();
-
-  } finally {
-    otpBusy = false;
-
-    if (button) {
-      button.disabled = false;
-      button.innerText = "📲 Send OTP";
-    }
-  }
-};
-
-
-/* =====================================================
-   VERIFY OTP
-   ===================================================== */
-
-window.verifyOTP = async function () {
-  if (!confirmationResult) {
-    message("⚠️ पहले OTP भेजो");
-    return;
-  }
-
-  const otpEl = document.getElementById("otpCode");
-  const otp = String(otpEl ? otpEl.value : "").trim();
-
-  if (!/^[0-9]{6}$/.test(otp)) {
-    message("⚠️ 6 digit OTP डालो");
-    return;
-  }
-
-  const button =
-    document.getElementById("verifyOtpButton");
-
-  if (button) {
-    button.disabled = true;
-    button.innerText = "⏳ Verify हो रहा है...";
-  }
-
-  message("⏳ OTP verify हो रहा है...");
-
-  try {
-    await confirmationResult.confirm(otp);
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      throw new Error("Phone user unavailable");
-    }
-
-    await user.getIdToken(true);
-
-    confirmationResult = null;
-
-    if (button) {
-      button.style.display = "none";
-    }
-
-    if (otpEl) {
-      otpEl.style.display = "none";
-      otpEl.value = "";
-    }
-
-    updateLoyalMenu(user);
-
-    message("✅ Mobile Login सफल 🎉");
-
-    setTimeout(function () {
-      closeLogin();
-    }, 700);
-
-  } catch (error) {
-    console.error("OTP VERIFY ERROR:", error);
-
-    const code = String(error && error.code || "");
-
-    if (code.includes("invalid-verification-code")) {
-      message("❌ OTP गलत है");
-    } else if (code.includes("code-expired")) {
-      message("⏳ OTP expire हो गया. नया OTP भेजो");
-    } else {
-      message("❌ OTP verify नहीं हुआ");
-    }
-
-  } finally {
-    if (button) {
-      button.disabled = false;
-      button.innerText = "✅ Verify OTP";
-    }
-  }
-};
-
-
-/* =====================================================
-   AUTH STATE
-   ===================================================== */
-
-onAuthStateChanged(auth, function (user) {
-  try {
-    console.log(
-      "AUTH STATE:",
-      user ? user.email || user.phoneNumber : "NOT LOGGED IN"
-    );
-
-    updateLoyalMenu(user);
-
-  } catch (error) {
-    console.error("AUTH STATE UI ERROR:", error);
-  }
-});
-
-
-/* =====================================================
-   LOGOUT
-   ===================================================== */
-
-window.logoutUser = async function () {
-  try {
-    await signOut(auth);
-
-    confirmationResult = null;
-    resetRecaptcha();
-
-    window.isLoyal = false;
-    setLoggedOutUI();
-
-    message("");
-
-    alert("✅ Logout हो गया");
-
-    location.reload();
-
-  } catch (error) {
-    console.error("LOGOUT ERROR:", error);
-    alert("⚠️ Logout नहीं हो पाया. फिर से try करो.");
-  }
-};
 
 </script>
 
 </body>
-</html>
+    </html>
