@@ -31,8 +31,7 @@ app.use((req, res, next) => {
 
 const ALLOWED_ORIGINS = new Set([
   "https://kgsias01-source.github.io",
-  "https://http-vishrat.com.in",
-  "https://http-vishrat-com-in-1.onrender.com"
+  "https://http-vishrat.com.in"
 ]);
 
 app.use((req, res, next) => {
@@ -41,10 +40,12 @@ app.use((req, res, next) => {
   if (origin && ALLOWED_ORIGINS.has(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
+
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Authorization, Content-Type"
     );
+
     res.setHeader(
       "Access-Control-Allow-Methods",
       "GET, POST, OPTIONS"
@@ -80,9 +81,14 @@ function rateLimit(req, res, next) {
   const record = rateMap.get(ip);
 
   if (!record || now - record.start >= RATE_WINDOW) {
+
     if (rateMap.size >= MAX_IPS) {
+
       for (const [key, value] of rateMap) {
-        if (now - value.start >= RATE_WINDOW) {
+
+        if (
+          now - value.start >= RATE_WINDOW
+        ) {
           rateMap.delete(key);
         }
 
@@ -103,10 +109,14 @@ function rateLimit(req, res, next) {
   record.count++;
 
   if (record.count > RATE_LIMIT) {
+
     const retryAfter = Math.max(
       1,
       Math.ceil(
-        (RATE_WINDOW - (now - record.start)) / 1000
+        (
+          RATE_WINDOW -
+          (now - record.start)
+        ) / 1000
       )
     );
 
@@ -116,7 +126,8 @@ function rateLimit(req, res, next) {
     );
 
     return res.status(429).json({
-      error: "Too many requests. Please try again shortly."
+      error:
+        "Too many requests. Please try again shortly."
     });
   }
 
@@ -130,8 +141,10 @@ app.use(rateLimit);
 // ===============================
 
 app.use((req, res, next) => {
+
   req.setTimeout(30000);
   res.setTimeout(30000);
+
   next();
 });
 
@@ -140,30 +153,42 @@ app.use((req, res, next) => {
 // ===============================
 
 if (!admin.apps.length) {
+
   let serviceAccount;
 
   try {
+
+    // Render Environment Variable
     if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+
       serviceAccount = JSON.parse(
         process.env.FIREBASE_SERVICE_ACCOUNT
       );
+
     } else {
+
+      // Render Secret File
       const secretFile =
         "/etc/secrets/firebase-service-account.json";
 
       if (!fs.existsSync(secretFile)) {
+
         throw new Error(
           `Firebase secret file not found: ${secretFile}`
         );
       }
 
       serviceAccount = JSON.parse(
-        fs.readFileSync(secretFile, "utf8")
+        fs.readFileSync(
+          secretFile,
+          "utf8"
+        )
       );
     }
 
     admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount)
+      credential:
+        admin.credential.cert(serviceAccount)
     });
 
     console.log(
@@ -188,10 +213,12 @@ const db = admin.firestore();
 // ===============================
 
 app.get("/health", (req, res) => {
+
   res.status(200).json({
     status: "ok",
     service: "vishrat-secure-backend"
   });
+
 });
 
 // ===============================
@@ -199,10 +226,13 @@ app.get("/health", (req, res) => {
 // ===============================
 
 app.get("/", (req, res) => {
+
   res.status(200).json({
     status: "ok",
-    message: "Vishrat Secure Backend is running"
+    message:
+      "Vishrat Secure Backend is running"
   });
+
 });
 
 // ===============================
@@ -224,6 +254,7 @@ async function verifyUser(req, res, next) {
       return res.status(401).json({
         error: "Login required"
       });
+
     }
 
     const idToken =
@@ -237,10 +268,13 @@ async function verifyUser(req, res, next) {
       return res.status(401).json({
         error: "Invalid login token"
       });
+
     }
 
     req.user =
-      await admin.auth().verifyIdToken(idToken);
+      await admin
+        .auth()
+        .verifyIdToken(idToken);
 
     next();
 
@@ -252,8 +286,10 @@ async function verifyUser(req, res, next) {
     );
 
     return res.status(401).json({
-      error: "Invalid or expired login"
+      error:
+        "Invalid or expired login"
     });
+
   }
 }
 
@@ -269,7 +305,9 @@ app.get(
     try {
 
       const batch =
-        String(req.params.batch || "").trim();
+        String(
+          req.params.batch || ""
+        ).trim();
 
       if (
         !batch ||
@@ -279,6 +317,7 @@ app.get(
         return res.status(400).json({
           error: "Invalid batch"
         });
+
       }
 
       // ===============================
@@ -286,12 +325,15 @@ app.get(
       // ===============================
 
       const userEmail =
-        String(req.user.email || "")
+        String(
+          req.user.email || ""
+        )
           .trim()
           .toLowerCase();
 
       const isLoyalEmail =
-        userEmail === "kgsias01@gmail.com";
+        userEmail ===
+        "kgsias01@gmail.com";
 
       console.log(
         "LOYAL EMAIL CHECK:",
@@ -316,9 +358,12 @@ app.get(
         console.log(
           "LOYAL FIRESTORE CHECK:",
           {
-            documentExists: loyalDoc.exists,
+            documentExists:
+              loyalDoc.exists,
+
             freeAccess:
               loyalData.freeAccess === true,
+
             freeAccessType:
               typeof loyalData.freeAccess
           }
@@ -334,10 +379,15 @@ app.get(
           );
 
           return res.status(200).json({
+
             allowed: true,
+
             free: true,
+
             batch: batch
+
           });
+
         }
       }
 
@@ -357,9 +407,13 @@ app.get(
       if (!userDoc.exists) {
 
         return res.status(403).json({
+
           allowed: false,
+
           batch: batch
+
         });
+
       }
 
       const data =
@@ -371,15 +425,23 @@ app.get(
       ) {
 
         return res.status(200).json({
+
           allowed: true,
+
           free: false,
+
           batch: batch
+
         });
+
       }
 
       return res.status(403).json({
+
         allowed: false,
+
         batch: batch
+
       });
 
     } catch (error) {
@@ -390,9 +452,14 @@ app.get(
       );
 
       return res.status(500).json({
-        error: "Server temporarily unavailable"
+
+        error:
+          "Server temporarily unavailable"
+
       });
+
     }
+
   }
 );
 
@@ -412,31 +479,35 @@ app.use("/api", (req, res) => {
 // GLOBAL ERROR HANDLER
 // ===============================
 
-app.use((err, req, res, next) => {
+app.use(
+  (err, req, res, next) => {
 
-  console.error(
-    "SERVER ERROR:",
-    err.message
-  );
+    console.error(
+      "SERVER ERROR:",
+      err.message
+    );
 
-  if (res.headersSent) {
-    return next(err);
-  }
+    if (res.headersSent) {
+      return next(err);
+    }
 
-  if (
-    err.type === "entity.too.large"
-  ) {
+    if (
+      err.type ===
+      "entity.too.large"
+    ) {
 
-    return res.status(413).json({
-      error: "Request too large"
+      return res.status(413).json({
+        error: "Request too large"
+      });
+
+    }
+
+    return res.status(500).json({
+      error: "Server error"
     });
+
   }
-
-  return res.status(500).json({
-    error: "Server error"
-  });
-
-});
+);
 
 // ===============================
 // START SERVER
