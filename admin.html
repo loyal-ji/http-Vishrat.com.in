@@ -4,117 +4,292 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LOYAL Video Manager</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#050816;color:#fff;font-family:Arial,sans-serif}
-.wrap{max-width:900px;margin:auto;padding:22px}
-.box{background:#0b1230;border:1px solid #26345f;border-radius:20px;padding:22px;margin:15px 0}
-h1,h2{color:#00eaff}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-input,select,button{width:100%;padding:13px;border-radius:11px;border:1px solid #334577;background:#101936;color:#fff;font-size:15px}
-button{border:0;background:linear-gradient(90deg,#00bcd4,#7c4dff);font-weight:bold;cursor:pointer}
-button.danger{background:#d32f2f}
-label{display:block;color:#aeb9d8;margin:10px 0 6px}
-.muted{color:#9da9c9}
-.progress{height:10px;background:#182342;border-radius:10px;overflow:hidden}
-.bar{height:100%;width:0;background:#00eaff}
-a{color:#00eaff}
-@media(max-width:650px){.grid{grid-template-columns:1fr}}
+
+body{
+  margin:0;
+  background:#050816;
+  color:#fff;
+  font-family:Arial,sans-serif
+}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:22px
+}
+
+.box{
+  background:#0b1230;
+  border:1px solid #26345f;
+  border-radius:20px;
+  padding:22px;
+  margin:15px 0
+}
+
+h1,h2{
+  color:#00eaff
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+
+input,select,button{
+  width:100%;
+  padding:13px;
+  border-radius:11px;
+  border:1px solid #334577;
+  background:#101936;
+  color:#fff;
+  font-size:15px
+}
+
+button{
+  border:0;
+  background:linear-gradient(90deg,#00bcd4,#7c4dff);
+  font-weight:bold;
+  cursor:pointer
+}
+
+button.danger{
+  background:#d32f2f
+}
+
+label{
+  display:block;
+  color:#aeb9d8;
+  margin:10px 0 6px
+}
+
+.muted{
+  color:#9da9c9
+}
+
+.progress{
+  height:10px;
+  background:#182342;
+  border-radius:10px;
+  overflow:hidden
+}
+
+.bar{
+  height:100%;
+  width:0;
+  background:#00eaff;
+  transition:width .2s
+}
+
+a{
+  color:#00eaff
+}
+
+@media(max-width:650px){
+  .grid{
+    grid-template-columns:1fr
+  }
+}
 </style>
 </head>
+
 <body>
 
-<!-- ADMIN LOGIN -->
+<!-- =========================
+     ADMIN LOGIN
+========================= -->
+
 <div id="login" class="wrap" style="max-width:520px">
+
   <div class="box">
+
     <h1>🔐 LOYAL Admin Login</h1>
 
     <label>Email</label>
-    <input id="email" type="email" placeholder="Admin email" autocomplete="username">
+    <input
+      id="email"
+      type="email"
+      placeholder="Admin email"
+      autocomplete="username"
+    >
 
     <label>Password</label>
-    <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
 
     <br><br>
+
     <button id="loginBtn">Login</button>
+
     <p id="loginStatus" class="muted"></p>
+
   </div>
+
 </div>
 
-<!-- VIDEO MANAGER -->
+
+<!-- =========================
+     VIDEO MANAGER
+========================= -->
+
 <div id="manager" class="wrap" style="display:none">
+
   <h1>👑 LOYAL Video Manager</h1>
+
   <p class="muted">
     Video upload karo → Subject + Batch choose karo → website par automatic show hoga.
   </p>
 
+
+  <!-- SUBJECT / BATCH -->
+
   <div class="box">
+
     <h2>1. Subject / Batch</h2>
+
     <div class="grid">
 
       <div>
+
         <label>Subject</label>
+
         <select id="subject"></select>
-        <input id="newSubject" placeholder="New subject (optional)">
-        <button id="addSubjectBtn">+ Add Subject</button>
+
+        <input
+          id="newSubject"
+          placeholder="New subject (optional)"
+        >
+
+        <button id="addSubjectBtn">
+          + Add Subject
+        </button>
+
       </div>
 
+
       <div>
+
         <label>Batch</label>
+
         <select id="batch"></select>
-        <input id="newBatch" placeholder="New batch (optional)">
-        <button id="addBatchBtn">+ Add Batch</button>
+
+        <input
+          id="newBatch"
+          placeholder="New batch (optional)"
+        >
+
+        <button id="addBatchBtn">
+          + Add Batch
+        </button>
+
       </div>
 
     </div>
+
   </div>
 
+
+  <!-- LECTURE DETAILS -->
+
   <div class="box">
+
     <h2>2. Lecture Details</h2>
 
     <label>Lecture title</label>
-    <input id="title" placeholder="जैसे Lecture 01 - भारत का भौतिक भूगोल">
+
+    <input
+      id="title"
+      placeholder="जैसे Lecture 01 - भारत का भौतिक भूगोल"
+    >
+
 
     <label>Video file (MP4 recommended)</label>
-    <input id="video" type="file" accept="video/mp4,video/webm,video/*">
+
+    <input
+      id="video"
+      type="file"
+      accept="video/mp4,video/webm,video/*"
+    >
+
 
     <label>Thumbnail (optional)</label>
-    <input id="thumb" type="file" accept="image/*">
+
+    <input
+      id="thumb"
+      type="file"
+      accept="image/*"
+    >
+
 
     <br><br>
-    <button id="uploadBtn">🚀 Upload Video</button>
+
+    <button id="uploadBtn">
+      🚀 Upload Video
+    </button>
+
 
     <br><br>
+
     <div class="progress">
       <div class="bar" id="bar"></div>
     </div>
 
     <p id="status" class="muted"></p>
+
   </div>
+
+
+  <!-- WEBSITE -->
 
   <div class="box">
+
     <h2>3. Website</h2>
-    <p class="muted">Student catalog:</p>
-    <a href="catalog.html">Open LOYAL Video Catalog →</a>
+
+    <p class="muted">
+      Student catalog:
+    </p>
+
+    <a href="catalog.html">
+      Open LOYAL Video Catalog →
+    </a>
+
     <br><br>
-    <button id="logoutBtn" class="danger">Logout</button>
+
+    <button id="logoutBtn" class="danger">
+      Logout
+    </button>
+
   </div>
+
 </div>
 
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+/* =========================================
+   FIREBASE APP
+========================================= */
+
 import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
 import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
 import {
   getFirestore,
   collection,
@@ -124,228 +299,761 @@ import {
   orderBy
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-/* ==============================
-   YOUR FIREBASE WEB CONFIG
-   ============================== */
+
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
-  authDomain: "vishrat-36bc6.firebaseapp.com",
-  projectId: "vishrat-36bc6",
-  storageBucket: "vishrat-36bc6.firebasestorage.app",
-  messagingSenderId: "713177652515",
-  appId: "1:713177652515:web:9a6c545278563e77640096",
-  measurementId: "G-LN2N5Z0BBF"
+
+  apiKey:
+    "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
+
+  authDomain:
+    "vishrat-36bc6.firebaseapp.com",
+
+  projectId:
+    "vishrat-36bc6",
+
+  storageBucket:
+    "vishrat-36bc6.firebasestorage.app",
+
+  messagingSenderId:
+    "713177652515",
+
+  appId:
+    "1:713177652515:web:9a6c545278563e77640096",
+
+  measurementId:
+    "G-LN2N5Z0BBF"
 };
 
-/* IMPORTANT:
-   Firebase Authentication me jis email ko admin banana hai,
-   wahi email yahan exact likhna hai.
-*/
+
+/* =========================================
+   ADMIN EMAIL
+========================================= */
+
 const ADMIN_EMAIL = "kgsias01@gmail.com";
 
+
+/* =========================================
+   CLOUDINARY CONFIG
+========================================= */
+
+const CLOUDINARY_CLOUD_NAME = "in0onz6q";
+
+const CLOUDINARY_UPLOAD_PRESET = "loyal_video";
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
-const storage = getStorage(app);
+
 const auth = getAuth(app);
+
+
+/* =========================================
+   HELPER
+========================================= */
 
 const $ = (id) => document.getElementById(id);
 
+
 let subjects = [];
+
 let batches = [];
 
+
+/* =========================================
+   LOAD SUBJECTS + BATCHES
+========================================= */
+
 async function load() {
+
   try {
+
     subjects = [];
+
     batches = [];
 
+
     const ss = await getDocs(
-      query(collection(db, "subjects"), orderBy("name"))
+
+      query(
+        collection(db, "subjects"),
+        orderBy("name")
+      )
+
     );
-    ss.forEach(d => subjects.push({ id: d.id, ...d.data() }));
+
+
+    ss.forEach(d => {
+
+      subjects.push({
+        id: d.id,
+        ...d.data()
+      });
+
+    });
+
 
     const bs = await getDocs(
-      query(collection(db, "batches"), orderBy("name"))
+
+      query(
+        collection(db, "batches"),
+        orderBy("name")
+      )
+
     );
-    bs.forEach(d => batches.push({ id: d.id, ...d.data() }));
+
+
+    bs.forEach(d => {
+
+      batches.push({
+        id: d.id,
+        ...d.data()
+      });
+
+    });
+
 
     $("subject").innerHTML = subjects.length
-      ? subjects.map(x => `<option value="${x.id}">${escapeHtml(x.name)}</option>`).join("")
-      : `<option value="">No subject yet</option>`;
+
+      ? subjects.map(x =>
+          `<option value="${x.id}">
+            ${escapeHtml(x.name)}
+           </option>`
+        ).join("")
+
+      : `<option value="">
+           No subject yet
+         </option>`;
+
 
     $("batch").innerHTML = batches.length
-      ? batches.map(x => `<option value="${x.id}">${escapeHtml(x.name)}</option>`).join("")
-      : `<option value="">No batch yet</option>`;
+
+      ? batches.map(x =>
+          `<option value="${x.id}">
+            ${escapeHtml(x.name)}
+           </option>`
+        ).join("")
+
+      : `<option value="">
+           No batch yet
+         </option>`;
+
 
   } catch (e) {
-    $("status").textContent = "❌ Data load error: " + e.message;
+
+    $("status").textContent =
+      "❌ Data load error: " + e.message;
+
   }
+
 }
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
 
 function escapeHtml(value) {
+
   return String(value)
+
     .replaceAll("&", "&amp;")
+
     .replaceAll("<", "&lt;")
+
     .replaceAll(">", "&gt;")
+
     .replaceAll('"', "&quot;")
+
     .replaceAll("'", "&#039;");
+
 }
 
-$("addSubjectBtn").addEventListener("click", async () => {
-  const n = $("newSubject").value.trim();
-  if (!n) return alert("Subject name likho");
 
-  try {
-    await addDoc(collection(db, "subjects"), {
-      name: n,
-      createdAt: Date.now()
-    });
-    $("newSubject").value = "";
-    await load();
-    $("status").textContent = "✅ Subject added.";
-  } catch (e) {
-    $("status").textContent = "❌ " + e.message;
+/* =========================================
+   ADD SUBJECT
+========================================= */
+
+$("addSubjectBtn").addEventListener(
+  "click",
+  async () => {
+
+    const n =
+      $("newSubject").value.trim();
+
+
+    if (!n) {
+
+      return alert(
+        "Subject name likho"
+      );
+
+    }
+
+
+    try {
+
+      await addDoc(
+        collection(db, "subjects"),
+        {
+          name: n,
+          createdAt: Date.now()
+        }
+      );
+
+
+      $("newSubject").value = "";
+
+
+      await load();
+
+
+      $("status").textContent =
+        "✅ Subject added.";
+
+
+    } catch (e) {
+
+      $("status").textContent =
+        "❌ " + e.message;
+
+    }
+
   }
-});
+);
 
-$("addBatchBtn").addEventListener("click", async () => {
-  const n = $("newBatch").value.trim();
-  if (!n) return alert("Batch name likho");
 
-  try {
-    await addDoc(collection(db, "batches"), {
-      name: n,
-      createdAt: Date.now()
-    });
-    $("newBatch").value = "";
-    await load();
-    $("status").textContent = "✅ Batch added.";
-  } catch (e) {
-    $("status").textContent = "❌ " + e.message;
+/* =========================================
+   ADD BATCH
+========================================= */
+
+$("addBatchBtn").addEventListener(
+  "click",
+  async () => {
+
+    const n =
+      $("newBatch").value.trim();
+
+
+    if (!n) {
+
+      return alert(
+        "Batch name likho"
+      );
+
+    }
+
+
+    try {
+
+      await addDoc(
+        collection(db, "batches"),
+        {
+          name: n,
+          createdAt: Date.now()
+        }
+      );
+
+
+      $("newBatch").value = "";
+
+
+      await load();
+
+
+      $("status").textContent =
+        "✅ Batch added.";
+
+
+    } catch (e) {
+
+      $("status").textContent =
+        "❌ " + e.message;
+
+    }
+
   }
-});
+);
 
-$("uploadBtn").addEventListener("click", async () => {
-  const file = $("video").files[0];
-  const s = $("subject").value;
-  const b = $("batch").value;
-  const t = $("title").value.trim();
 
-  if (!file || !s || !b || !t) {
-    return alert("Subject, Batch, title aur video select karo");
-  }
+/* =========================================
+   CLOUDINARY UPLOAD FUNCTION
+========================================= */
 
-  if (file.size > 2 * 1024 * 1024 * 1024) {
-    return alert("2 GB se badi file ke liye resumable/server upload use karo.");
-  }
+function uploadToCloudinary(
+  file,
+  resourceType,
+  progressCallback
+) {
 
-  try {
-    $("status").textContent = "Uploading...";
-    $("bar").style.width = "0%";
+  return new Promise(
+    (resolve, reject) => {
 
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const path = `videos/${s}/${b}/${Date.now()}_${safeName}`;
+      const url =
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
 
-    const task = uploadBytesResumable(ref(storage, path), file);
 
-    task.on(
-      "state_changed",
-      snap => {
-        const percent =
-          (snap.bytesTransferred / snap.totalBytes) * 100;
-        $("bar").style.width = percent.toFixed(1) + "%";
-        $("status").textContent =
-          `Uploading... ${percent.toFixed(1)}%`;
-      },
-      err => {
-        $("status").textContent = "❌ " + err.message;
-      },
-      async () => {
-        const url = await getDownloadURL(task.snapshot.ref);
+      const formData =
+        new FormData();
 
-        let thumbUrl = "";
 
-        if ($("thumb").files[0]) {
-          const tf = $("thumb").files[0];
-          const thumbTask = uploadBytesResumable(
-            ref(storage, `thumbs/${s}/${b}/${Date.now()}_${tf.name}`),
-            tf
+      formData.append(
+        "file",
+        file
+      );
+
+
+      formData.append(
+        "upload_preset",
+        CLOUDINARY_UPLOAD_PRESET
+      );
+
+
+      const xhr =
+        new XMLHttpRequest();
+
+
+      xhr.open(
+        "POST",
+        url
+      );
+
+
+      xhr.upload.onprogress =
+        (event) => {
+
+          if (
+            event.lengthComputable
+          ) {
+
+            const percent =
+              (event.loaded /
+               event.total) * 100;
+
+
+            progressCallback(
+              percent
+            );
+
+          }
+
+        };
+
+
+      xhr.onload =
+        () => {
+
+          if (
+            xhr.status >= 200 &&
+            xhr.status < 300
+          ) {
+
+            try {
+
+              const data =
+                JSON.parse(
+                  xhr.responseText
+                );
+
+
+              resolve(data);
+
+            } catch (e) {
+
+              reject(
+                new Error(
+                  "Cloudinary response error"
+                )
+              );
+
+            }
+
+          } else {
+
+            let message =
+              "Cloudinary upload failed";
+
+
+            try {
+
+              const errorData =
+                JSON.parse(
+                  xhr.responseText
+                );
+
+
+              if (
+                errorData.error &&
+                errorData.error.message
+              ) {
+
+                message =
+                  errorData.error.message;
+
+              }
+
+            } catch (e) {}
+
+
+            reject(
+              new Error(message)
+            );
+
+          }
+
+        };
+
+
+      xhr.onerror =
+        () => {
+
+          reject(
+            new Error(
+              "Network error"
+            )
           );
 
-          await new Promise((resolve, reject) => {
-            thumbTask.on(
-              "state_changed",
-              () => {},
-              reject,
-              async () => {
-                thumbUrl = await getDownloadURL(
-                  thumbTask.snapshot.ref
-                );
-                resolve();
-              }
-            );
-          });
-        }
+        };
 
-        await addDoc(collection(db, "videos"), {
-          title: t,
-          subjectId: s,
-          batchId: b,
-          videoUrl: url,
-          thumbnailUrl: thumbUrl,
-          fileName: file.name,
-          size: file.size,
-          createdAt: Date.now()
-        });
+
+      xhr.send(
+        formData
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   VIDEO UPLOAD
+========================================= */
+
+$("uploadBtn").addEventListener(
+  "click",
+  async () => {
+
+    const file =
+      $("video").files[0];
+
+
+    const thumbFile =
+      $("thumb").files[0];
+
+
+    const s =
+      $("subject").value;
+
+
+    const b =
+      $("batch").value;
+
+
+    const t =
+      $("title").value.trim();
+
+
+    /* REQUIRED CHECK */
+
+    if (
+      !file ||
+      !s ||
+      !b ||
+      !t
+    ) {
+
+      return alert(
+        "Subject, Batch, title aur video select karo"
+      );
+
+    }
+
+
+    /* CLOUDINARY FREE SIMPLE UPLOAD LIMIT */
+
+    if (
+      file.size >
+      100 * 1024 * 1024
+    ) {
+
+      return alert(
+        "Video 100 MB se chhota rakho."
+      );
+
+    }
+
+
+    /* THUMBNAIL SIZE */
+
+    if (
+      thumbFile &&
+      thumbFile.size >
+      10 * 1024 * 1024
+    ) {
+
+      return alert(
+        "Thumbnail 10 MB se chhota rakho."
+      );
+
+    }
+
+
+    try {
+
+      $("uploadBtn").disabled =
+        true;
+
+
+      $("status").textContent =
+        "☁️ Cloudinary par video upload ho raha hai...";
+
+
+      $("bar").style.width =
+        "0%";
+
+
+      /* =========================
+         VIDEO CLOUDINARY
+      ========================= */
+
+      const videoData =
+        await uploadToCloudinary(
+          file,
+          "video",
+          (percent) => {
+
+            $("bar").style.width =
+              percent.toFixed(1) + "%";
+
+
+            $("status").textContent =
+              `☁️ Video uploading... ${percent.toFixed(1)}%`;
+
+          }
+        );
+
+
+      const videoUrl =
+        videoData.secure_url;
+
+
+      let thumbUrl = "";
+
+
+      /* =========================
+         THUMBNAIL CLOUDINARY
+      ========================= */
+
+      if (thumbFile) {
 
         $("status").textContent =
-          "✅ Upload complete — website par automatic aa gaya.";
+          "🖼️ Thumbnail upload ho raha hai...";
 
-        $("video").value = "";
-        $("thumb").value = "";
-        $("title").value = "";
-        $("bar").style.width = "0%";
+
+        $("bar").style.width =
+          "0%";
+
+
+        const thumbData =
+          await uploadToCloudinary(
+            thumbFile,
+            "image",
+            (percent) => {
+
+              $("bar").style.width =
+                percent.toFixed(1) + "%";
+
+
+              $("status").textContent =
+                `🖼️ Thumbnail uploading... ${percent.toFixed(1)}%`;
+
+            }
+          );
+
+
+        thumbUrl =
+          thumbData.secure_url;
+
       }
-    );
-  } catch (e) {
-    $("status").textContent = "❌ " + e.message;
+
+
+      /* =========================
+         FIRESTORE METADATA
+      ========================= */
+
+      $("status").textContent =
+        "💾 Video information save ho rahi hai...";
+
+
+      await addDoc(
+        collection(db, "videos"),
+        {
+
+          title: t,
+
+          subjectId: s,
+
+          batchId: b,
+
+          videoUrl: videoUrl,
+
+          thumbnailUrl: thumbUrl,
+
+          fileName: file.name,
+
+          size: file.size,
+
+          createdAt: Date.now()
+
+        }
+      );
+
+
+      /* =========================
+         SUCCESS
+      ========================= */
+
+      $("status").textContent =
+        "✅ Upload complete — website par automatic aa gaya.";
+
+
+      $("video").value = "";
+
+      $("thumb").value = "";
+
+      $("title").value = "";
+
+      $("bar").style.width =
+        "0%";
+
+
+    } catch (e) {
+
+      console.error(e);
+
+
+      $("status").textContent =
+        "❌ Upload error: " +
+        e.message;
+
+
+    } finally {
+
+      $("uploadBtn").disabled =
+        false;
+
+    }
+
   }
-});
+);
 
-$("loginBtn").addEventListener("click", async () => {
-  try {
-    $("loginStatus").textContent = "Logging in...";
 
-    const userEmail = $("email").value.trim();
+/* =========================================
+   LOGIN
+========================================= */
 
-    await signInWithEmailAndPassword(
-      auth,
-      userEmail,
-      $("password").value
-    );
+$("loginBtn").addEventListener(
+  "click",
+  async () => {
 
-  } catch (e) {
-    $("loginStatus").textContent = "❌ Login failed";
+    try {
+
+      $("loginStatus").textContent =
+        "Logging in...";
+
+
+      const userEmail =
+        $("email").value.trim();
+
+
+      await signInWithEmailAndPassword(
+        auth,
+        userEmail,
+        $("password").value
+      );
+
+
+    } catch (e) {
+
+      $("loginStatus").textContent =
+        "❌ Login failed";
+
+    }
+
   }
-});
+);
 
-$("logoutBtn").addEventListener("click", async () => {
-  await signOut(auth);
-});
 
-onAuthStateChanged(auth, async (user) => {
-  if (user && user.email === ADMIN_EMAIL) {
-    $("login").style.display = "none";
-    $("manager").style.display = "block";
-    await load();
-  } else if (user) {
+/* =========================================
+   LOGOUT
+========================================= */
+
+$("logoutBtn").addEventListener(
+  "click",
+  async () => {
+
     await signOut(auth);
-    $("loginStatus").textContent =
-      "❌ This account is not the admin account.";
-  } else {
-    $("login").style.display = "block";
-    $("manager").style.display = "none";
+
   }
-});
+);
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
+
+onAuthStateChanged(
+  auth,
+  async (user) => {
+
+    if (
+      user &&
+      user.email === ADMIN_EMAIL
+    ) {
+
+      $("login").style.display =
+        "none";
+
+
+      $("manager").style.display =
+        "block";
+
+
+      await load();
+
+
+    } else if (user) {
+
+      await signOut(auth);
+
+
+      $("loginStatus").textContent =
+        "❌ This account is not the admin account.";
+
+
+    } else {
+
+      $("login").style.display =
+        "block";
+
+
+      $("manager").style.display =
+        "none";
+
+    }
+
+  }
+);
+
 </script>
 
 </body>
