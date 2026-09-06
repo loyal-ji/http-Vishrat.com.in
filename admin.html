@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOYAL Video Manager</title>
+<title>LOYAL HD Video Manager</title>
 
 <style>
 *{box-sizing:border-box}
@@ -56,6 +56,11 @@ button{
   cursor:pointer
 }
 
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed
+}
+
 button.danger{
   background:#d32f2f
 }
@@ -88,6 +93,11 @@ a{
   color:#00eaff
 }
 
+.hd{
+  color:#00eaff;
+  font-weight:bold
+}
+
 @media(max-width:650px){
   .grid{
     grid-template-columns:1fr
@@ -98,10 +108,7 @@ a{
 
 <body>
 
-<!-- =========================
-     ADMIN LOGIN
-========================= -->
-
+<!-- ADMIN LOGIN -->
 <div id="login" class="wrap" style="max-width:520px">
 
   <div class="box">
@@ -135,21 +142,17 @@ a{
 </div>
 
 
-<!-- =========================
-     VIDEO MANAGER
-========================= -->
-
+<!-- VIDEO MANAGER -->
 <div id="manager" class="wrap" style="display:none">
 
-  <h1>👑 LOYAL Video Manager</h1>
+  <h1>👑 LOYAL HD Video Manager</h1>
 
   <p class="muted">
-    Video upload karo → Subject + Batch choose karo → website par automatic show hoga.
+    HD video upload karo → Subject + Batch choose karo → website par automatic show hoga.
   </p>
 
 
   <!-- SUBJECT / BATCH -->
-
   <div class="box">
 
     <h2>1. Subject / Batch</h2>
@@ -197,7 +200,6 @@ a{
 
 
   <!-- LECTURE DETAILS -->
-
   <div class="box">
 
     <h2>2. Lecture Details</h2>
@@ -210,13 +212,20 @@ a{
     >
 
 
-    <label>Video file (MP4 recommended)</label>
+    <label>
+      HD Video file
+      <span class="hd">(MP4 recommended)</span>
+    </label>
 
     <input
       id="video"
       type="file"
       accept="video/mp4,video/webm,video/*"
     >
+
+    <p class="muted">
+      Maximum video size: 100 MB
+    </p>
 
 
     <label>Thumbnail (optional)</label>
@@ -231,7 +240,7 @@ a{
     <br><br>
 
     <button id="uploadBtn">
-      🚀 Upload Video
+      🚀 Upload HD Video
     </button>
 
 
@@ -247,7 +256,6 @@ a{
 
 
   <!-- WEBSITE -->
-
   <div class="box">
 
     <h2>3. Website</h2>
@@ -274,7 +282,7 @@ a{
 <script type="module">
 
 /* =========================================
-   FIREBASE APP
+   FIREBASE
 ========================================= */
 
 import {
@@ -330,14 +338,14 @@ const firebaseConfig = {
 
 
 /* =========================================
-   ADMIN EMAIL
+   ADMIN
 ========================================= */
 
 const ADMIN_EMAIL = "kgsias01@gmail.com";
 
 
 /* =========================================
-   CLOUDINARY CONFIG
+   CLOUDINARY
 ========================================= */
 
 const CLOUDINARY_CLOUD_NAME = "in0onz6q";
@@ -356,11 +364,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 
-/* =========================================
-   HELPER
-========================================= */
-
-const $ = (id) => document.getElementById(id);
+const $ = (id) =>
+  document.getElementById(id);
 
 
 let subjects = [];
@@ -372,9 +377,9 @@ let batches = [];
    LOAD SUBJECTS + BATCHES
 ========================================= */
 
-async function load() {
+async function load(){
 
-  try {
+  try{
 
     subjects = [];
 
@@ -382,19 +387,17 @@ async function load() {
 
 
     const ss = await getDocs(
-
       query(
-        collection(db, "subjects"),
+        collection(db,"subjects"),
         orderBy("name")
       )
-
     );
 
 
     ss.forEach(d => {
 
       subjects.push({
-        id: d.id,
+        id:d.id,
         ...d.data()
       });
 
@@ -402,19 +405,17 @@ async function load() {
 
 
     const bs = await getDocs(
-
       query(
-        collection(db, "batches"),
+        collection(db,"batches"),
         orderBy("name")
       )
-
     );
 
 
     bs.forEach(d => {
 
       batches.push({
-        id: d.id,
+        id:d.id,
         ...d.data()
       });
 
@@ -426,7 +427,7 @@ async function load() {
       ? subjects.map(x =>
           `<option value="${x.id}">
             ${escapeHtml(x.name)}
-           </option>`
+          </option>`
         ).join("")
 
       : `<option value="">
@@ -439,7 +440,7 @@ async function load() {
       ? batches.map(x =>
           `<option value="${x.id}">
             ${escapeHtml(x.name)}
-           </option>`
+          </option>`
         ).join("")
 
       : `<option value="">
@@ -447,7 +448,7 @@ async function load() {
          </option>`;
 
 
-  } catch (e) {
+  }catch(e){
 
     $("status").textContent =
       "❌ Data load error: " + e.message;
@@ -461,19 +462,14 @@ async function load() {
    ESCAPE HTML
 ========================================= */
 
-function escapeHtml(value) {
+function escapeHtml(value){
 
   return String(value)
-
-    .replaceAll("&", "&amp;")
-
-    .replaceAll("<", "&lt;")
-
-    .replaceAll(">", "&gt;")
-
-    .replaceAll('"', "&quot;")
-
-    .replaceAll("'", "&#039;");
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
@@ -490,7 +486,7 @@ $("addSubjectBtn").addEventListener(
       $("newSubject").value.trim();
 
 
-    if (!n) {
+    if(!n){
 
       return alert(
         "Subject name likho"
@@ -499,19 +495,18 @@ $("addSubjectBtn").addEventListener(
     }
 
 
-    try {
+    try{
 
       await addDoc(
-        collection(db, "subjects"),
+        collection(db,"subjects"),
         {
-          name: n,
-          createdAt: Date.now()
+          name:n,
+          createdAt:Date.now()
         }
       );
 
 
       $("newSubject").value = "";
-
 
       await load();
 
@@ -520,7 +515,7 @@ $("addSubjectBtn").addEventListener(
         "✅ Subject added.";
 
 
-    } catch (e) {
+    }catch(e){
 
       $("status").textContent =
         "❌ " + e.message;
@@ -543,7 +538,7 @@ $("addBatchBtn").addEventListener(
       $("newBatch").value.trim();
 
 
-    if (!n) {
+    if(!n){
 
       return alert(
         "Batch name likho"
@@ -552,19 +547,18 @@ $("addBatchBtn").addEventListener(
     }
 
 
-    try {
+    try{
 
       await addDoc(
-        collection(db, "batches"),
+        collection(db,"batches"),
         {
-          name: n,
-          createdAt: Date.now()
+          name:n,
+          createdAt:Date.now()
         }
       );
 
 
       $("newBatch").value = "";
-
 
       await load();
 
@@ -573,7 +567,7 @@ $("addBatchBtn").addEventListener(
         "✅ Batch added.";
 
 
-    } catch (e) {
+    }catch(e){
 
       $("status").textContent =
         "❌ " + e.message;
@@ -585,17 +579,17 @@ $("addBatchBtn").addEventListener(
 
 
 /* =========================================
-   CLOUDINARY UPLOAD FUNCTION
+   CLOUDINARY UPLOAD
 ========================================= */
 
 function uploadToCloudinary(
   file,
   resourceType,
   progressCallback
-) {
+){
 
   return new Promise(
-    (resolve, reject) => {
+    (resolve,reject) => {
 
       const url =
         `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
@@ -628,11 +622,9 @@ function uploadToCloudinary(
 
 
       xhr.upload.onprogress =
-        (event) => {
+        event => {
 
-          if (
-            event.lengthComputable
-          ) {
+          if(event.lengthComputable){
 
             const percent =
               (event.loaded /
@@ -648,85 +640,79 @@ function uploadToCloudinary(
         };
 
 
-      xhr.onload =
-        () => {
+      xhr.onload = () => {
 
-          if (
-            xhr.status >= 200 &&
-            xhr.status < 300
-          ) {
+        if(
+          xhr.status >= 200 &&
+          xhr.status < 300
+        ){
 
-            try {
+          try{
 
-              const data =
-                JSON.parse(
-                  xhr.responseText
-                );
+            resolve(
+              JSON.parse(
+                xhr.responseText
+              )
+            );
 
-
-              resolve(data);
-
-            } catch (e) {
-
-              reject(
-                new Error(
-                  "Cloudinary response error"
-                )
-              );
-
-            }
-
-          } else {
-
-            let message =
-              "Cloudinary upload failed";
-
-
-            try {
-
-              const errorData =
-                JSON.parse(
-                  xhr.responseText
-                );
-
-
-              if (
-                errorData.error &&
-                errorData.error.message
-              ) {
-
-                message =
-                  errorData.error.message;
-
-              }
-
-            } catch (e) {}
-
+          }catch(e){
 
             reject(
-              new Error(message)
+              new Error(
+                "Cloudinary response error"
+              )
             );
 
           }
 
-        };
+        }else{
+
+          let message =
+            "Cloudinary upload failed";
 
 
-      xhr.onerror =
-        () => {
+          try{
+
+            const data =
+              JSON.parse(
+                xhr.responseText
+              );
+
+
+            if(
+              data.error &&
+              data.error.message
+            ){
+
+              message =
+                data.error.message;
+
+            }
+
+          }catch(e){}
+
 
           reject(
-            new Error(
-              "Network error"
-            )
+            new Error(message)
           );
 
-        };
+        }
+
+      };
 
 
-      xhr.send(
-        formData
-      );
+      xhr.onerror = () => {
+
+        reject(
+          new Error(
+            "Network error"
+          )
+        );
+
+      };
+
+
+      xhr.send(formData);
 
     }
   );
@@ -735,7 +721,7 @@ function uploadToCloudinary(
 
 
 /* =========================================
-   VIDEO UPLOAD
+   UPLOAD HD VIDEO
 ========================================= */
 
 $("uploadBtn").addEventListener(
@@ -745,31 +731,27 @@ $("uploadBtn").addEventListener(
     const file =
       $("video").files[0];
 
-
     const thumbFile =
       $("thumb").files[0];
 
-
-    const s =
+    const subjectId =
       $("subject").value;
 
-
-    const b =
+    const batchId =
       $("batch").value;
 
-
-    const t =
+    const title =
       $("title").value.trim();
 
 
-    /* REQUIRED CHECK */
+    /* REQUIRED */
 
-    if (
+    if(
       !file ||
-      !s ||
-      !b ||
-      !t
-    ) {
+      !subjectId ||
+      !batchId ||
+      !title
+    ){
 
       return alert(
         "Subject, Batch, title aur video select karo"
@@ -778,12 +760,12 @@ $("uploadBtn").addEventListener(
     }
 
 
-    /* CLOUDINARY FREE SIMPLE UPLOAD LIMIT */
+    /* VIDEO SIZE */
 
-    if (
+    if(
       file.size >
       100 * 1024 * 1024
-    ) {
+    ){
 
       return alert(
         "Video 100 MB se chhota rakho."
@@ -794,11 +776,11 @@ $("uploadBtn").addEventListener(
 
     /* THUMBNAIL SIZE */
 
-    if (
+    if(
       thumbFile &&
       thumbFile.size >
       10 * 1024 * 1024
-    ) {
+    ){
 
       return alert(
         "Thumbnail 10 MB se chhota rakho."
@@ -807,36 +789,34 @@ $("uploadBtn").addEventListener(
     }
 
 
-    try {
+    try{
 
       $("uploadBtn").disabled =
         true;
-
-
-      $("status").textContent =
-        "☁️ Cloudinary par video upload ho raha hai...";
 
 
       $("bar").style.width =
         "0%";
 
 
-      /* =========================
-         VIDEO CLOUDINARY
-      ========================= */
+      $("status").textContent =
+        "☁️ HD Video Cloudinary par upload ho raha hai...";
+
+
+      /* VIDEO */
 
       const videoData =
         await uploadToCloudinary(
           file,
           "video",
-          (percent) => {
+          percent => {
 
             $("bar").style.width =
               percent.toFixed(1) + "%";
 
 
             $("status").textContent =
-              `☁️ Video uploading... ${percent.toFixed(1)}%`;
+              `☁️ HD Video uploading... ${percent.toFixed(1)}%`;
 
           }
         );
@@ -846,28 +826,26 @@ $("uploadBtn").addEventListener(
         videoData.secure_url;
 
 
-      let thumbUrl = "";
+      let thumbnailUrl = "";
 
 
-      /* =========================
-         THUMBNAIL CLOUDINARY
-      ========================= */
+      /* THUMBNAIL */
 
-      if (thumbFile) {
-
-        $("status").textContent =
-          "🖼️ Thumbnail upload ho raha hai...";
-
+      if(thumbFile){
 
         $("bar").style.width =
           "0%";
+
+
+        $("status").textContent =
+          "🖼️ Thumbnail upload ho raha hai...";
 
 
         const thumbData =
           await uploadToCloudinary(
             thumbFile,
             "image",
-            (percent) => {
+            percent => {
 
               $("bar").style.width =
                 percent.toFixed(1) + "%";
@@ -880,50 +858,50 @@ $("uploadBtn").addEventListener(
           );
 
 
-        thumbUrl =
+        thumbnailUrl =
           thumbData.secure_url;
 
       }
 
 
-      /* =========================
-         FIRESTORE METADATA
-      ========================= */
+      /* FIRESTORE */
 
       $("status").textContent =
         "💾 Video information save ho rahi hai...";
 
 
       await addDoc(
-        collection(db, "videos"),
+        collection(db,"videos"),
         {
 
-          title: t,
+          title:title,
 
-          subjectId: s,
+          subjectId:subjectId,
 
-          batchId: b,
+          batchId:batchId,
 
-          videoUrl: videoUrl,
+          videoUrl:videoUrl,
 
-          thumbnailUrl: thumbUrl,
+          thumbnailUrl:thumbnailUrl,
 
-          fileName: file.name,
+          fileName:file.name,
 
-          size: file.size,
+          size:file.size,
 
-          createdAt: Date.now()
+          createdAt:Date.now()
 
         }
       );
 
 
-      /* =========================
-         SUCCESS
-      ========================= */
+      /* SUCCESS */
+
+      $("bar").style.width =
+        "100%";
+
 
       $("status").textContent =
-        "✅ Upload complete — website par automatic aa gaya.";
+        "✅ HD Video upload complete! Website par automatic aa gaya.";
 
 
       $("video").value = "";
@@ -932,11 +910,16 @@ $("uploadBtn").addEventListener(
 
       $("title").value = "";
 
-      $("bar").style.width =
-        "0%";
+
+      setTimeout(() => {
+
+        $("bar").style.width =
+          "0%";
+
+      },1000);
 
 
-    } catch (e) {
+    }catch(e){
 
       console.error(e);
 
@@ -946,7 +929,7 @@ $("uploadBtn").addEventListener(
         e.message;
 
 
-    } finally {
+    }finally{
 
       $("uploadBtn").disabled =
         false;
@@ -965,24 +948,20 @@ $("loginBtn").addEventListener(
   "click",
   async () => {
 
-    try {
+    try{
 
       $("loginStatus").textContent =
         "Logging in...";
 
 
-      const userEmail =
-        $("email").value.trim();
-
-
       await signInWithEmailAndPassword(
         auth,
-        userEmail,
+        $("email").value.trim(),
         $("password").value
       );
 
 
-    } catch (e) {
+    }catch(e){
 
       $("loginStatus").textContent =
         "❌ Login failed";
@@ -1013,38 +992,34 @@ $("logoutBtn").addEventListener(
 
 onAuthStateChanged(
   auth,
-  async (user) => {
+  async user => {
 
-    if (
+    if(
       user &&
       user.email === ADMIN_EMAIL
-    ) {
+    ){
 
       $("login").style.display =
         "none";
 
-
       $("manager").style.display =
         "block";
-
 
       await load();
 
 
-    } else if (user) {
+    }else if(user){
 
       await signOut(auth);
-
 
       $("loginStatus").textContent =
         "❌ This account is not the admin account.";
 
 
-    } else {
+    }else{
 
       $("login").style.display =
         "block";
-
 
       $("manager").style.display =
         "none";
