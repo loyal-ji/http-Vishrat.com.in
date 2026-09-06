@@ -76,7 +76,7 @@ label{
 }
 
 .progress{
-  height:10px;
+  height:12px;
   background:#182342;
   border-radius:10px;
   overflow:hidden
@@ -94,6 +94,19 @@ a{
 }
 
 .hd{
+  color:#00eaff;
+  font-weight:bold
+}
+
+.upload-info{
+  padding:12px;
+  border-radius:10px;
+  background:#101936;
+  border:1px solid #26345f;
+  margin-top:10px
+}
+
+.success{
   color:#00eaff;
   font-weight:bold
 }
@@ -148,7 +161,8 @@ a{
   <h1>👑 LOYAL HD Video Manager</h1>
 
   <p class="muted">
-    HD video upload karo → Subject + Batch choose karo → website par automatic show hoga.
+    HD video upload karo → Subject + Batch choose karo →
+    website par automatic show hoga.
   </p>
 
 
@@ -223,9 +237,21 @@ a{
       accept="video/mp4,video/webm,video/*"
     >
 
-    <p class="muted">
-      Maximum video size: 100 MB
-    </p>
+    <div class="upload-info">
+
+      <b>🎬 HD VIDEO UPLOAD</b>
+
+      <p class="muted">
+        📺 Best quality: 720p / 1080p
+        <br>
+        📦 Maximum file size: 100 MB
+        <br>
+        🎥 Original video quality is uploaded
+        <br>
+        ⚡ Upload progress will be shown below
+      </p>
+
+    </div>
 
 
     <label>Thumbnail (optional)</label>
@@ -236,8 +262,12 @@ a{
       accept="image/*"
     >
 
+    <p class="muted">
+      Thumbnail maximum size: 10 MB
+    </p>
 
-    <br><br>
+
+    <br>
 
     <button id="uploadBtn">
       🚀 Upload HD Video
@@ -249,6 +279,10 @@ a{
     <div class="progress">
       <div class="bar" id="bar"></div>
     </div>
+
+    <p id="progressText" class="muted">
+      0%
+    </p>
 
     <p id="status" class="muted"></p>
 
@@ -774,6 +808,19 @@ $("uploadBtn").addEventListener(
     }
 
 
+    /* VIDEO TYPE */
+
+    if(
+      !file.type.startsWith("video/")
+    ){
+
+      return alert(
+        "Sirf video file select karo."
+      );
+
+    }
+
+
     /* THUMBNAIL SIZE */
 
     if(
@@ -798,6 +845,9 @@ $("uploadBtn").addEventListener(
       $("bar").style.width =
         "0%";
 
+      $("progressText").textContent =
+        "0%";
+
 
       $("status").textContent =
         "☁️ HD Video Cloudinary par upload ho raha hai...";
@@ -812,6 +862,10 @@ $("uploadBtn").addEventListener(
           percent => {
 
             $("bar").style.width =
+              percent.toFixed(1) + "%";
+
+
+            $("progressText").textContent =
               percent.toFixed(1) + "%";
 
 
@@ -836,6 +890,9 @@ $("uploadBtn").addEventListener(
         $("bar").style.width =
           "0%";
 
+        $("progressText").textContent =
+          "0%";
+
 
         $("status").textContent =
           "🖼️ Thumbnail upload ho raha hai...";
@@ -848,6 +905,10 @@ $("uploadBtn").addEventListener(
             percent => {
 
               $("bar").style.width =
+                percent.toFixed(1) + "%";
+
+
+              $("progressText").textContent =
                 percent.toFixed(1) + "%";
 
 
@@ -899,9 +960,12 @@ $("uploadBtn").addEventListener(
       $("bar").style.width =
         "100%";
 
+      $("progressText").textContent =
+        "100%";
 
-      $("status").textContent =
-        "✅ HD Video upload complete! Website par automatic aa gaya.";
+
+      $("status").innerHTML =
+        '<span class="success">✅ HD Video upload complete! Website par automatic aa gaya.</span>';
 
 
       $("video").value = "";
@@ -916,7 +980,10 @@ $("uploadBtn").addEventListener(
         $("bar").style.width =
           "0%";
 
-      },1000);
+        $("progressText").textContent =
+          "0%";
+
+      },1500);
 
 
     }catch(e){
