@@ -209,8 +209,15 @@
         const video = document.createElement("video");
 
         video.controls = true;
+
+        // Download option हटाया गया
+        video.controlsList = "nodownload";
+
         video.preload = "metadata";
         video.playsInline = true;
+
+        // Picture-in-picture भी बंद
+        video.disablePictureInPicture = true;
 
         if (data.thumbnailUrl) {
           video.poster = data.thumbnailUrl;
