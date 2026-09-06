@@ -1,40 +1,794 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOYAL — Batch</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vishrat - Online Learning</title>
+
 <style>
-body{margin:0;background:#050816;color:#fff;font-family:Arial,sans-serif}
-header{padding:16px;background:#08102a;border-bottom:1px solid #26345f;display:flex;justify-content:space-between}
-.wrap{max-width:1000px;margin:auto;padding:30px 16px}
-.hero{background:linear-gradient(145deg,#101936,#080d20);border:1px solid #26345f;border-radius:22px;padding:28px}
-h1{color:#00eaff}.muted{color:#9da9c9}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:20px}
-.card{background:#0b1230;border:1px solid #26345f;border-radius:16px;padding:20px}
-.btn{padding:11px 14px;border-radius:10px;border:1px solid #00eaff;background:#101936;color:#fff;font-weight:bold}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#050816;
+    color:white;
+    overflow-x:hidden;
+}
+
+header{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(10,15,35,.95);
+    border-bottom:1px solid #26345f;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.logo-box img{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+
+.menu-btn{
+    font-size:28px;
+    cursor:pointer;
+    color:#00eaff;
+}
+
+.side-menu{
+    position:fixed;
+    top:0;
+    right:-300px;
+    width:290px;
+    height:100%;
+    background:#080d22;
+    border-left:1px solid #26345f;
+    z-index:2000;
+    padding:25px 20px;
+    transition:.4s;
+    overflow-y:auto;
+}
+
+.side-menu.active{
+    right:0;
+}
+
+.close-btn{
+    text-align:right;
+    font-size:30px;
+    color:#ff416c;
+    cursor:pointer;
+}
+
+.side-menu h2{
+    color:#00eaff;
+    margin:15px 0 20px;
+}
+
+.side-menu a{
+    display:block;
+    padding:14px;
+    margin:8px 0;
+    border-radius:12px;
+    background:#101936;
+    color:white;
+    text-decoration:none;
+}
+
+
+
+
+.hero{
+    text-align:center;
+    padding:70px 20px 50px;
+    background:radial-gradient(circle at top,#172c65,#050816 65%);
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+    background:linear-gradient(90deg,#00eaff,#7c4dff,#ff4ecd);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    color:#b9c3df;
+    font-size:17px;
+}
+
+.search{
+    margin:25px auto;
+    max-width:550px;
+}
+
+.search input{
+    width:100%;
+    padding:15px 20px;
+    border-radius:30px;
+    border:1px solid #334577;
+    outline:none;
+    background:#0b1230;
+    color:white;
+    font-size:16px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.section-title{
+    font-size:28px;
+    margin-bottom:25px;
+    color:#00eaff;
+}
+
+.courses{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:linear-gradient(145deg,#101936,#080d20);
+    border:1px solid #26345f;
+    border-radius:20px;
+    padding:25px;
+    transition:.3s;
+    position:relative;
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#00eaff;
+}
+
+.card .icon{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    font-size:21px;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#9da9c9;
+    font-size:14px;
+    min-height:40px;
+}
+
+.lock{
+    display:inline-block;
+    margin-top:15px;
+    padding:7px 10px;
+    border-radius:8px;
+    background:#261c05;
+    color:#ffd000;
+    font-size:12px;
+    border:1px solid #765f00;
+}
+
+.price{
+    font-size:27px;
+    font-weight:bold;
+    color:#00ffb3;
+    margin:15px 0;
+}
+
+.unlock{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(90deg,#00bcd4,#7c4dff);
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.unlock:disabled{
+    opacity:.6;
+    cursor:wait;
+}
+
+.about{
+    margin-top:60px;
+    padding:30px;
+    background:#0b1230;
+    border:1px solid #26345f;
+    border-radius:22px;
+    text-align:center;
+}
+
+.about img{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #00eaff;
+    margin:15px;
+}
+
+.about h2{
+    color:#00eaff;
+}
+
+.about p{
+    color:#aeb9d8;
+    margin:8px;
+}
+
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    margin-top:20px;
+}
+
+.skill{
+    padding:8px 13px;
+    background:#111c40;
+    border-radius:20px;
+    color:#d9e1ff;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:30px 20px;
+    margin-top:50px;
+    border-top:1px solid #26345f;
+    color:#8894b7;
+}
+
+footer strong{
+    color:#00eaff;
+}
+
+@media(max-width:600px){
+
+    .hero h1{
+        font-size:32px;
+    }
+
+    .container{
+        padding:25px 15px;
+    }
+
+    .logo-box{
+        font-size:19px;
+    }
+}
+
+/* ===== LOYAL STYLISH PROFILE ===== */
+.stylish-about{
+    position:relative;
+    overflow:hidden;
+    background:radial-gradient(circle at top,#172c65,#080d22 65%);
+    border:1px solid #00eaff;
+    box-shadow:0 0 25px rgba(0,234,255,.18), inset 0 0 30px rgba(124,77,255,.08);
+}
+.sparkle-title{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:10px;
+    font-size:30px;
+    font-weight:800;
+    color:#00eaff;
+    text-shadow:0 0 8px #00eaff,0 0 18px #7c4dff;
+}
+.star{
+    color:#fff;
+    font-size:25px;
+    animation:starShine 1s infinite alternate;
+    text-shadow:0 0 5px #fff,0 0 12px #00eaff,0 0 25px #7c4dff;
+}
+@keyframes starShine{
+    0%{transform:scale(.75) rotate(0deg);opacity:.45}
+    100%{transform:scale(1.35) rotate(180deg);opacity:1}
+}
+.profile-glow{display:inline-block;position:relative;margin:5px 0 10px}
+.profile-glow img{
+    width:135px;height:135px;border-radius:50%;object-fit:cover;
+    border:3px solid #00eaff;
+    box-shadow:0 0 15px #00eaff,0 0 35px #7c4dff;
+}
+.name-title{font-size:32px!important;margin:4px 0 8px;color:#fff!important;text-shadow:0 0 8px #00eaff,0 0 18px #ff4ecd}
+.tagline{font-size:16px!important;color:#cfd8ff!important}
+.info-box{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:22px 0}
+.info-item{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:#101936;border:1px solid #334577;text-align:left}
+.info-icon{font-size:25px}
+.info-item small{display:block;color:#8fa0ca;margin-bottom:3px}
+.info-item strong{display:block;color:#fff}
+.skill-heading{margin:22px 0 10px;color:#00eaff;text-shadow:0 0 10px #00eaff}
+.skill{border:1px solid #334577;transition:.25s}
+.skill:hover{transform:translateY(-3px);border-color:#00eaff;box-shadow:0 0 12px rgba(0,234,255,.22)}
+.respect-note{margin:25px auto 15px;max-width:850px;padding:18px 15px;border:2px solid #ff4ecd;border-radius:18px;background:linear-gradient(90deg,rgba(255,78,205,.12),rgba(0,234,255,.10));color:#fff;font-size:18px;line-height:1.7;text-shadow:0 0 8px rgba(255,78,205,.6);box-shadow:0 0 20px rgba(255,78,205,.15)}
+.respect-note span{color:#ffd54a;margin:0 8px}
+.big-target{font-size:17px!important;font-weight:800;color:#ffd54a!important;text-shadow:0 0 8px rgba(255,213,74,.55)}
+
 </style>
 </head>
+
 <body>
-<header><b style="color:#00eaff">👑 LOYAL LEARNING</b><button class="btn" onclick="location.href='batches.html'">← All Batches</button></header>
-<main class="wrap">
-<section class="hero">
-<div style="font-size:40px">🎓</div>
-<h1 id="title">Batch</h1>
-<p class="muted">🆓 यह batch सभी के लिए FREE है — बिना Login के सीधे access करो.</p>
-<p class="muted">यह LOYAL batch dashboard है. 🆓 सभी के लिए FREE — यहाँ Lectures, Notes, Tests और PDFs जोड़े जा सकते हैं.</p>
-</section>
-<div class="grid">
-<div class="card"><h2>🎥 Lectures</h2><p class="muted">इस batch के video lectures यहाँ connect होंगे.</p></div>
-<div class="card"><h2>📚 Notes</h2><p class="muted">PDF / study material यहाँ जोड़ा जा सकता है.</p></div>
-<div class="card"><h2>📝 Tests</h2><p class="muted">Practice tests और quizzes यहाँ रहेंगे.</p></div>
-<div class="card"><h2>📢 Updates</h2><p class="muted">Batch announcements यहाँ दिखेंगे.</p></div>
+
+<header>
+
+<div class="logo-box">
+<img src="logo.png" alt="Vishrat Logo">
+<span>Vishrat</span>
 </div>
-</main>
+
+<div class="header-right">
+<div
+class="menu-btn"
+onclick="openMenu()">
+☰
+</div>
+
+</div>
+
+</header>
+
+<!-- SIDE MENU -->
+
+<div
+class="side-menu"
+id="sideMenu">
+
+<div
+class="close-btn"
+onclick="closeMenu()">
+✕
+</div>
+
+<h2>☰ Menu</h2>
+<a href="index.html">
+🏠 Home
+</a>
+
+<a href="NCERT%20Geography/index.html">
+🌎 NCERT Geography
+</a>
+
+<a href="History/index.html">
+🏛️ Indian History
+</a>
+
+<a href="batch.html?batch=indian-polity">
+⚖️ Indian Polity
+</a>
+
+<a href="batch.html?batch=indian-economy">
+💰 Indian Economy
+</a>
+
+<a href="batch.html?batch=python">
+🐍 Python Programming
+</a>
+
+<a href="batch.html?batch=java">
+☕ Java Programming
+</a>
+
+<a href="batch.html?batch=web-development">
+🌐 Web Development
+</a>
+
+<a href="batch.html?batch=android-development">
+📱 Android Development
+</a>
+
+<a href="batch.html?batch=full-programming">
+💻 Full Programming
+</a>
+
+<a href="#about">
+👨‍💻 My Self
+</a>
+</div>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>
+आपकी तैयारी, हमारी जिम्मेदारी 🎓
+</h1>
+
+<p>
+Vishrat — Learn • Practice • Grow 🚀
+</p>
+
+<div class="search">
+
+<input
+type="text"
+id="searchInput"
+placeholder="🔍 Search Batch..."
+onkeyup="searchCourse()">
+
+</div>
+
+</section>
+
+
+<!-- COURSES -->
+
+<div class="container">
+
+<h2 class="section-title">
+✨ All Batches — FREE
+</h2>
+
+<div
+class="courses"
+id="courseList">
+
+
+<!-- GEOGRAPHY -->
+
+<div
+class="card course"
+data-batch="ncert-geography">
+
+<div class="icon">🌎</div>
+
+<h3>
+NCERT Geography
+</h3>
+
+<p>
+NCERT Geography का complete lecture batch.
+</p>
+<button
+class="unlock"
+onclick="openBatch('ncert-geography','NCERT%20Geography/index.html')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- HISTORY -->
+
+<div
+class="card course"
+data-batch="indian-history">
+
+<div class="icon">🏛️</div>
+
+<h3>
+Indian History
+</h3>
+
+<p>
+Indian History का complete preparation batch.
+</p>
+<button
+class="unlock"
+onclick="openBatch('indian-history','History/index.html')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- POLITY -->
+
+<div
+class="card course"
+data-batch="indian-polity">
+
+<div class="icon">⚖️</div>
+
+<h3>
+Indian Polity
+</h3>
+
+<p>
+Indian Polity complete batch — FREE.
+</p>
+<button
+class="unlock"
+onclick="openBatch('indian-polity')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- ECONOMY -->
+
+<div
+class="card course"
+data-batch="indian-economy">
+
+<div class="icon">💰</div>
+
+<h3>
+Indian Economy
+</h3>
+
+<p>
+Indian Economy complete batch — FREE.
+</p>
+<button
+class="unlock"
+onclick="openBatch('indian-economy')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- PYTHON -->
+
+<div
+class="card course"
+data-batch="python">
+
+<div class="icon">🐍</div>
+
+<h3>
+Python Programming
+</h3>
+
+<p>
+Python programming from beginner to advanced.
+</p>
+<button
+class="unlock"
+onclick="openBatch('python')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- JAVA -->
+
+<div
+class="card course"
+data-batch="java">
+
+<div class="icon">☕</div>
+
+<h3>
+Java Programming
+</h3>
+
+<p>
+Java programming complete course — FREE.
+</p>
+<button
+class="unlock"
+onclick="openBatch('java')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- WEB -->
+
+<div
+class="card course"
+data-batch="web-development">
+
+<div class="icon">🌐</div>
+
+<h3>
+Web Development
+</h3>
+
+<p>
+HTML, CSS, JavaScript और Web Development.
+</p>
+<button
+class="unlock"
+onclick="openBatch('web-development')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- ANDROID -->
+
+<div
+class="card course"
+data-batch="android-development">
+
+<div class="icon">📱</div>
+
+<h3>
+Android Development
+</h3>
+
+<p>
+Android app development complete batch.
+</p>
+<button
+class="unlock"
+onclick="openBatch('android-development')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+
+<!-- FULL PROGRAMMING -->
+
+<div
+class="card course"
+data-batch="full-programming">
+
+<div class="icon">💻</div>
+
+<h3>
+Full Programming
+</h3>
+
+<p>
+Programming का complete package — FREE.
+</p>
+<button
+class="unlock"
+onclick="openBatch('full-programming')">
+✨ Open Free Batch
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ABOUT -->
+<section class="about stylish-about" id="about">
+
+<div class="sparkle-title" aria-label="LOYAL">
+    <span class="star">★</span>
+    <span>👑 LOYAL ji</span>
+    <span class="star">★</span>
+</div>
+
+<div class="profile-glow">
+    <img src="loyal.png" alt="LOYAL Profile">
+</div>
+
+<h2 class="name-title">✨ LOYAL ji ✨</h2>
+
+<p class="tagline">Creator • Developer • Learner • Dreamer 🚀</p>
+
+<div class="info-box">
+    <div class="info-item">
+        <span class="info-icon">🎂</span>
+        <div><small>Birthday</small><strong>8 February</strong></div>
+    </div>
+    <div class="info-item">
+        <span class="info-icon">🎓</span>
+        <div><small>Qualification</small><strong>Bachelor of Commerce (B.Com)</strong></div>
+    </div>
+    <div class="info-item">
+        <span class="info-icon">🎯</span>
+        <div><small>Big Target</small><strong>Learn • Build • Grow • Achieve Big 🚀</strong></div>
+    </div>
+</div>
+
+<h3 class="skill-heading">⚡ MY SKILLS ⚡</h3>
+
+<div class="skills">
+    <span class="skill">🐍 Python</span>
+    <span class="skill">☕ Java</span>
+    <span class="skill">🌐 HTML</span>
+    <span class="skill">🎨 CSS</span>
+    <span class="skill">⚡ JavaScript</span>
+    <span class="skill">🗄️ SQL</span>
+    <span class="skill">🔧 Git</span>
+    <span class="skill">🐙 GitHub</span>
+    <span class="skill">📱 Android</span>
+    <span class="skill">🌐 Web Development</span>
+    <span class="skill">💻 Programming</span>
+    <span class="skill">🛡️ Cyber Security</span>
+    <span class="skill">🔐 Ethical Hacking</span>
+    <span class="skill">🌐 Network Security</span>
+    <span class="skill">🕵️ Digital Forensics</span>
+    <span class="skill">🧪 Web Security</span>
+    <span class="skill">🐧 Linux Security</span>
+    <span class="skill">🎯 Legal Bug Bounty</span>
+    <span class="skill">🛡️ Complete Ethical Hacking Course</span>
+</div>
+
+<div class="respect-note">
+    <span>✨</span>
+    <strong>बहनों की इज्जत करना सीखो फिर चाहे वह अपनी बहन हो या किसी और की बहन हो❣</strong>
+    <span>✨</span>
+</div>
+
+<p class="big-target">🚀 BIG TARGET — मेहनत करते रहो, सीखते रहो और अपने सपनों को हकीकत बनाओ।</p>
+
+</section>
+
+<footer>
+
+<strong>
+Vishrat
+</strong>
+
+<p>
+Made with ❤️ by LOYAL
+</p>
+
+<p>
+© 2026 Vishrat • All Rights Reserved
+</p>
+
+</footer>
+
+
 <script>
-const params = new URLSearchParams(location.search);
-const rawBatch = params.get("batch") || "LOYAL Batch";
-const title = rawBatch.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-document.getElementById("title").innerText = title;
+/* =====================================================
+   VISHRAT — SIMPLE FREE BATCH SYSTEM
+   No Login • No OTP • No Firebase • No Payment
+   ===================================================== */
+
+function openMenu(){
+    document.getElementById("sideMenu").classList.add("active");
+}
+
+function closeMenu(){
+    document.getElementById("sideMenu").classList.remove("active");
+}
+
+function searchCourse(){
+    const input = document.getElementById("searchInput").value.toLowerCase().trim();
+    document.querySelectorAll(".course").forEach(function(card){
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(input) ? "block" : "none";
+    });
+}
+
+function openBatch(batch, url=null){
+    const target = url || ("batch.html?batch=" + encodeURIComponent(batch));
+    window.location.href = target;
+}
 </script>
 
 </body>
