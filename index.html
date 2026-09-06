@@ -1785,7 +1785,10 @@ function(){
         auth,
         "recaptcha-container",
         {
-            size:"normal"
+            {
+    size:"invisible",
+    callback:function(){}
+        }
         }
     );
 
@@ -1848,7 +1851,7 @@ async function(){
 
 
         if(!user){
-
+            
             throw new Error(
                 "User not found"
             );
