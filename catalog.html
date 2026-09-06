@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOYAL HD Video Catalog</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: .8;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .status {
+      text-align: center;
+      padding: 15px;
+      color: #555;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      padding: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      overflow: hidden;
+    }
+
+    .video-card video {
+      width: 100%;
+      max-height: 520px;
+      border-radius: 10px;
+      background: #000;
+      display: block;
+    }
+
+    .video-title {
+      font-size: 19px;
+      font-weight: bold;
+      margin: 13px 0 7px;
+    }
+
+    .info {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .empty {
+      background: white;
+      padding: 30px 15px;
+      text-align: center;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .refresh {
+      display: block;
+      margin: 15px auto;
+      padding: 11px 20px;
+      border: 0;
+      border-radius: 8px;
+      background: #111827;
+      color: white;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>LOYAL HD VIDEO CATALOG</h1>
+  <p>आपका अपना LOYAL</p>
+</header>
+
+<div class="container">
+
+  <button class="refresh" onclick="loadVideos()">🔄 Refresh Videos</button>
+
+  <div id="status" class="status">
+    Videos load हो रहे हैं...
+  </div>
+
+  <div id="videoList"></div>
+
+</div>
+
+<script type="module">
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
+    authDomain: "vishrat-36bc6.firebaseapp.com",
+    projectId: "vishrat-36bc6",
+    storageBucket: "vishrat-36bc6.firebasestorage.app",
+    messagingSenderId: "713177652515",
+    appId: "1:713177652515:web:9a6c545278563e77640096",
+    measurementId: "G-LN2N5Z0BBF"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+
+  async function loadVideos() {
+
+    const status = document.getElementById("status");
+    const videoList = document.getElementById("videoList");
+
+    status.innerText = "Videos load हो रहे हैं...";
+    videoList.innerHTML = "";
+
+    try {
+
+      const videosRef = collection(db, "videos");
+
+      let snapshot;
+
+      try {
+
+        const q = query(
+          videosRef,
+          orderBy("createdAt", "desc")
+        );
+
+        snapshot = await getDocs(q);
+
+      } catch (error) {
+
+        console.log("OrderBy failed, loading normally...");
+
+        snapshot = await getDocs(videosRef);
+      }
+
+
+      if (snapshot.empty) {
+
+        status.innerText = "";
+
+        videoList.innerHTML = `
+          <div class="empty">
+            <h2>🎬 अभी कोई वीडियो नहीं है</h2>
+            <p>Admin panel से वीडियो upload करें।</p>
+          </div>
+        `;
+
+        return;
+      }
+
+
+      status.innerText =
+        "🎬 Total Videos: " + snapshot.size;
+
+
+      snapshot.forEach((doc) => {
+
+        const data = doc.data();
+
+        if (!data.videoUrl) return;
+
+
+        const card = document.createElement("div");
+
+        card.className = "video-card";
+
+
+        const video = document.createElement("video");
+
+        video.controls = true;
+        video.preload = "metadata";
+        video.playsInline = true;
+
+        if (data.thumbnailUrl) {
+          video.poster = data.thumbnailUrl;
+        }
+
+        const source = document.createElement("source");
+
+        source.src = data.videoUrl;
+        source.type = "video/mp4";
+
+        video.appendChild(source);
+
+
+        const title = document.createElement("div");
+
+        title.className = "video-title";
+
+        title.innerText =
+          data.title || data.fileName || "LOYAL Video";
+
+
+        const info = document.createElement("div");
+
+        info.className = "info";
+
+        let details = "";
+
+        if (data.fileName) {
+          details += "📁 " + data.fileName;
+        }
+
+        if (data.size) {
+
+          const mb =
+            (data.size / (1024 * 1024)).toFixed(1);
+
+          details +=
+            (details ? " • " : "") +
+            "💾 " + mb + " MB";
+        }
+
+        info.innerText = details;
+
+
+        card.appendChild(video);
+        card.appendChild(title);
+        card.appendChild(info);
+
+        videoList.appendChild(card);
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.innerText = "";
+
+      videoList.innerHTML = `
+        <div class="empty">
+          <h2>⚠️ Videos load नहीं हो पाए</h2>
+          <p>
+            Firestore connection या permissions check करें।
+          </p>
+          <p style="font-size:12px;color:#777;">
+            ${error.message}
+          </p>
+        </div>
+      `;
+    }
+  }
+
+
+  window.loadVideos = loadVideos;
+
+  loadVideos();
+
+</script>
+
+</body>
+</html>
