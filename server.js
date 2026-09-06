@@ -295,7 +295,7 @@ async function verifyUser(req, res, next) {
 }
 
 // ===============================
-// BATCH ACCESS
+// ALL BATCHES FREE AFTER LOGIN
 // ===============================
 
 app.get(
@@ -321,128 +321,17 @@ app.get(
 
       }
 
-      // ===============================
-      // 👑 LOYAL ACCOUNT
-      // ===============================
-
-      const userEmail =
-        String(
-          req.user.email || ""
-        )
-          .trim()
-          .toLowerCase();
-
-      const isLoyalEmail =
-        userEmail ===
-        "kgsias01@gmail.com";
-
       console.log(
-        "LOYAL EMAIL CHECK:",
-        isLoyalEmail,
-        "EMAIL:",
-        userEmail
+        "FREE BATCH ACCESS:",
+        batch,
+        "USER:",
+        req.user.email || req.user.uid
       );
 
-      if (isLoyalEmail) {
-
-        const loyalDoc =
-          await db
-            .collection("users")
-            .doc("Loyal")
-            .get();
-
-        const loyalData =
-          loyalDoc.exists
-            ? loyalDoc.data() || {}
-            : {};
-
-        console.log(
-          "LOYAL FIRESTORE CHECK:",
-          {
-            documentExists:
-              loyalDoc.exists,
-
-            freeAccess:
-              loyalData.freeAccess === true,
-
-            freeAccessType:
-              typeof loyalData.freeAccess
-          }
-        );
-
-        if (
-          loyalData.freeAccess === true
-        ) {
-
-          console.log(
-            "LOYAL ACCESS GRANTED:",
-            batch
-          );
-
-          return res.status(200).json({
-
-            allowed: true,
-
-            free: true,
-
-            batch: batch
-
-          });
-
-        }
-      }
-
-      // ===============================
-      // NORMAL USER
-      // ===============================
-
-      const uid =
-        req.user.uid;
-
-      const userDoc =
-        await db
-          .collection("users")
-          .doc(uid)
-          .get();
-
-      if (!userDoc.exists) {
-
-        return res.status(403).json({
-
-          allowed: false,
-
-          batch: batch
-
-        });
-
-      }
-
-      const data =
-        userDoc.data() || {};
-
-      if (
-        data.batches &&
-        data.batches[batch] === true
-      ) {
-
-        return res.status(200).json({
-
-          allowed: true,
-
-          free: false,
-
-          batch: batch
-
-        });
-
-      }
-
-      return res.status(403).json({
-
-        allowed: false,
-
+      return res.status(200).json({
+        allowed: true,
+        free: true,
         batch: batch
-
       });
 
     } catch (error) {
@@ -453,15 +342,13 @@ app.get(
       );
 
       return res.status(500).json({
-
-        error:
-          "Server temporarily unavailable"
-
+        error: "Server temporarily unavailable"
       });
 
     }
 
   }
+);
 );
 
 // ===============================
