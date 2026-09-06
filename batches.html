@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOYAL — All Batches</title>
+<meta name="description" content="LOYAL Learning Platform — all batches">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#050816;color:#fff;font-family:Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#08102aee;border-bottom:1px solid #26345f}
+.brand{font-size:22px;font-weight:800;color:#00eaff}
+.btn,.chip,.open{border:1px solid #334577;background:#101936;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}
+.hero{text-align:center;padding:45px 16px;background:radial-gradient(circle at top,#172c65,#050816 65%)}
+h1{margin:0 0 10px;font-size:38px;background:linear-gradient(90deg,#00eaff,#7c4dff,#ff4ecd);-webkit-background-clip:text;color:transparent}
+.sub{color:#aeb9d8}
+.wrap{max-width:1180px;margin:auto;padding:22px 16px}
+.search{width:100%;padding:15px 18px;border-radius:30px;border:1px solid #334577;background:#0b1230;color:#fff;font-size:16px}
+.chips{display:flex;gap:8px;overflow:auto;padding:16px 0}
+.chip{white-space:nowrap}
+.chip.active{background:#00bcd4;color:#03101b}
+.section{margin:22px 0}.section h2{color:#00eaff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}
+.card{background:linear-gradient(145deg,#101936,#080d20);border:1px solid #26345f;border-radius:18px;padding:18px}
+.icon{font-size:32px}.card h3{margin:10px 0}.desc{color:#9da9c9;font-size:13px;min-height:35px}
+.tag{display:inline-block;margin-top:8px;padding:5px 8px;border-radius:8px;background:#102d2b;color:#00ffb3;border:1px solid #00ffb3;font-size:11px}
+.open{width:100%;margin-top:14px;background:linear-gradient(90deg,#00bcd4,#7c4dff);border:0}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:20;align-items:center;justify-content:center;padding:18px}
+.box{width:100%;max-width:390px;background:#0b1230;border:1px solid #26345f;border-radius:20px;padding:22px}
+.box h2{text-align:center;color:#00eaff}
+.input{width:100%;padding:13px;margin:7px 0;border-radius:10px;border:1px solid #334577;background:#101936;color:#fff}
+.msg{text-align:center;color:#ffcc00;min-height:22px}.close{width:100%;margin-top:9px;padding:11px;border-radius:10px;background:#101936;color:#fff;border:1px solid #334577}
+.phone{display:none}
+footer{text-align:center;color:#7783a8;padding:35px 15px}
+@media(max-width:600px){h1{font-size:30px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">👑 LOYAL LEARNING</div>
+  <div>
+    <button class="btn" id="loginBtn" onclick="openLogin()">🔐 Login</button>
+    <button class="btn" onclick="location.href='index.html'">🏠 Home</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>All Batches • One Platform</h1>
+  <div class="sub">Login करो → category चुनो → batch open करो 🚀</div>
+</section>
+
+<main class="wrap">
+  <input id="search" class="search" placeholder="🔍 Batch, exam या subject search करो..." oninput="render()">
+  <div id="chips" class="chips"></div>
+  <div id="catalog"></div>
+</main>
+
+<footer>LOYAL — Learn • Practice • Grow</footer>
+
+<div id="modal" class="modal">
+  <div class="box">
+    <h2>🔐 LOYAL Login</h2>
+    <div id="emailBox">
+      <input id="email" class="input" type="email" placeholder="📧 Email">
+      <input id="password" class="input" type="password" placeholder="🔑 Password">
+      <button class="open" onclick="emailLogin()">📧 Login</button>
+      <button class="close" onclick="showPhone()">📱 Mobile + OTP</button>
+    </div>
+    <div id="phoneBox" class="phone">
+      <input id="phone" class="input" maxlength="10" inputmode="numeric" placeholder="📱 10 digit mobile">
+      <div id="recaptcha-container"></div>
+      <button class="open" onclick="sendOTP()">📲 Send OTP</button>
+      <input id="otp" class="input" maxlength="6" inputmode="numeric" placeholder="🔢 6 digit OTP" style="display:none">
+      <button id="verify" class="open" onclick="verifyOTP()" style="display:none">✅ Verify OTP</button>
+      <button class="close" onclick="showEmail()">📧 Email + Password</button>
+    </div>
+    <button class="close" onclick="closeLogin()">✕ Close</button>
+    <div id="msg" class="msg"></div>
+  </div>
+</div>
+
+<script>
+const BACKEND='https://vishrat-backend-01.onrender.com';
+
+const cats={
+  'All':'📚','Khan Sir Courses':'👨‍🏫','UPSC & State PSC':'🏛️',
+  'State Exams':'🗺️','NEET | JEE | CUET':'🧪','Defence Exams':'🪖',
+  'Police Exams':'👮','SSC Exams':'📝','Foundation Courses':'🎓',
+  'Railway Exams':'🚆','Teaching Exams':'🍎','Banking Exams':'🏦',
+  'Engineering Exams':'⚙️','UGC NET':'🎓','Programming':'💻'
+};
+
+const courses=[
+['Khan Sir Courses','🌎','Geography Foundation','NCERT Geography','ncert-geography','NCERT Geography/index.html'],
+['Khan Sir Courses','🏛️','Indian History Foundation','History preparation','indian-history','History/index.html'],
+['Khan Sir Courses','⚖️','Indian Polity','Constitution & Polity','indian-polity','batch.html'],
+['Khan Sir Courses','💰','Indian Economy','Economics fundamentals','indian-economy','batch.html'],
+['Khan Sir Courses','🗺️','World Map','World Geography & Map','world-map','batch.html'],
+['Khan Sir Courses','🇮🇳','Indian Map','India Map practice','indian-map','batch.html'],
+['Khan Sir Courses','🧬','Biology Foundation','Biology foundation','biology-foundation','batch.html'],
+
+['UPSC & State PSC','🏛️','UPSC CSAT','UPSC Prelims / CSAT','upsc-csat','batch.html'],
+['UPSC & State PSC','🎯','UPSC EPFO APFC 2026','Prelims preparation','upsc-epfo-apfc-2026','batch.html'],
+['UPSC & State PSC','📘','73rd BPSC Foundation','BPSC Foundation','73rd-bpsc-foundation','batch.html'],
+['UPSC & State PSC','📝','72nd BPSC Mains Hindi','Hindi Medium','72nd-bpsc-mains-hindi','batch.html'],
+['UPSC & State PSC','📝','72nd BPSC Mains Bilingual','Bilingual','72nd-bpsc-mains-bilingual','batch.html'],
+['UPSC & State PSC','🎯','UPPSC Crash Course 2026','UPPSC preparation','uppsc-crash-2026','batch.html'],
+['UPSC & State PSC','📚','MPPSC Sociology','Sociology module','mppsc-sociology','batch.html'],
+
+['State Exams','🎯','MPSI PRE 2026 Target','MP SI','mpsi-pre-2026','batch.html'],
+['State Exams','🟠','Rajasthan CET 2026','Rajasthan CET','rajasthan-cet-2026','batch.html'],
+['State Exams','🌾','MPESB Group 2 2026','MPESB Group 2','mpesb-group2-2026','batch.html'],
+['State Exams','👮','Bihar Police 2026','Bihar Police','bihar-police-2026','batch.html'],
+['State Exams','🛡️','Bihar Daroga 2026','Bihar SI','bihar-daroga-2026','batch.html'],
+
+['NEET | JEE | CUET','🧪','NEET 2027 Repeater','NEET bilingual','neet-2027-repeater','batch.html'],
+['NEET | JEE | CUET','📐','JEE Main','JEE Main','jee-main','batch.html'],
+['NEET | JEE | CUET','🎓','CUET','CUET','cuet','batch.html'],
+
+['Defence Exams','🪖','NDA 1 2027 Yoddha','NDA','nda-1-2027','batch.html'],
+['Defence Exams','🎖️','CDS 1 2027 Prakhar','CDS','cds-1-2027','batch.html'],
+['Defence Exams','🎖️','CDS OTA 1 2027 Pratishtha','CDS OTA','cds-ota-1-2027','batch.html'],
+['Defence Exams','🛡️','CAPF Foundation 2027','CAPF','capf-foundation-2027','batch.html'],
+
+['Police Exams','👮','UP SI Daroga 2026-27','UP SI / Daroga','up-si-daroga-2026','batch.html'],
+['Police Exams','👮','UP SI Moolvidhi + Polity','Law + Polity','up-si-moolvidhi-polity','batch.html'],
+['Police Exams','👮','Delhi Police','Delhi Police','delhi-police','batch.html'],
+['Police Exams','👮','UP Constable','UP Police Constable','up-constable','batch.html'],
+
+['SSC Exams','📝','SSC GD Foundation 2026-27','SSC GD','ssc-gd-2026','batch.html'],
+['SSC Exams','📚','SSC CGL','SSC CGL','ssc-cgl','batch.html'],
+['SSC Exams','📝','SSC CHSL','SSC CHSL','ssc-chsl','batch.html'],
+['SSC Exams','📝','SSC MTS','SSC MTS','ssc-mts','batch.html'],
+['SSC Exams','📦','SSC Mahapack','SSC combined','ssc-mahapack','batch.html'],
+
+['Foundation Courses','🎓','Physics Foundation','Physics','physics-foundation','batch.html'],
+['Foundation Courses','🧪','Chemistry Foundation','Chemistry','chemistry-foundation','batch.html'],
+['Foundation Courses','🧬','Biology Foundation','Biology','biology-foundation','batch.html'],
+['Foundation Courses','📘','NCERT Foundation','NCERT','ncert-foundation','batch.html'],
+['Foundation Courses','➗','Maths Foundation','Maths','maths-foundation','batch.html'],
+['Foundation Courses','🗣️','English Foundation','English','english-foundation','batch.html'],
+
+['Railway Exams','🚆','RRB Rural Bank PO/Clerk 2026','PO / Clerk','rrb-bank-po-clerk-2026','batch.html'],
+['Railway Exams','🚆','Railway Foundation 2026','RRB / RPF','railway-foundation-2026','batch.html'],
+['Railway Exams','🛡️','RPF','Railway Protection Force','rpf','batch.html'],
+
+['Teaching Exams','🍎','Super TET Primary Teacher','Primary Teacher','super-tet-primary-2026','batch.html'],
+['Teaching Exams','📚','Super TET Junior SST','Junior SST','super-tet-sst-2026','batch.html'],
+['Teaching Exams','➗','Super TET Junior Maths & Science','Maths & Science','super-tet-maths-science-2026','batch.html'],
+['Teaching Exams','🕉️','Super TET Junior Sanskrit','Sanskrit','super-tet-sanskrit-2026','batch.html'],
+['Teaching Exams','📝','Super TET Junior English','English','super-tet-english-2026','batch.html'],
+['Teaching Exams','हिं','Super TET Junior Hindi','Hindi','super-tet-hindi-2026','batch.html'],
+
+['Banking Exams','🏦','Bank Foundation','Banking','bank-foundation','batch.html'],
+['Banking Exams','🏦','SBI','SBI','sbi','batch.html'],
+['Banking Exams','🏦','RBI','RBI','rbi','batch.html'],
+['Banking Exams','🏦','IBPS','IBPS','ibps','batch.html'],
+
+['Engineering Exams','⚙️','JE Civil Engineering','Civil','je-civil','batch.html'],
+['Engineering Exams','⚡','JE Electrical Engineering','Electrical','je-electrical','batch.html'],
+['Engineering Exams','🔧','JE Mechanical Engineering','Mechanical','je-mechanical','batch.html'],
+
+['UGC NET','🎓','UGC NET / JRF','UGC NET','ugc-net-jrf','batch.html'],
+
+['Programming','🐍','Python Programming','Python','python','batch.html'],
+['Programming','☕','Java Programming','Java','java','batch.html'],
+['Programming','🌐','Web Development','HTML CSS JavaScript','web-development','batch.html'],
+['Programming','📱','Android Development','Android','android-development','batch.html'],
+['Programming','💻','Full Programming','Programming master track','full-programming','batch.html']
+];
+
+let active='All', user=null, confirmationResult=null, recaptchaVerifier=null;
+
+function render(){
+  document.getElementById('chips').innerHTML=Object.entries(cats).map(([k,v])=>
+    `<button class="chip ${active===k?'active':''}" onclick="active='${k}';render()">${v} ${k}</button>`).join('');
+  const q=document.getElementById('search').value.toLowerCase();
+  const a=courses.filter(c=>(active==='All'||c[0]===active)&&c.join(' ').toLowerCase().includes(q));
+  const g={}; a.forEach(c=>(g[c[0]]??=[]).push(c));
+  document.getElementById('catalog').innerHTML=Object.entries(g).map(([cat,items])=>
+    `<section class="section"><h2>${cats[cat]} ${cat}</h2><div class="grid">${
+      items.map(c=>`<article class="card"><div class="icon">${c[1]}</div><span class="tag">FREE AFTER LOGIN</span><h3>${c[2]}</h3><div class="desc">${c[3]}</div><button class="open" onclick="openCourse('${c[4]}','${c[5]}','${c[2]}')">🔓 Open Batch</button></article>`).join('')
+    }</div></section>`).join('')||'<p>कोई batch नहीं मिला.</p>';
+}
+
+function openLogin(){modal.style.display='flex';msg.innerText=''}
+function closeLogin(){modal.style.display='none'}
+function showPhone(){emailBox.style.display='none';phoneBox.style.display='block';setupRecaptcha()}
+function showEmail(){phoneBox.style.display='none';emailBox.style.display='block'}
+function msg(t){document.getElementById('msg').innerText=t}
+
+async function openCourse(batch,url,name){
+  if(!user){openLogin();msg('🔐 पहले Login करो');return}
+  try{
+    const token=await user.getIdToken(true);
+    const r=await fetch(BACKEND+'/api/access/'+encodeURIComponent(batch),{
+      headers:{Authorization:'Bearer '+token,Accept:'application/json'},cache:'no-store'
+    });
+    const d=await r.json();
+    if(d.allowed){location.href=url+(url==='batch.html'?'?batch='+encodeURIComponent(name):'');return}
+    msg('⚠️ Access नहीं मिला');
+  }catch(e){console.error(e);msg('⚠️ Server connection नहीं हुआ')}
+}
+
+async function emailLogin(){
+  try{msg('⏳ Login हो रहा है...');await window.firebaseEmail(email.value.trim(),password.value);msg('✅ Login सफल');setTimeout(closeLogin,500)}
+  catch(e){console.error(e);msg('❌ Login failed')}
+}
+function setupRecaptcha(){
+  if(recaptchaVerifier)return;
+  try{recaptchaVerifier=new window.FirebaseRecaptcha(window.FirebaseAuth,'recaptcha-container',{size:'invisible',callback:()=>{}})}
+  catch(e){console.error(e)}
+}
+async function sendOTP(){
+  const p=phone.value.trim();
+  if(!/^\d{10}$/.test(p)){msg('⚠️ 10 digit mobile number डालो');return}
+  try{setupRecaptcha();confirmationResult=await window.FirebasePhone(window.FirebaseAuth,'+91'+p,recaptchaVerifier);otp.style.display='block';verify.style.display='block';msg('✅ OTP भेज दिया गया')}
+  catch(e){console.error(e);msg('❌ OTP नहीं भेजा गया')}
+}
+async function verifyOTP(){
+  try{await confirmationResult.confirm(otp.value.trim());msg('✅ Mobile Login सफल');setTimeout(closeLogin,500)}
+  catch(e){console.error(e);msg('❌ OTP गलत है')}
+}
+render();
+</script>
+
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+import{getAuth,signInWithEmailAndPassword,signInWithPhoneNumber,RecaptchaVerifier,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+const app=initializeApp({
+  apiKey:'AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0',
+  authDomain:'vishrat-36bc6.firebaseapp.com',
+  projectId:'vishrat-36bc6',
+  storageBucket:'vishrat-36bc6.firebasestorage.app',
+  messagingSenderId:'713177652515',
+  appId:'1:713177652515:web:9a6c545278563e77640096',
+  measurementId:'G-LN2N5Z0BBF'
+});
+const auth=getAuth(app);
+window.FirebaseAuth=auth;
+window.FirebaseRecaptcha=RecaptchaVerifier;
+window.FirebasePhone=signInWithPhoneNumber;
+window.firebaseEmail=(e,p)=>signInWithEmailAndPassword(auth,e,p);
+onAuthStateChanged(auth,u=>{
+  user=u;
+  document.getElementById('loginBtn').innerText=u?'✅ Logged In':'🔐 Login';
+});
+</script>
+</body>
+</html>
