@@ -1692,333 +1692,255 @@ function setLoggedOutUI(){
 
 <script type="module">
 
+/* =====================================================
+   FIREBASE AUTH — SAFE / ROBUST
+   ===================================================== */
+
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged,
-    RecaptchaVerifier,
-    signInWithPhoneNumber
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
+  authDomain: "vishrat-36bc6.firebaseapp.com",
+  projectId: "vishrat-36bc6",
+  storageBucket: "vishrat-36bc6.firebasestorage.app",
+  messagingSenderId: "713177652515",
+  appId: "1:713177652515:web:9a6c545278563e77640096",
+  measurementId: "G-LN2N5Z0BBF"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const LOYAL_EMAIL = "kgsias01@gmail.com";
+
+let confirmationResult = null;
+let recaptchaVerifier = null;
+let loginBusy = false;
+let otpBusy = false;
 
 
 /* =====================================================
-   FIREBASE CONFIG
+   SAFE HELPERS
    ===================================================== */
 
-const firebaseConfig = {
+function message(text) {
+  const el = document.getElementById("loginMessage");
+  if (el) el.innerText = text || "";
+}
 
-    apiKey:
-    "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
+function setButtonBusy(id, busy, busyText, normalText) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.disabled = busy;
+  el.innerText = busy ? busyText : normalText;
+}
 
-    authDomain:
-    "vishrat-36bc6.firebaseapp.com",
+function normalizeEmail(value) {
+  return String(value || "").trim().toLowerCase();
+}
 
-    projectId:
-    "vishrat-36bc6",
-
-    storageBucket:
-    "vishrat-36bc6.firebasestorage.app",
-
-    messagingSenderId:
-    "713177652515",
-
-    appId:
-    "1:713177652515:web:9a6c545278563e77640096",
-
-    measurementId:
-    "G-LN2N5Z0BBF"
-
-};
-
-
-const app =
-initializeApp(firebaseConfig);
-
-const auth =
-getAuth(app);
-
-
-let confirmationResult =
-null;
-
-let recaptchaVerifier =
-null;
+function isLoyalUser(user) {
+  return !!user && normalizeEmail(user.email) === LOYAL_EMAIL;
+}
 
 
 /* =====================================================
    CURRENT USER
    ===================================================== */
 
-window.getCurrentFirebaseUser =
-function(){
-
-    return auth.currentUser;
-
+window.getCurrentFirebaseUser = function () {
+  return auth.currentUser;
 };
+
+
+/* =====================================================
+   LOYAL / LOGIN UI
+   NOTE: This is UI only.
+   Real batch authorization is done by Render backend.
+   ===================================================== */
+
+function updateLoyalMenu(user) {
+  const isLoyal = isLoyalUser(user);
+
+  const status = document.getElementById("loyalStatus");
+  const paidLabels = document.querySelectorAll(".paid");
+  const logoutMenu = document.getElementById("logoutMenu");
+  const loginButton = document.getElementById("loginButton");
+
+  paidLabels.forEach(function (el) {
+    el.style.display = isLoyal ? "inline" : "none";
+  });
+
+  if (status) {
+    status.style.display = isLoyal ? "block" : "none";
+  }
+
+  if (logoutMenu) {
+    logoutMenu.style.display = user ? "block" : "none";
+  }
+
+  if (loginButton) {
+    loginButton.innerText = user
+      ? (isLoyal ? "👑 LOYAL Logged In" : "✅ Logged In")
+      : "🔐 Login";
+  }
+
+  setLoyalUI(isLoyal);
+}
 
 
 /* =====================================================
    CAPTCHA
    ===================================================== */
 
-window.setupRecaptcha =
-function(){
+window.setupRecaptcha = function () {
+  try {
+    if (recaptchaVerifier) return recaptchaVerifier;
 
-    if(recaptchaVerifier){
-
-        return;
-
+    const container = document.getElementById("recaptcha-container");
+    if (!container) {
+      throw new Error("reCAPTCHA container missing");
     }
 
-    recaptchaVerifier =
-    new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-            {
-    size:"invisible",
-    callback:function(){}
-        }
-        }
+    recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: function () {}
+      }
     );
 
+    return recaptchaVerifier;
+  } catch (error) {
+    console.error("RECAPTCHA INIT ERROR:", error);
+    recaptchaVerifier = null;
+    throw error;
+  }
 };
+
+function resetRecaptcha() {
+  try {
+    if (recaptchaVerifier) {
+      recaptchaVerifier.clear();
+    }
+  } catch (error) {
+    console.warn("reCAPTCHA clear:", error);
+  }
+
+  recaptchaVerifier = null;
+}
 
 
 /* =====================================================
    EMAIL LOGIN
    ===================================================== */
 
-window.loginUser =
-async function(){
+window.loginUser = async function () {
+  if (loginBusy) return;
 
-    const email =
-    document
-    .getElementById("loginEmail")
-    .value
-    .trim()
-    .toLowerCase();
+  const emailEl = document.getElementById("loginEmail");
+  const passwordEl = document.getElementById("loginPassword");
 
-    const password =
-    document
-    .getElementById("loginPassword")
-    .value;
+  const email = normalizeEmail(emailEl ? emailEl.value : "");
+  const password = passwordEl ? passwordEl.value : "";
 
-    const message =
-    document
-    .getElementById("loginMessage");
+  if (!email || !password) {
+    message("⚠️ Email और Password डालो");
+    return;
+  }
 
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    message("⚠️ सही Email डालो");
+    return;
+  }
 
-    if(!email || !password){
+  loginBusy = true;
+  setButtonBusy(
+    "loginEmail",
+    false,
+    "",
+    ""
+  );
 
-        message.innerText =
-        "⚠️ Email और Password डालो";
+  const button = document.querySelector(
+    "#emailLoginSection .login-submit"
+  );
 
-        return;
+  if (button) {
+    button.disabled = true;
+    button.innerText = "⏳ Login हो रहा है...";
+  }
 
+  message("⏳ Login हो रहा है...");
+
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      throw new Error("Firebase user unavailable");
     }
 
-
-    message.innerText =
-    "⏳ Login हो रहा है...";
-
-
-    try{
-
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-
-        message.innerText =
-        "⏳ Account access verify हो रहा है...";
-
-
-        const user =
-        auth.currentUser;
-
-
-        if(!user){
-            
-            throw new Error(
-                "User not found"
-            );
-
-        }
-
-
-        /*
-          LOYAL status frontend पर
-          सिर्फ backend से confirm होगा.
-        */
-
-        const token =
-        await user.getIdToken(true);
-
-
-        if(
-            BACKEND_URL &&
-            !BACKEND_URL.includes(
-                "YOUR-RENDER-URL"
-            )
-        ){
-
-            try{
-
-                const response =
-                await fetch(
-                    BACKEND_URL +
-                    "/api/access/loyal",
-                    {
-                        headers:{
-                            "Authorization":
-                            "Bearer " + token
-                        },
-                        cache:"no-store"
-                    }
-                );
-
-
-                /*
-                  Backend loyal route अलग से
-                  नहीं होने पर नीचे email fallback
-                  सिर्फ UI के लिए है.
-                */
-
-                if(response.ok){
-
-                    const data =
-                    await response.json();
-
-                    if(data.free === true){
-
-                        setLoyalUI(true);
-
-                    }
-                    else{
-
-                        setLoyalUI(false);
-
-                    }
-
-                }
-                else{
-
-                    /*
-                      Backend का actual batch check
-                      openBatch() में होगा.
-                    */
-
-                    setLoyalUI(
-                        email ===
-                        "kgsias01@gmail.com"
-                    );
-
-                }
-
-            }
-            catch(error){
-
-                console.error(
-                    "LOYAL STATUS:",
-                    error
-                );
-
-                setLoyalUI(
-                    email ===
-                    "kgsias01@gmail.com"
-                );
-
-            }
-
-        }
-        else{
-
-            setLoyalUI(
-                email ===
-                "kgsias01@gmail.com"
-            );
-
-        }
-
-
-        const loginButton =
-        document
-        .getElementById("loginButton");
-
-        const logoutMenu =
-        document
-        .getElementById("logoutMenu");
-
-
-        if(logoutMenu){
-
-            logoutMenu.style.display =
-            "block";
-
-        }
-
-
-        if(loginButton){
-
-            if(window.isLoyal){
-
-                loginButton.innerText =
-                "👑 LOYAL";
-
-            }
-            else{
-
-                loginButton.innerText =
-                "✅ Logged In";
-
-            }
-
-        }
-
-
-        message.innerText =
-        window.isLoyal
-        ? "👑 LOYAL LOGIN सफल — ALL BATCH FREE ✅"
-        : "✅ Login सफल हुआ 🎉";
-
-
-        setTimeout(function(){
-
-            closeLogin();
-
-        },1000);
-
-
-    }
-    catch(error){
-
-        console.error(
-            "LOGIN ERROR:",
-            error
-        );
-
-        window.isLoyal=false;
-
-        updateBatchUI(false);
-
-        message.innerText =
-        "❌ Login failed — Email/Password check करो";
-
+    /* Force-refresh the ID token so Render receives a fresh token. */
+    await user.getIdToken(true);
+
+    updateLoyalMenu(user);
+
+    message(
+      isLoyalUser(user)
+        ? "👑 LOYAL LOGIN सफल — Access verified by server ✅"
+        : "✅ Login सफल हुआ 🎉"
+    );
+
+    setTimeout(function () {
+      closeLogin();
+    }, 700);
+
+  } catch (error) {
+    console.error("EMAIL LOGIN ERROR:", error);
+
+    const code = String(error && error.code || "");
+
+    if (code.includes("invalid-credential")) {
+      message("❌ Email या Password गलत है");
+    } else if (code.includes("user-not-found")) {
+      message("❌ यह Email registered नहीं है");
+    } else if (code.includes("wrong-password")) {
+      message("❌ Password गलत है");
+    } else if (code.includes("too-many-requests")) {
+      message("⏳ बहुत ज्यादा attempts. थोड़ी देर बाद try करो");
+    } else if (code.includes("network-request-failed")) {
+      message("📶 Internet connection check करो");
+    } else {
+      message("❌ Login नहीं हो पाया. फिर से try करो");
     }
 
+  } finally {
+    loginBusy = false;
+
+    if (button) {
+      button.disabled = false;
+      button.innerText = "📧 Email Login";
+    }
+  }
 };
 
 
@@ -2026,86 +1948,85 @@ async function(){
    SEND OTP
    ===================================================== */
 
-window.sendOTP =
-async function(){
+window.sendOTP = async function () {
+  if (otpBusy) return;
 
-    const phone =
-    document
-    .getElementById("phoneNumber")
-    .value
-    .trim();
+  const phoneEl = document.getElementById("phoneNumber");
+  const phone = String(phoneEl ? phoneEl.value : "").trim();
 
-    const message =
-    document
-    .getElementById("loginMessage");
+  if (!/^[0-9]{10}$/.test(phone)) {
+    message("⚠️ 10 digit mobile number डालो");
+    return;
+  }
 
+  otpBusy = true;
 
-    if(!/^[0-9]{10}$/.test(phone)){
+  const button = document.querySelector(
+    "#phoneLoginSection .otp-btn"
+  );
 
-        message.innerText =
-        "⚠️ 10 digit mobile number डालो";
+  if (button) {
+    button.disabled = true;
+    button.innerText = "⏳ OTP भेजा जा रहा है...";
+  }
 
-        return;
+  message("⏳ OTP भेजा जा रहा है...");
 
+  try {
+    if (!recaptchaVerifier) {
+      window.setupRecaptcha();
     }
 
+    confirmationResult = await signInWithPhoneNumber(
+      auth,
+      "+91" + phone,
+      recaptchaVerifier
+    );
 
-    try{
+    const otpEl = document.getElementById("otpCode");
+    const verifyButton =
+      document.getElementById("verifyOtpButton");
 
-        if(!recaptchaVerifier){
-
-            window.setupRecaptcha();
-
-        }
-
-
-        message.innerText =
-        "⏳ OTP भेजा जा रहा है...";
-
-
-        confirmationResult =
-        await signInWithPhoneNumber(
-            auth,
-            "+91" + phone,
-            recaptchaVerifier
-        );
-
-
-        document
-        .getElementById("otpCode")
-        .style.display="block";
-
-
-        document
-        .getElementById("verifyOtpButton")
-        .style.display="block";
-
-
-        message.innerText =
-        "✅ OTP भेज दिया गया";
-
-    }
-    catch(error){
-
-        console.error(
-            "OTP ERROR:",
-            error
-        );
-
-        message.innerText =
-        "❌ OTP error — number/reCAPTCHA check करो";
-
-
-        if(recaptchaVerifier){
-
-            recaptchaVerifier.clear();
-
-            recaptchaVerifier=null;
-
-        }
-
+    if (otpEl) {
+      otpEl.style.display = "block";
+      otpEl.value = "";
+      otpEl.focus();
     }
 
+    if (verifyButton) {
+      verifyButton.style.display = "block";
+    }
+
+    message("✅ OTP भेज दिया गया");
+
+  } catch (error) {
+    console.error("OTP SEND ERROR:", error);
+
+    const code = String(error && error.code || "");
+
+    if (code.includes("too-many-requests")) {
+      message("⏳ बहुत ज्यादा attempts. बाद में try करो");
+    } else if (code.includes("invalid-phone-number")) {
+      message("❌ Mobile number गलत है");
+    } else if (code.includes("quota-exceeded")) {
+      message("⚠️ SMS limit/quota पूरी हो गई");
+    } else if (code.includes("captcha")) {
+      message("⚠️ reCAPTCHA फिर से try करो");
+    } else {
+      message("❌ OTP नहीं भेजा गया. Number/reCAPTCHA check करो");
+    }
+
+    confirmationResult = null;
+    resetRecaptcha();
+
+  } finally {
+    otpBusy = false;
+
+    if (button) {
+      button.disabled = false;
+      button.innerText = "📲 Send OTP";
+    }
+  }
 };
 
 
@@ -2113,102 +2034,79 @@ async function(){
    VERIFY OTP
    ===================================================== */
 
-window.verifyOTP =
-async function(){
+window.verifyOTP = async function () {
+  if (!confirmationResult) {
+    message("⚠️ पहले OTP भेजो");
+    return;
+  }
 
-    const otp =
-    document
-    .getElementById("otpCode")
-    .value
-    .trim();
+  const otpEl = document.getElementById("otpCode");
+  const otp = String(otpEl ? otpEl.value : "").trim();
 
-    const message =
-    document
-    .getElementById("loginMessage");
+  if (!/^[0-9]{6}$/.test(otp)) {
+    message("⚠️ 6 digit OTP डालो");
+    return;
+  }
 
+  const button =
+    document.getElementById("verifyOtpButton");
 
-    if(!confirmationResult){
+  if (button) {
+    button.disabled = true;
+    button.innerText = "⏳ Verify हो रहा है...";
+  }
 
-        message.innerText =
-        "⚠️ पहले OTP भेजो";
+  message("⏳ OTP verify हो रहा है...");
 
-        return;
+  try {
+    await confirmationResult.confirm(otp);
 
+    const user = auth.currentUser;
+
+    if (!user) {
+      throw new Error("Phone user unavailable");
     }
 
+    await user.getIdToken(true);
 
-    if(!/^[0-9]{6}$/.test(otp)){
+    confirmationResult = null;
 
-        message.innerText =
-        "⚠️ 6 digit OTP डालो";
-
-        return;
-
+    if (button) {
+      button.style.display = "none";
     }
 
-
-    try{
-
-        await confirmationResult.confirm(
-            otp
-        );
-
-
-        const user =
-        auth.currentUser;
-
-
-        const logoutMenu =
-        document
-        .getElementById("logoutMenu");
-
-
-        if(logoutMenu){
-
-            logoutMenu.style.display =
-            "block";
-
-        }
-
-
-        /*
-          Phone user को LOYAL नहीं बनाया जाता.
-          Batch access backend UID से check होगा.
-        */
-
-        setLoyalUI(false);
-
-
-        document
-        .getElementById("loginButton")
-        .innerText =
-        "✅ Logged In";
-
-
-        message.innerText =
-        "✅ Mobile Login सफल 🎉";
-
-
-        setTimeout(function(){
-
-            closeLogin();
-
-        },1000);
-
-
-    }
-    catch(error){
-
-        console.error(
-            "VERIFY OTP ERROR:",
-            error
-        );
-
-        message.innerText =
-        "❌ गलत OTP";
-
+    if (otpEl) {
+      otpEl.style.display = "none";
+      otpEl.value = "";
     }
 
+    updateLoyalMenu(user);
+
+    message("✅ Mobile Login सफल 🎉");
+
+    setTimeout(function () {
+      closeLogin();
+    }, 700);
+
+  } catch (error) {
+    console.error("OTP VERIFY ERROR:", error);
+
+    const code = String(error && error.code || "");
+
+    if (code.includes("invalid-verification-code")) {
+      message("❌ OTP गलत है");
+    } else if (code.includes("code-expired")) {
+      message("⏳ OTP expire हो गया. नया OTP भेजो");
+    } else {
+      message("❌ OTP verify नहीं हुआ");
+    }
+
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.innerText = "✅ Verify OTP";
+    }
+  }
 };
 
 
@@ -2216,221 +2114,48 @@ async function(){
    AUTH STATE
    ===================================================== */
 
-onAuthStateChanged(
-    auth,
-    async(user)=>{
+onAuthStateChanged(auth, function (user) {
+  try {
+    console.log(
+      "AUTH STATE:",
+      user ? user.email || user.phoneNumber : "NOT LOGGED IN"
+    );
 
-        if(!user){
+    updateLoyalMenu(user);
 
-            window.isLoyal=false;
-
-            setLoggedOutUI();
-
-            return;
-
-        }
-
-
-        const logoutMenu =
-        document
-        .getElementById("logoutMenu");
-
-
-        if(logoutMenu){
-
-            logoutMenu.style.display =
-            "block";
-
-        }
-
-
-        /*
-          UI indication only.
-          Actual premium authorization backend करेगा.
-        */
-
-        if(
-            user.email ===
-            "kgsias01@gmail.com"
-        ){
-
-            setLoyalUI(true);
-
-        }
-        else{
-
-            setLoyalUI(false);
-
-            const loginButton =
-            document
-            .getElementById("loginButton");
-
-            if(loginButton){
-
-                loginButton.innerText =
-                "✅ Logged In";
-
-            }
-
-        }
-
-    }
-);
+  } catch (error) {
+    console.error("AUTH STATE UI ERROR:", error);
+  }
+});
 
 
 /* =====================================================
    LOGOUT
    ===================================================== */
 
-window.logoutUser =
-async function(){
+window.logoutUser = async function () {
+  try {
+    await signOut(auth);
 
-    try{
+    confirmationResult = null;
+    resetRecaptcha();
 
-        await signOut(auth);
+    window.isLoyal = false;
+    setLoggedOutUI();
 
-        window.isLoyal=false;
+    message("");
 
-        alert(
-            "✅ Logout हो गया"
-        );
+    alert("✅ Logout हो गया");
 
-        location.reload();
+    location.reload();
 
-    }
-    catch(error){
-
-        console.error(
-            "LOGOUT ERROR:",
-            error
-        );
-
-    }
-
+  } catch (error) {
+    console.error("LOGOUT ERROR:", error);
+    alert("⚠️ Logout नहीं हो पाया. फिर से try करो.");
+  }
 };
 
 </script>
-/* =========================================================
-   LOYAL LOGIN + MENU ACCESS CONTROL
-   ========================================================= */
 
-(function(){
-
-  const LOYAL_EMAIL = "kgsias01@gmail.com";
-
-  function updateLoyalMenu(user){
-
-    const loyalStatus =
-      document.getElementById("loyalStatus");
-
-    const paidLabels =
-      document.querySelectorAll(".paid");
-
-    const logoutMenu =
-      document.getElementById("logoutMenu");
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const isLoyal =
-      !!user &&
-      String(user.email || "")
-        .trim()
-        .toLowerCase() === LOYAL_EMAIL;
-
-    /* FREE FOR LOYAL labels */
-    paidLabels.forEach(function(el){
-      el.style.display = isLoyal
-        ? "inline"
-        : "none";
-    });
-
-    /* LOYAL status */
-    if(loyalStatus){
-      loyalStatus.style.display = isLoyal
-        ? "block"
-        : "none";
-    }
-
-    /* Logout */
-    if(logoutMenu){
-      logoutMenu.style.display = user
-        ? "block"
-        : "none";
-    }
-
-    /* Login button */
-    if(loginButton){
-      loginButton.innerText = user
-        ? (isLoyal
-            ? "👑 LOYAL Logged In"
-            : "✅ Logged In")
-        : "🔐 Login";
-    }
-  }
-
-
-  /* Firebase login state */
-  if(typeof onAuthStateChanged === "function"){
-
-    onAuthStateChanged(auth, function(user){
-
-      console.log(
-        "AUTH STATE:",
-        user ? user.email : "NOT LOGGED IN"
-      );
-
-      updateLoyalMenu(user);
-
-    });
-
-  }
-
-
-  /* ---------------------------------------------------------
-     MENU COURSE LINKS
-     Login required before opening
-     --------------------------------------------------------- */
-
-  document.addEventListener("click", function(e){
-
-    const link =
-      e.target.closest(
-        '.side-menu a[href="NCERT%20Geography/index.html"],' +
-        '.side-menu a[href="History/index.html"]'
-      );
-
-    if(!link){
-      return;
-    }
-
-    const user =
-      window.getCurrentFirebaseUser
-        ? window.getCurrentFirebaseUser()
-        : auth.currentUser;
-
-    /* Not logged in */
-    if(!user){
-
-      e.preventDefault();
-
-      alert(
-        "🔐 Pehle Login karo.\n\n" +
-        "Login ke baad hi course open hoga."
-      );
-
-      return;
-    }
-
-    /* Logged in */
-    console.log(
-      "MENU ACCESS:",
-      user.email
-    );
-
-  });
-
-})();
-</script>
 </body>
 </html>
