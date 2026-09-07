@@ -349,7 +349,6 @@ app.get(
 
   }
 );
-);
 
 // ===============================
 // UNKNOWN API ROUTE
@@ -467,7 +466,5 @@ process.on(
     console.error(
       "UNHANDLED REJECTION:",
       reason
-    );
-
-  }
+      }
 );
