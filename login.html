@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOYAL — Login</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#172c65,#050816 65%);color:#fff;font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;padding:20px}.wrap{width:min(440px,100%)}.brand{text-align:center;font-size:32px;font-weight:900;color:#00eaff;text-shadow:0 0 15px #00eaff;margin-bottom:18px}.card{background:#0b1230;border:1px solid #26345f;border-radius:24px;padding:26px;box-shadow:0 0 35px rgba(0,234,255,.12)}h1{margin:0 0 8px;font-size:26px}p{color:#aeb9d8;line-height:1.5}.input{width:100%;padding:14px;border:1px solid #334577;background:#101936;color:#fff;border-radius:12px;font-size:16px;margin:7px 0;outline:none}.btn{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(90deg,#00bcd4,#7c4dff);color:#fff;font-weight:800;font-size:15px;cursor:pointer;margin-top:9px}.btn:disabled{opacity:.55;cursor:wait}.secondary{background:transparent;border:1px solid #334577}.status{min-height:24px;color:#ffd54a;font-size:13px;margin-top:10px}.hidden{display:none}.privacy{font-size:12px;color:#7f8bab}.back{text-align:center;margin-top:15px}.back a{color:#00eaff;text-decoration:none}.recaptcha{margin:10px 0}
+</style>
+</head><body>
+<div class="wrap">
+<div class="brand">✨ LOYAL</div>
+<div class="card">
+<h1>Login / Create Account</h1>
+<p>Mobile number से secure OTP लेकर अपने LOYAL account में प्रवेश करें.</p>
+<div id="step1">
+<input id="name" class="input" type="text" maxlength="60" placeholder="आपका नाम">
+<input id="phone" class="input" type="tel" inputmode="tel" maxlength="10" placeholder="10-digit mobile number">
+<div id="recaptcha-container" class="recaptcha"></div>
+<button id="sendBtn" class="btn">📱 OTP भेजें</button>
+</div>
+<div id="step2" class="hidden">
+<p id="sentTo"></p>
+<input id="otp" class="input" type="text" inputmode="numeric" maxlength="6" placeholder="6-digit OTP">
+<button id="verifyBtn" class="btn">🔐 Verify OTP</button>
+<button id="changeBtn" class="btn secondary">नंबर बदलें</button>
+</div>
+<div id="status" class="status"></div>
+<p class="privacy">🔒 केवल account के लिए आवश्यक जानकारी (नाम और mobile number) store की जाएगी. Registered-user data सामान्य users को उपलब्ध नहीं होगा.</p>
+</div>
+<div class="back"><a href="index.html">← LOYAL Home</a></div>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",authDomain:"vishrat-36bc6.firebaseapp.com",projectId:"vishrat-36bc6",storageBucket:"vishrat-36bc6.firebasestorage.app",messagingSenderId:"713177652515",appId:"1:713177652515:web:62d8c22558858d63640096",measurementId:"G-2ZFQS2E6GG"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id); let confirmationResult=null; let recaptchaVerifier=null; let savedName='';
+const next=new URLSearchParams(location.search).get('next');
+function status(t,bad=false){$('status').textContent=t;$('status').style.color=bad?'#ff7b9d':'#ffd54a';}
+function setupRecaptcha(){
+  if(recaptchaVerifier) return;
+  recaptchaVerifier=new RecaptchaVerifier(auth,'recaptcha-container',{size:'normal',callback:()=>{},'expired-callback':()=>status('reCAPTCHA expire हो गया, फिर से verify करें.',true)});
+  recaptchaVerifier.render();
+}
+setupRecaptcha();
+$('sendBtn').onclick=async()=>{
+  const name=$('name').value.trim(), digits=$('phone').value.replace(/\D/g,'');
+  if(name.length<2){status('कृपया अपना नाम भरें.',true);return;}
+  if(digits.length!==10){status('सही 10-digit mobile number डालें.',true);return;}
+  const phone='+91'+digits; savedName=name; $('sendBtn').disabled=true; status('OTP भेजा जा रहा है…');
+  try{setupRecaptcha();confirmationResult=await signInWithPhoneNumber(auth,phone,recaptchaVerifier);$('step1').classList.add('hidden');$('step2').classList.remove('hidden');$('sentTo').textContent='OTP भेजा गया: '+phone;status('OTP SMS में देखें और यहाँ दर्ज करें.');}
+  catch(e){console.error(e);status('OTP नहीं भेजा जा सका: '+(e.code||e.message),true);try{if(recaptchaVerifier){recaptchaVerifier.clear();recaptchaVerifier=null;setupRecaptcha();}}catch(_){} }
+  finally{$('sendBtn').disabled=false;}
+};
+$('verifyBtn').onclick=async()=>{
+  const code=$('otp').value.trim(); if(!confirmationResult){status('पहले OTP भेजें.',true);return;} if(!/^\d{6}$/.test(code)){status('6-digit OTP डालें.',true);return;}
+  $('verifyBtn').disabled=true;status('OTP verify हो रहा है…');
+  try{const result=await confirmationResult.confirm(code);const user=result.user;await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:savedName,phone:user.phoneNumber||('+91'+$('phone').value.replace(/\D/g,'')),createdAt:serverTimestamp(),lastLogin:serverTimestamp()},{merge:true});status('Login successful.');setTimeout(()=>location.href=next||'index.html',500);}
+  catch(e){console.error(e);status('OTP verification failed: '+(e.code||e.message),true);} finally{$('verifyBtn').disabled=false;}
+};
+$('changeBtn').onclick=()=>{confirmationResult=null;$('step2').classList.add('hidden');$('step1').classList.remove('hidden');$('otp').value='';status('');};
+onAuthStateChanged(auth,(user)=>{if(user && !confirmationResult && !location.search.includes('forceLogin')){ /* no automatic redirect; page can be reopened intentionally */ }});
+</script>
+</body></html>
