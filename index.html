@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Vishrat - Online Learning</title>
+<title>LOYAL - Online Learning</title>
 
 <style>
 *{
@@ -342,6 +342,12 @@ footer strong{
 .respect-note span{color:#ffd54a;margin:0 8px}
 .big-target{font-size:17px!important;font-weight:800;color:#ffd54a!important;text-shadow:0 0 8px rgba(255,213,74,.55)}
 
+
+/* ===== LOYAL FIREBASE LOGIN ===== */
+.auth-btn{border:1px solid #00eaff;background:linear-gradient(90deg,#00bcd4,#7c4dff);color:#fff;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
+.user-chip{display:none;align-items:center;gap:8px;border:1px solid #334577;background:#101936;color:#fff;border-radius:12px;padding:9px 12px;font-size:13px}
+@media(max-width:600px){.auth-btn{padding:9px 11px;font-size:12px}.user-chip{padding:8px;font-size:12px}}
+
 </style>
 </head>
 
@@ -350,11 +356,16 @@ footer strong{
 <header>
 
 <div class="logo-box">
-<img src="logo.png" alt="Vishrat Logo">
-<span>Vishrat</span>
+<img src="logo.png" alt="LOYAL Logo">
+<span>LOYAL</span>
 </div>
 
 <div class="header-right">
+<button class="auth-btn" id="loginBtn" onclick="window.location.href='login.html'">🔐 Login</button>
+<div class="user-chip" id="userChip">
+<span id="userChipName">My Account</span>
+<button onclick="loyalLogout()" style="border:0;background:none;color:#ff6b8a;cursor:pointer;font-weight:800">Logout</button>
+</div>
 <div
 class="menu-btn"
 onclick="openMenu()">
@@ -433,7 +444,7 @@ onclick="closeMenu()">
 </h1>
 
 <p>
-Vishrat — Learn • Practice • Grow 🚀
+LOYAL — Learn • Practice • Grow 🚀
 </p>
 
 <div class="search">
@@ -878,7 +889,7 @@ onclick="openBatch('full-programming')">
   <div class="icon">📚</div>
   <h3>NEET 2027 Repeater Batch Online Bilingual Mode</h3>
   <p>FREE on LOYAL</p>
-  <button class="unlock" onclick="openBatch('NEET 2027 Repeater Batch Online Bilingual Mode')">✨ Open Free Batch</button>
+    <button class="unlock" onclick="openBatch('NEET 2027 Repeater Batch Online Bilingual Mode')">✨ Open Free Batch</button>
 </div>
 
 <div class="card course -course" data-batch="je-electrical-engineering-foundation-batch-2026">
@@ -1114,10 +1125,15 @@ onclick="openBatch('full-programming')">
 
 </section>
 
+
+<div style="max-width:900px;margin:25px auto 0;padding:16px 20px;text-align:center;color:#9da9c9;font-size:13px">
+🔒 LOYAL account data is protected by Firebase authentication. Registered-user information is intended for authorized administration only.
+</div>
+
 <footer>
 
 <strong>
-Vishrat
+LOYAL
 </strong>
 
 <p>
@@ -1125,38 +1141,82 @@ Made with ❤️ by LOYAL
 </p>
 
 <p>
-© 2026 Vishrat • All Rights Reserved
+© 2026 LOYAL • All Rights Reserved
 </p>
 
 </footer>
 
 
-<script>
-/* =====================================================
-   VISHRAT — SIMPLE FREE BATCH SYSTEM
-   No Login • No OTP • No Firebase • No Payment
-   ===================================================== */
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-function openMenu(){
-    document.getElementById("sideMenu").classList.add("active");
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0",
+  authDomain: "vishrat-36bc6.firebaseapp.com",
+  projectId: "vishrat-36bc6",
+  storageBucket: "vishrat-36bc6.firebasestorage.app",
+  messagingSenderId: "713177652515",
+  appId: "1:713177652515:web:62d8c22558858d63640096",
+  measurementId: "G-2ZFQS2E6GG"
+};
 
-function closeMenu(){
-    document.getElementById("sideMenu").classList.remove("active");
-}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-function searchCourse(){
-    const input = document.getElementById("searchInput").value.toLowerCase().trim();
-    document.querySelectorAll(".course").forEach(function(card){
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? "block" : "none";
-    });
-}
+onAuthStateChanged(auth, (user) => {
+  const loginBtn = document.getElementById("loginBtn");
+  const chip = document.getElementById("userChip");
+  const nameEl = document.getElementById("userChipName");
 
-function openBatch(batch, url=null){
-    const target = url || ("batch.html?batch=" + encodeURIComponent(batch));
-    window.location.href = target;
-}
+  if (!user) {
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (chip) chip.style.display = "none";
+    return;
+  }
+
+  if (loginBtn) loginBtn.style.display = "none";
+  if (chip) chip.style.display = "flex";
+  if (nameEl) nameEl.textContent = user.phoneNumber || "My Account";
+});
+
+window.loyalLogout = async function () {
+  try {
+    await signOut(auth);
+    location.reload();
+  } catch (e) {
+    alert("Logout failed. Please try again.");
+  }
+};
+
+window.openMenu = function () {
+  document.getElementById("sideMenu").classList.add("active");
+};
+
+window.closeMenu = function () {
+  document.getElementById("sideMenu").classList.remove("active");
+};
+
+window.searchCourse = function () {
+  const input = document.getElementById("searchInput").value.toLowerCase().trim();
+
+  document.querySelectorAll(".course").forEach(function (card) {
+    const text = card.innerText.toLowerCase();
+    card.style.display = text.includes(input) ? "block" : "none";
+  });
+};
+
+window.openBatch = function (batch, url = null) {
+  const target = url || ("batch.html?batch=" + encodeURIComponent(batch));
+
+  if (!auth.currentUser) {
+    window.location.href =
+      "login.html?next=" + encodeURIComponent(target);
+    return;
+  }
+
+  window.location.href = target;
+};
 </script>
 
 </body>
