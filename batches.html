@@ -122,10 +122,11 @@ h1{
   box-shadow:0 0 18px rgba(0,234,255,.2)
 }
 
-/* ⭐ Batch Logo */
 .icon{
   font-size:32px;
-  min-height:70px
+  min-height:70px;
+  display:flex;
+  align-items:flex-start
 }
 
 .batch-logo{
@@ -230,6 +231,7 @@ footer{
 }
 
 @media(max-width:600px){
+
   h1{
     font-size:30px
   }
@@ -241,6 +243,10 @@ footer{
   .btn{
     padding:8px 9px
   }
+
+  .grid{
+    grid-template-columns:1fr
+  }
 }
 </style>
 </head>
@@ -248,24 +254,40 @@ footer{
 <body>
 
 <header>
-  <div class="brand">👑 LOYAL LEARNING</div>
+
+  <div class="brand">
+    👑 LOYAL LEARNING
+  </div>
 
   <div>
-    <button class="btn" id="loginBtn" onclick="openLogin()">
+
+    <button
+      class="btn"
+      id="loginBtn"
+      onclick="openLogin()">
       🔐 Login
     </button>
 
-    <button class="btn" onclick="location.href='index.html'">
+    <button
+      class="btn"
+      onclick="location.href='index.html'">
       🏠 Home
     </button>
+
   </div>
+
 </header>
 
 <section class="hero">
-  <h1>All Batches • One Platform</h1>
+
+  <h1>
+    All Batches • One Platform
+  </h1>
+
   <div class="sub">
     Login करो → category चुनो → batch open करो 🚀
   </div>
+
 </section>
 
 <main class="wrap">
@@ -291,7 +313,9 @@ footer{
 
   <div class="box">
 
-    <h2>🔐 LOYAL Login</h2>
+    <h2>
+      🔐 LOYAL Login
+    </h2>
 
     <div id="emailBox">
 
@@ -309,17 +333,23 @@ footer{
         placeholder="🔑 Password"
       >
 
-      <button class="open" onclick="emailLogin()">
+      <button
+        class="open"
+        onclick="emailLogin()">
         📧 Login
       </button>
 
-      <button class="close" onclick="showPhone()">
+      <button
+        class="close"
+        onclick="showPhone()">
         📱 Mobile + OTP
       </button>
 
     </div>
 
-    <div id="phoneBox" class="phone">
+    <div
+      id="phoneBox"
+      class="phone">
 
       <input
         id="phone"
@@ -331,7 +361,9 @@ footer{
 
       <div id="recaptcha-container"></div>
 
-      <button class="open" onclick="sendOTP()">
+      <button
+        class="open"
+        onclick="sendOTP()">
         📲 Send OTP
       </button>
 
@@ -348,22 +380,28 @@ footer{
         id="verify"
         class="open"
         onclick="verifyOTP()"
-        style="display:none"
-      >
+        style="display:none">
         ✅ Verify OTP
       </button>
 
-      <button class="close" onclick="showEmail()">
+      <button
+        class="close"
+        onclick="showEmail()">
         📧 Email + Password
       </button>
 
     </div>
 
-    <button class="close" onclick="closeLogin()">
+    <button
+      class="close"
+      onclick="closeLogin()">
       ✕ Close
     </button>
 
-    <div id="msg" class="msg"></div>
+    <div
+      id="msg"
+      class="msg">
+    </div>
 
   </div>
 
@@ -371,214 +409,725 @@ footer{
 
 <script>
 
-const BACKEND='https://vishrat-backend-01.onrender.com';
+const BACKEND =
+  'https://vishrat-backend-01.onrender.com';
 
-const cats={
+const cats = {
+
   'All':'📚',
+
   'Khan Sir Courses':'👨‍🏫',
+
   'UPSC & State PSC':'🏛️',
+
   'State Exams':'🗺️',
+
   'NEET | JEE | CUET':'🧪',
+
   'Defence Exams':'🪖',
+
   'Police Exams':'👮',
+
   'SSC Exams':'📝',
+
   'Foundation Courses':'🎓',
+
   'Railway Exams':'🚆',
+
   'Teaching Exams':'🍎',
+
   'Banking Exams':'🏦',
+
   'Engineering Exams':'⚙️',
+
   'UGC NET':'🎓',
+
   'Programming':'💻'
+
 };
 
-const courses=[
-
-['Khan Sir Courses','🌎','Geography Foundation','NCERT Geography','ncert-geography','NCERT Geography/index.html'],
-
-/* ⭐ NEW BATCH */
-['Khan Sir Courses','ladki-kaise-pataye.png','लड़की कैसे पटाये','Life Skills • Communication • Confidence • Respect','ladki-kaise-pataye','ladki-kaise-pataye.html'],
-
-['Khan Sir Courses','🏛️','Indian History Foundation','History preparation','indian-history','History/index.html'],
-
-['Khan Sir Courses','⚖️','Indian Polity','Constitution & Polity','indian-polity','batch.html'],
-
-['Khan Sir Courses','💰','Indian Economy','Economics fundamentals','indian-economy','batch.html'],
-
-['Khan Sir Courses','🗺️','World Map','World Geography & Map','world-map','batch.html'],
-
-['Khan Sir Courses','🇮🇳','Indian Map','India Map practice','indian-map','batch.html'],
-
-['Khan Sir Courses','🧬','Biology Foundation','Biology foundation','biology-foundation','batch.html'],
-
-['UPSC & State PSC','🏛️','UPSC CSAT','UPSC Prelims / CSAT','upsc-csat','batch.html'],
-
-['UPSC & State PSC','🎯','UPSC EPFO APFC 2026','Prelims preparation','upsc-epfo-apfc-2026','batch.html'],
-
-['UPSC & State PSC','📘','73rd BPSC Foundation','BPSC Foundation','73rd-bpsc-foundation','batch.html'],
-
-['UPSC & State PSC','📝','72nd BPSC Mains Hindi','Hindi Medium','72nd-bpsc-mains-hindi','batch.html'],
-
-['UPSC & State PSC','📝','72nd BPSC Mains Bilingual','Bilingual','72nd-bpsc-mains-bilingual','batch.html'],
-
-['UPSC & State PSC','🎯','UPPSC Crash Course 2026','UPPSC preparation','uppsc-crash-2026','batch.html'],
-
-['UPSC & State PSC','📚','MPPSC Sociology','Sociology module','mppsc-sociology','batch.html'],
-
-['State Exams','🎯','MPSI PRE 2026 Target','MP SI','mpsi-pre-2026','batch.html'],
-
-['State Exams','🟠','Rajasthan CET 2026','Rajasthan CET','rajasthan-cet-2026','batch.html'],
-
-['State Exams','🌾','MPESB Group 2 2026','MPESB Group 2','mpesb-group2-2026','batch.html'],
-
-['State Exams','👮','Bihar Police 2026','Bihar Police','bihar-police-2026','batch.html'],
-
-['State Exams','🛡️','Bihar Daroga 2026','Bihar SI','bihar-daroga-2026','batch.html'],
-
-['NEET | JEE | CUET','🧪','NEET 2027 Repeater','NEET bilingual','neet-2027-repeater','batch.html'],
-
-['NEET | JEE | CUET','📐','JEE Main','JEE Main','jee-main','batch.html'],
-
-['NEET | JEE | CUET','🎓','CUET','CUET','cuet','batch.html'],
-
-['Defence Exams','🪖','NDA 1 2027 Yoddha','NDA','nda-1-2027','batch.html'],
-
-['Defence Exams','🎖️','CDS 1 2027 Prakhar','CDS','cds-1-2027','batch.html'],
-
-['Defence Exams','🎖️','CDS OTA 1 2027 Pratishtha','CDS OTA','cds-ota-1-2027','batch.html'],
-
-['Defence Exams','🛡️','CAPF Foundation 2027','CAPF','capf-foundation-2027','batch.html'],
-
-['Police Exams','👮','UP SI Daroga 2026-27','UP SI / Daroga','up-si-daroga-2026','batch.html'],
-
-['Police Exams','👮','UP SI Moolvidhi + Polity','Law + Polity','up-si-moolvidhi-polity','batch.html'],
-
-['Police Exams','👮','Delhi Police','Delhi Police','delhi-police','batch.html'],
-
-['Police Exams','👮','UP Constable','UP Police Constable','up-constable','batch.html'],
-
-['SSC Exams','📝','SSC GD Foundation 2026-27','SSC GD','ssc-gd-2026','batch.html'],
-
-['SSC Exams','📚','SSC CGL','SSC CGL','ssc-cgl','batch.html'],
-
-['SSC Exams','📝','SSC CHSL','SSC CHSL','ssc-chsl','batch.html'],
-
-['SSC Exams','📝','SSC MTS','SSC MTS','ssc-mts','batch.html'],
-
-['SSC Exams','📦','SSC Mahapack','SSC combined','ssc-mahapack','batch.html'],
-
-['Foundation Courses','🎓','Physics Foundation','Physics','physics-foundation','batch.html'],
-
-['Foundation Courses','🧪','Chemistry Foundation','Chemistry','chemistry-foundation','batch.html'],
-
-['Foundation Courses','🧬','Biology Foundation','Biology','biology-foundation','batch.html'],
-
-['Foundation Courses','📘','NCERT Foundation','NCERT','ncert-foundation','batch.html'],
-
-['Foundation Courses','➗','Maths Foundation','Maths','maths-foundation','batch.html'],
-
-['Foundation Courses','🗣️','English Foundation','English','english-foundation','batch.html'],
-
-['Railway Exams','🚆','RRB Rural Bank PO/Clerk 2026','PO / Clerk','rrb-bank-po-clerk-2026','batch.html'],
-
-['Railway Exams','🚆','Railway Foundation 2026','RRB / RPF','railway-foundation-2026','batch.html'],
-
-['Railway Exams','🛡️','RPF','Railway Protection Force','rpf','batch.html'],
-
-['Teaching Exams','🍎','Super TET Primary Teacher','Primary Teacher','super-tet-primary-2026','batch.html'],
-
-['Teaching Exams','📚','Super TET Junior SST','Junior SST','super-tet-sst-2026','batch.html'],
-
-['Teaching Exams','➗','Super TET Junior Maths & Science','Maths & Science','super-tet-maths-science-2026','batch.html'],
-
-['Teaching Exams','🕉️','Super TET Junior Sanskrit','Sanskrit','super-tet-sanskrit-2026','batch.html'],
-
-['Teaching Exams','📝','Super TET Junior English','English','super-tet-english-2026','batch.html'],
-
-['Teaching Exams','हिं','Super TET Junior Hindi','Hindi','super-tet-hindi-2026','batch.html'],
-
-['Banking Exams','🏦','Bank Foundation','Banking','bank-foundation','batch.html'],
-
-['Banking Exams','🏦','SBI','SBI','sbi','batch.html'],
-
-['Banking Exams','🏦','RBI','RBI','rbi','batch.html'],
-
-['Banking Exams','🏦','IBPS','IBPS','ibps','batch.html'],
-
-['Engineering Exams','⚙️','JE Civil Engineering','Civil','je-civil','batch.html'],
-
-['Engineering Exams','⚡','JE Electrical Engineering','Electrical','je-electrical','batch.html'],
-
-['Engineering Exams','🔧','JE Mechanical Engineering','Mechanical','je-mechanical','batch.html'],
-
-['UGC NET','🎓','UGC NET / JRF','UGC NET','ugc-net-jrf','batch.html'],
-
-['Programming','🐍','Python Programming','Python','python','batch.html'],
-
-['Programming','☕','Java Programming','Java','java','batch.html'],
-
-['Programming','🌐','Web Development','HTML CSS JavaScript','web-development','batch.html'],
-
-['Programming','📱','Android Development','Android','android-development','batch.html'],
-
-['Programming','💻','Full Programming','Programming master track','full-programming','batch.html']
+const courses = [
+
+[
+'Khan Sir Courses',
+'🌎',
+'Geography Foundation',
+'NCERT Geography',
+'ncert-geography',
+'NCERT Geography/index.html'
+],
+
+[
+'Khan Sir Courses',
+'./ladki-kaise-pataye.png',
+'लड़की कैसे पटाये',
+'Life Skills • Communication • Confidence • Respect',
+'ladki-kaise-pataye',
+'./ladki-kaise-pataye.html'
+],
+
+[
+'Khan Sir Courses',
+'🏛️',
+'Indian History Foundation',
+'History preparation',
+'indian-history',
+'History/index.html'
+],
+
+[
+'Khan Sir Courses',
+'⚖️',
+'Indian Polity',
+'Constitution & Polity',
+'indian-polity',
+'batch.html'
+],
+
+[
+'Khan Sir Courses',
+'💰',
+'Indian Economy',
+'Economics fundamentals',
+'indian-economy',
+'batch.html'
+],
+
+[
+'Khan Sir Courses',
+'🗺️',
+'World Map',
+'World Geography & Map',
+'world-map',
+'batch.html'
+],
+
+[
+'Khan Sir Courses',
+'🇮🇳',
+'Indian Map',
+'India Map practice',
+'indian-map',
+'batch.html'
+],
+
+[
+'Khan Sir Courses',
+'🧬',
+'Biology Foundation',
+'Biology foundation',
+'biology-foundation',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'🏛️',
+'UPSC CSAT',
+'UPSC Prelims / CSAT',
+'upsc-csat',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'🎯',
+'UPSC EPFO APFC 2026',
+'Prelims preparation',
+'upsc-epfo-apfc-2026',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'📘',
+'73rd BPSC Foundation',
+'BPSC Foundation',
+'73rd-bpsc-foundation',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'📝',
+'72nd BPSC Mains Hindi',
+'Hindi Medium',
+'72nd-bpsc-mains-hindi',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'📝',
+'72nd BPSC Mains Bilingual',
+'Bilingual',
+'72nd-bpsc-mains-bilingual',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'🎯',
+'UPPSC Crash Course 2026',
+'UPPSC preparation',
+'uppsc-crash-2026',
+'batch.html'
+],
+
+[
+'UPSC & State PSC',
+'📚',
+'MPPSC Sociology',
+'Sociology module',
+'mppsc-sociology',
+'batch.html'
+],
+
+[
+'State Exams',
+'🎯',
+'MPSI PRE 2026 Target',
+'MP SI',
+'mpsi-pre-2026',
+'batch.html'
+],
+
+[
+'State Exams',
+'🟠',
+'Rajasthan CET 2026',
+'Rajasthan CET',
+'rajasthan-cet-2026',
+'batch.html'
+],
+
+[
+'State Exams',
+'🌾',
+'MPESB Group 2 2026',
+'MPESB Group 2',
+'mpesb-group2-2026',
+'batch.html'
+],
+
+[
+'State Exams',
+'👮',
+'Bihar Police 2026',
+'Bihar Police',
+'bihar-police-2026',
+'batch.html'
+],
+
+[
+'State Exams',
+'🛡️',
+'Bihar Daroga 2026',
+'Bihar SI',
+'bihar-daroga-2026',
+'batch.html'
+],
+
+[
+'NEET | JEE | CUET',
+'🧪',
+'NEET 2027 Repeater',
+'NEET bilingual',
+'neet-2027-repeater',
+'batch.html'
+],
+
+[
+'NEET | JEE | CUET',
+'📐',
+'JEE Main',
+'JEE Main',
+'jee-main',
+'batch.html'
+],
+
+[
+'NEET | JEE | CUET',
+'🎓',
+'CUET',
+'CUET',
+'cuet',
+'batch.html'
+],
+
+[
+'Defence Exams',
+'🪖',
+'NDA 1 2027 Yoddha',
+'NDA',
+'nda-1-2027',
+'batch.html'
+],
+
+[
+'Defence Exams',
+'🎖️',
+'CDS 1 2027 Prakhar',
+'CDS',
+'cds-1-2027',
+'batch.html'
+],
+
+[
+'Defence Exams',
+'🎖️',
+'CDS OTA 1 2027 Pratishtha',
+'CDS OTA',
+'cds-ota-1-2027',
+'batch.html'
+],
+
+[
+'Defence Exams',
+'🛡️',
+'CAPF Foundation 2027',
+'CAPF',
+'capf-foundation-2027',
+'batch.html'
+],
+
+[
+'Police Exams',
+'👮',
+'UP SI Daroga 2026-27',
+'UP SI / Daroga',
+'up-si-daroga-2026',
+'batch.html'
+],
+
+[
+'Police Exams',
+'👮',
+'UP SI Moolvidhi + Polity',
+'Law + Polity',
+'up-si-moolvidhi-polity',
+'batch.html'
+],
+
+[
+'Police Exams',
+'👮',
+'Delhi Police',
+'Delhi Police',
+'delhi-police',
+'batch.html'
+],
+
+[
+'Police Exams',
+'👮',
+'UP Constable',
+'UP Police Constable',
+'up-constable',
+'batch.html'
+],
+
+[
+'SSC Exams',
+'📝',
+'SSC GD Foundation 2026-27',
+'SSC GD',
+'ssc-gd-2026',
+'batch.html'
+],
+
+[
+'SSC Exams',
+'📚',
+'SSC CGL',
+'SSC CGL',
+'ssc-cgl',
+'batch.html'
+],
+
+[
+'SSC Exams',
+'📝',
+'SSC CHSL',
+'SSC CHSL',
+'ssc-chsl',
+'batch.html'
+],
+
+[
+'SSC Exams',
+'📝',
+'SSC MTS',
+'SSC MTS',
+'ssc-mts',
+'batch.html'
+],
+
+[
+'SSC Exams',
+'📦',
+'SSC Mahapack',
+'SSC combined',
+'ssc-mahapack',
+'batch.html'
+],
+
+[
+'Foundation Courses',
+'🎓',
+'Physics Foundation',
+'Physics',
+'physics-foundation',
+'batch.html'
+],
+
+[
+'Foundation Courses',
+'🧪',
+'Chemistry Foundation',
+'Chemistry',
+'chemistry-foundation',
+'batch.html'
+],
+
+[
+'Foundation Courses',
+'🧬',
+'Biology Foundation',
+'Biology',
+'biology-foundation',
+'batch.html'
+],
+
+[
+'Foundation Courses',
+'📘',
+'NCERT Foundation',
+'NCERT',
+'ncert-foundation',
+'batch.html'
+],
+
+[
+'Foundation Courses',
+'➗',
+'Maths Foundation',
+'Maths',
+'maths-foundation',
+'batch.html'
+],
+
+[
+'Foundation Courses',
+'🗣️',
+'English Foundation',
+'English',
+'english-foundation',
+'batch.html'
+],
+
+[
+'Railway Exams',
+'🚆',
+'RRB Rural Bank PO/Clerk 2026',
+'PO / Clerk',
+'rrb-bank-po-clerk-2026',
+'batch.html'
+],
+
+[
+'Railway Exams',
+'🚆',
+'Railway Foundation 2026',
+'RRB / RPF',
+'railway-foundation-2026',
+'batch.html'
+],
+
+[
+'Railway Exams',
+'🛡️',
+'RPF',
+'Railway Protection Force',
+'rpf',
+'batch.html'
+],
+
+[
+'Teaching Exams',
+'🍎',
+'Super TET Primary Teacher',
+'Primary Teacher',
+'super-tet-primary-2026',
+'batch.html'
+],
+
+[
+'Teaching Exams',
+'📚',
+'Super TET Junior SST',
+'Junior SST',
+'super-tet-sst-2026',
+'batch.html'
+],
+
+[
+'Teaching Exams',
+'➗',
+'Super TET Junior Maths & Science',
+'Maths & Science',
+'super-tet-maths-science-2026',
+'batch.html'
+],
+
+[
+'Teaching Exams',
+'🕉️',
+'Super TET Junior Sanskrit',
+'Sanskrit',
+'super-tet-sanskrit-2026',
+'batch.html'
+],
+
+[
+'Teaching Exams',
+'📝',
+'Super TET Junior English',
+'English',
+'super-tet-english-2026',
+'batch.html'
+],
+
+[
+'Teaching Exams',
+'हिं',
+'Super TET Junior Hindi',
+'Hindi',
+'super-tet-hindi-2026',
+'batch.html'
+],
+
+[
+'Banking Exams',
+'🏦',
+'Bank Foundation',
+'Banking',
+'bank-foundation',
+'batch.html'
+],
+
+[
+'Banking Exams',
+'🏦',
+'SBI',
+'SBI',
+'sbi',
+'batch.html'
+],
+
+[
+'Banking Exams',
+'🏦',
+'RBI',
+'RBI',
+'rbi',
+'batch.html'
+],
+
+[
+'Banking Exams',
+'🏦',
+'IBPS',
+'IBPS',
+'ibps',
+'batch.html'
+],
+
+[
+'Engineering Exams',
+'⚙️',
+'JE Civil Engineering',
+'Civil',
+'je-civil',
+'batch.html'
+],
+
+[
+'Engineering Exams',
+'⚡',
+'JE Electrical Engineering',
+'Electrical',
+'je-electrical',
+'batch.html'
+],
+
+[
+'Engineering Exams',
+'🔧',
+'JE Mechanical Engineering',
+'Mechanical',
+'je-mechanical',
+'batch.html'
+],
+
+[
+'UGC NET',
+'🎓',
+'UGC NET / JRF',
+'UGC NET',
+'ugc-net-jrf',
+'batch.html'
+],
+
+[
+'Programming',
+'🐍',
+'Python Programming',
+'Python',
+'python',
+'batch.html'
+],
+
+[
+'Programming',
+'☕',
+'Java Programming',
+'Java',
+'java',
+'batch.html'
+],
+
+[
+'Programming',
+'🌐',
+'Web Development',
+'HTML CSS JavaScript',
+'web-development',
+'batch.html'
+],
+
+[
+'Programming',
+'📱',
+'Android Development',
+'Android',
+'android-development',
+'batch.html'
+],
+
+[
+'Programming',
+'💻',
+'Full Programming',
+'Programming master track',
+'full-programming',
+'batch.html'
+]
 
 ];
 
-let active='All',
-    user=null,
-    confirmationResult=null,
-    recaptchaVerifier=null;
+let active = 'All';
+let user = null;
+let confirmationResult = null;
+let recaptchaVerifier = null;
+
+
+/* =========================
+   RENDER
+========================= */
 
 function render(){
 
-  document.getElementById('chips').innerHTML=
-    Object.entries(cats).map(([k,v])=>
-      `<button class="chip ${active===k?'active':''}"
-      onclick="active='${k}';render()">
-      ${v} ${k}
+  document.getElementById('chips').innerHTML =
+    Object.entries(cats).map(([k,v]) =>
+
+      `<button
+        class="chip ${active===k?'active':''}"
+        onclick="active='${k}';render()">
+
+        ${v} ${k}
+
       </button>`
+
     ).join('');
 
-  const q=document
-    .getElementById('search')
-    .value
-    .toLowerCase();
 
-  const a=courses.filter(c=>
-    (active==='All'||c[0]===active)&&
-    c.join(' ').toLowerCase().includes(q)
-  );
+  const q =
+    document
+      .getElementById('search')
+      .value
+      .trim()
+      .toLowerCase();
 
-  const g={};
 
-  a.forEach(c=>
-    (g[c[0]]??=[]).push(c)
-  );
+  const filtered =
+    courses.filter(c =>
 
-  document.getElementById('catalog').innerHTML=
-    Object.entries(g).map(([cat,items])=>
+      (active === 'All' || c[0] === active) &&
+
+      c.join(' ')
+       .toLowerCase()
+       .includes(q)
+
+    );
+
+
+  const groups = {};
+
+
+  filtered.forEach(c => {
+
+    if(!groups[c[0]]){
+      groups[c[0]] = [];
+    }
+
+    groups[c[0]].push(c);
+
+  });
+
+
+  const html =
+
+    Object.entries(groups).map(([cat,items]) =>
 
       `<section class="section">
-        <h2>${cats[cat]} ${cat}</h2>
+
+        <h2>
+          ${cats[cat]} ${cat}
+        </h2>
 
         <div class="grid">
 
-          ${
-            items.map(c=>`
+          ${items.map(c => {
+
+            const isImage =
+              typeof c[1] === 'string' &&
+              /\.(png|jpg|jpeg|webp)$/i.test(c[1]);
+
+
+            return `
 
               <article class="card">
 
                 <div class="icon">
 
                   ${
-                    c[1].endsWith('.png')
+                    isImage
+
                     ?
+
                     `<img
                       class="batch-logo"
                       src="${c[1]}"
                       alt="${c[2]}"
+                      onerror="
+                        this.style.display='none';
+                        this.parentElement.innerHTML='🎓';
+                      "
                     >`
+
                     :
+
                     c[1]
                   }
 
@@ -588,7 +1137,9 @@ function render(){
                   FREE AFTER LOGIN
                 </span>
 
-                <h3>${c[2]}</h3>
+                <h3>
+                  ${c[2]}
+                </h3>
 
                 <div class="desc">
                   ${c[3]}
@@ -596,263 +1147,491 @@ function render(){
 
                 <button
                   class="open"
-                  onclick="openCourse(
-                    '${c[4]}',
-                    '${c[5]}',
-                    '${c[2]}'
-                  )"
-                >
+                  onclick='openCourse(
+                    ${JSON.stringify(c[4])},
+                    ${JSON.stringify(c[5])},
+                    ${JSON.stringify(c[2])}
+                  )'>
+
                   🔓 Open Batch
+
                 </button>
 
               </article>
 
-            `).join('')
-          }
+            `;
+
+          }).join('')}
 
         </div>
+
       </section>`
 
-    ).join('') ||
+    ).join('');
+
+
+  document.getElementById('catalog').innerHTML =
+    html ||
     '<p>कोई batch नहीं मिला.</p>';
+
 }
+
+
+/* =========================
+   LOGIN
+========================= */
 
 function openLogin(){
-  modal.style.display='flex';
-  msg.innerText=''
+
+  document.getElementById('modal')
+    .style.display='flex';
+
+  document.getElementById('msg')
+    .innerText='';
+
 }
+
 
 function closeLogin(){
-  modal.style.display='none'
+
+  document.getElementById('modal')
+    .style.display='none';
+
 }
+
 
 function showPhone(){
-  emailBox.style.display='none';
-  phoneBox.style.display='block';
-  setupRecaptcha()
+
+  document.getElementById('emailBox')
+    .style.display='none';
+
+  document.getElementById('phoneBox')
+    .style.display='block';
+
+  setupRecaptcha();
+
 }
+
 
 function showEmail(){
-  phoneBox.style.display='none';
-  emailBox.style.display='block'
+
+  document.getElementById('phoneBox')
+    .style.display='none';
+
+  document.getElementById('emailBox')
+    .style.display='block';
+
 }
 
-function msg(t){
-  document.getElementById('msg').innerText=t
+
+function showMessage(text){
+
+  document.getElementById('msg')
+    .innerText=text;
+
 }
+
+
+/* =========================
+   OPEN BATCH
+========================= */
 
 async function openCourse(batch,url,name){
 
   if(!user){
+
     openLogin();
-    msg('🔐 पहले Login करो');
-    return
+
+    showMessage('🔐 पहले Login करो');
+
+    return;
+
   }
+
 
   try{
 
-    const token=await user.getIdToken(true);
+    const token =
+      await user.getIdToken(true);
 
-    const r=await fetch(
-      BACKEND+'/api/access/'+
-      encodeURIComponent(batch),
-      {
-        headers:{
-          Authorization:'Bearer '+token,
-          Accept:'application/json'
-        },
-        cache:'no-store'
-      }
-    );
 
-    const d=await r.json();
+    const response =
+      await fetch(
 
-    if(d.allowed){
-      location.href=
-        url+
-        (url==='batch.html'
-        ?'?batch='+encodeURIComponent(name)
-        :'');
-      return
+        BACKEND +
+        '/api/access/' +
+        encodeURIComponent(batch),
+
+        {
+          headers:{
+            Authorization:'Bearer '+token,
+            Accept:'application/json'
+          },
+
+          cache:'no-store'
+
+        }
+
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        'Server returned '+response.status
+      );
+
     }
 
-    msg('⚠️ Access नहीं मिला');
 
-  }catch(e){
+    const data =
+      await response.json();
 
-    console.error(e);
-    msg('⚠️ Server connection नहीं हुआ')
+
+    if(data.allowed){
+
+      location.href =
+        url +
+        (
+          url === 'batch.html'
+          ?
+          '?batch=' +
+          encodeURIComponent(name)
+          :
+          ''
+        );
+
+      return;
+
+    }
+
+
+    showMessage(
+      '⚠️ Access नहीं मिला'
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      '⚠️ Server connection नहीं हुआ'
+    );
 
   }
+
 }
+
+
+/* =========================
+   EMAIL LOGIN
+========================= */
 
 async function emailLogin(){
 
   try{
 
-    msg('⏳ Login हो रहा है...');
-
-    await window.firebaseEmail(
-      email.value.trim(),
-      password.value
+    showMessage(
+      '⏳ Login हो रहा है...'
     );
 
-    msg('✅ Login सफल');
 
-    setTimeout(closeLogin,500)
+    const emailValue =
+      document.getElementById('email')
+      .value
+      .trim();
 
-  }catch(e){
 
-    console.error(e);
-    msg('❌ Login failed')
+    const passwordValue =
+      document.getElementById('password')
+      .value;
+
+
+    await window.firebaseEmail(
+      emailValue,
+      passwordValue
+    );
+
+
+    showMessage(
+      '✅ Login सफल'
+    );
+
+
+    setTimeout(
+      closeLogin,
+      500
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      '❌ Login failed'
+    );
 
   }
+
 }
+
+
+/* =========================
+   RECAPTCHA
+========================= */
 
 function setupRecaptcha(){
 
-  if(recaptchaVerifier)return;
+  if(recaptchaVerifier)
+    return;
+
 
   try{
 
-    recaptchaVerifier=
+    recaptchaVerifier =
       new window.FirebaseRecaptcha(
+
         window.FirebaseAuth,
+
         'recaptcha-container',
+
         {
           size:'invisible',
           callback:()=>{}
         }
+
       );
 
-  }catch(e){
+  }catch(error){
 
-    console.error(e)
+    console.error(error);
 
   }
+
 }
+
+
+/* =========================
+   SEND OTP
+========================= */
 
 async function sendOTP(){
 
-  const p=phone.value.trim();
+  const phoneValue =
+    document.getElementById('phone')
+    .value
+    .trim();
 
-  if(!/^\d{10}$/.test(p)){
-    msg('⚠️ 10 digit mobile number डालो');
-    return
+
+  if(!/^\d{10}$/.test(phoneValue)){
+
+    showMessage(
+      '⚠️ 10 digit mobile number डालो'
+    );
+
+    return;
+
   }
+
 
   try{
 
     setupRecaptcha();
 
-    confirmationResult=
+
+    confirmationResult =
       await window.FirebasePhone(
+
         window.FirebaseAuth,
-        '+91'+p,
+
+        '+91'+phoneValue,
+
         recaptchaVerifier
+
       );
 
-    otp.style.display='block';
-    verify.style.display='block';
 
-    msg('✅ OTP भेज दिया गया');
+    document.getElementById('otp')
+      .style.display='block';
 
-  }catch(e){
 
-    console.error(e);
-    msg('❌ OTP नहीं भेजा गया')
+    document.getElementById('verify')
+      .style.display='block';
+
+
+    showMessage(
+      '✅ OTP भेज दिया गया'
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      '❌ OTP नहीं भेजा गया'
+    );
 
   }
+
 }
+
+
+/* =========================
+   VERIFY OTP
+========================= */
 
 async function verifyOTP(){
 
   try{
 
+    if(!confirmationResult){
+
+      showMessage(
+        '⚠️ पहले OTP भेजो'
+      );
+
+      return;
+
+    }
+
+
+    const otpValue =
+      document.getElementById('otp')
+      .value
+      .trim();
+
+
     await confirmationResult.confirm(
-      otp.value.trim()
+      otpValue
     );
 
-    msg('✅ Mobile Login सफल');
 
-    setTimeout(closeLogin,500)
+    showMessage(
+      '✅ Mobile Login सफल'
+    );
 
-  }catch(e){
 
-    console.error(e);
-    msg('❌ OTP गलत है')
+    setTimeout(
+      closeLogin,
+      500
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      '❌ OTP गलत है'
+    );
 
   }
+
 }
+
+
+/* Initial render */
 
 render();
 
 </script>
 
+
 <script type="module">
 
-import{
+import {
   initializeApp
-}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+}
+from
+'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
 
-import{
+
+import {
   getAuth,
   signInWithEmailAndPassword,
   signInWithPhoneNumber,
   RecaptchaVerifier,
   onAuthStateChanged
-}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+}
+from
+'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
 
-const app=initializeApp({
 
-  apiKey:'AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0',
+const app =
+  initializeApp({
 
-  authDomain:
-    'vishrat-36bc6.firebaseapp.com',
+    apiKey:
+      'AIzaSyCrZcJhGbghhRia-CA5AwjnnEpq0A6Asr0',
 
-  projectId:
-    'vishrat-36bc6',
+    authDomain:
+      'vishrat-36bc6.firebaseapp.com',
 
-  storageBucket:
-    'vishrat-36bc6.firebasestorage.app',
+    projectId:
+      'vishrat-36bc6',
 
-  messagingSenderId:
-    '713177652515',
+    storageBucket:
+      'vishrat-36bc6.firebasestorage.app',
 
-  appId:
-    '1:713177652515:web:9a6c545278563e77640096',
+    messagingSenderId:
+      '713177652515',
 
-  measurementId:
-    'G-LN2N5Z0BBF'
+    appId:
+      '1:713177652515:web:9a6c545278563e77640096',
 
-});
+    measurementId:
+      'G-LN2N5Z0BBF'
 
-const auth=getAuth(app);
+  });
 
-window.FirebaseAuth=auth;
 
-window.FirebaseRecaptcha=RecaptchaVerifier;
+const auth =
+  getAuth(app);
 
-window.FirebasePhone=signInWithPhoneNumber;
 
-window.firebaseEmail=
-  (e,p)=>
+window.FirebaseAuth =
+  auth;
+
+
+window.FirebaseRecaptcha =
+  RecaptchaVerifier;
+
+
+window.FirebasePhone =
+  signInWithPhoneNumber;
+
+
+window.firebaseEmail =
+  (email,password) =>
+
     signInWithEmailAndPassword(
       auth,
-      e,
-      p
+      email,
+      password
     );
 
-onAuthStateChanged(auth,u=>{
 
-  user=u;
+onAuthStateChanged(
+  auth,
+  currentUser => {
 
-  document.getElementById('loginBtn').innerText=
-    u
-    ?'✅ Logged In'
-    :'🔐 Login';
+    user = currentUser;
 
-});
+
+    document.getElementById(
+      'loginBtn'
+    ).innerText =
+
+      currentUser
+      ?
+      '✅ Logged In'
+      :
+      '🔐 Login';
+
+  }
+);
 
 </script>
 
